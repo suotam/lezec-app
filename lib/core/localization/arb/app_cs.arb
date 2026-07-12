@@ -1,0 +1,156 @@
+{
+  "@@locale": "cs",
+  "appTitle": "Crux CZ",
+  "appTagline": "Průvodce českými skalami",
+  "navDiscover": "Objevovat",
+  "navAreas": "Oblasti",
+  "navDiary": "Deník",
+  "navCommunity": "Komunita",
+  "navProfile": "Profil",
+  "commonRetry": "Zkusit znovu",
+  "commonErrorTitle": "Něco se pokazilo",
+  "commonDataLoadError": "Data se nepodařilo načíst. Zkuste to prosím znovu.",
+  "commonClearFilters": "Zrušit filtry",
+  "demoBadge": "UKÁZKA",
+  "discoverSearchHint": "Hledat oblast, region nebo skálu…",
+  "discoverFeaturedTitle": "Doporučené oblasti",
+  "discoverRecentTitle": "Naposledy zobrazené",
+  "discoverMyClimbingTitle": "Moje lezení",
+  "discoverProjects": "Projekty",
+  "discoverFavorites": "Oblíbené cesty",
+  "discoverBrowseAllAreas": "Procházet všechny oblasti",
+  "discoverDemoTitle": "Pracujete s ukázkovými daty",
+  "discoverDemoBody": "Všechny zobrazené oblasti, sektory a cesty jsou smyšlené a slouží pouze k vyzkoušení aplikace. Skutečná data českých skal budou doplněna v další fázi.",
+  "discoverRestrictionsTitle": "Aktuální omezení",
+  "areasTitle": "Oblasti",
+  "areasSearchHint": "Hledat podle názvu, regionu nebo popisu",
+  "areasResultsCount": "{count, plural, one{1 oblast} few{{count} oblasti} other{{count} oblastí}}",
+  "@areasResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "areasEmptyTitle": "Nic jsme nenašli",
+  "areasEmptyBody": "Zkuste upravit hledaný výraz nebo zrušit filtry.",
+  "filterClimbingType": "Typ lezení",
+  "filterRockType": "Typ skály",
+  "sectorsCount": "{count, plural, one{1 sektor} few{{count} sektory} other{{count} sektorů}}",
+  "@sectorsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "routesCount": "{count, plural, one{1 cesta} few{{count} cesty} other{{count} cest}}",
+  "@routesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "climbingTypeSport": "Sportovní",
+  "climbingTypeTrad": "Tradiční",
+  "climbingTypeBoulder": "Bouldering",
+  "rockTypeSandstone": "Pískovec",
+  "rockTypeLimestone": "Vápenec",
+  "rockTypeGranite": "Žula",
+  "rockTypeGneiss": "Rula",
+  "rockTypeBasalt": "Čedič",
+  "rockTypeOther": "Jiná skála",
+  "gradingSystemUiaa": "UIAA",
+  "gradingSystemFrench": "Francouzská",
+  "gradingSystemCzechSandstone": "Saská (pískovcová)",
+  "gradingSystemFontainebleau": "Fontainebleau",
+  "gradingSystemVScale": "V-škála",
+  "gradingSystemYds": "YDS",
+  "gradingSystemBritish": "Britská",
+  "severityInfo": "Informace",
+  "severityWarning": "Upozornění",
+  "severityClosure": "Zákaz lezení",
+  "areaDetailAboutTitle": "O oblasti",
+  "areaDetailAccessTitle": "Přístup",
+  "areaDetailApproachTime": "{minutes} min chůze",
+  "@areaDetailApproachTime": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "areaDetailParkingTitle": "Parkování",
+  "areaDetailRestrictionsTitle": "Omezení a upozornění",
+  "areaDetailSectorsTitle": "Sektory",
+  "navigateAction": "Navigovat",
+  "navigationFailed": "Mapovou aplikaci se nepodařilo otevřít.",
+  "sectorRoutesTitle": "Cesty",
+  "sectorIndependentRoutesTitle": "Samostatné cesty",
+  "sectorAccessTitle": "Přístup k sektoru",
+  "sortGuidebook": "Průvodce",
+  "sortByName": "Název",
+  "sortByGrade": "Obtížnost",
+  "routeTypeLabel": "Typ",
+  "routeLengthLabel": "Délka",
+  "routeLengthMeters": "{meters} m",
+  "@routeLengthMeters": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "routeGradeLabel": "Obtížnost",
+  "routeDescriptionTitle": "Popis",
+  "routeProtectionTitle": "Jištění",
+  "routeFirstAscentTitle": "Prvovýstup",
+  "routeWarningsTitle": "Upozornění",
+  "routeLocationTitle": "Umístění",
+  "favoriteAdd": "Přidat do oblíbených",
+  "favoriteRemove": "Odebrat z oblíbených",
+  "projectAdd": "Přidat do projektů",
+  "projectRemove": "Odebrat z projektů",
+  "favoriteLabel": "Oblíbená",
+  "projectLabel": "Projekt",
+  "diaryTitle": "Deník",
+  "diaryEmptyTitle": "Zatím žádné přelezy",
+  "diaryEmptyBody": "Otevřete detail cesty a zapište svůj první přelez.",
+  "diaryAscentsCount": "{count, plural, one{1 přelez} few{{count} přelezy} other{{count} přelezů}}",
+  "@diaryAscentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "logAscentAction": "Zapsat přelez",
+  "logAscentTitle": "Zápis přelezu",
+  "ascentStyleLabel": "Styl přelezu",
+  "ascentDateLabel": "Datum",
+  "ascentNoteLabel": "Poznámka",
+  "ascentNoteHint": "Jak to šlo, podmínky, spolulezci…",
+  "ascentSaveAction": "Uložit přelez",
+  "ascentLoggedMessage": "Přelez byl uložen do deníku.",
+  "ascentDeleteAction": "Smazat záznam",
+  "ascentDeletedMessage": "Záznam byl smazán.",
+  "routeMyAscentsTitle": "Moje přelezy",
+  "ascentStyleOnsight": "OS",
+  "ascentStyleFlash": "Flash",
+  "ascentStyleRedpoint": "RP",
+  "ascentStylePinkpoint": "PP",
+  "ascentStyleAllFree": "AF",
+  "ascentStyleTopRope": "TR",
+  "ascentStyleSolo": "Sólo",
+  "ascentStyleAttempt": "Pokus",
+  "comingSoonTitle": "Připravujeme",
+  "comingSoonBody": "Tato část aplikace bude dostupná v některé z dalších fází vývoje.",
+  "diaryDescription": "Záznamy výstupů, statistiky a přehled vašich projektů na jednom místě.",
+  "communityDescription": "Komentáře, novinky ze skal a sdílení s ostatními lezci.",
+  "profileDescription": "Váš lezecký profil, nastavení a synchronizace mezi zařízeními.",
+  "notFoundTitle": "Nenalezeno",
+  "areaNotFound": "Oblast se nepodařilo najít.",
+  "sectorNotFound": "Sektor se nepodařilo najít.",
+  "routeNotFound": "Cestu se nepodařilo najít."
+}

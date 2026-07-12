@@ -1,0 +1,389 @@
+{
+  "version": 1,
+  "regions": [
+    {
+      "id": "region-demo-vychodni-cechy",
+      "name": "Ukázkový region – Východní Čechy",
+      "country": "CZ"
+    },
+    {
+      "id": "region-demo-moravsky-kras",
+      "name": "Ukázkový region – Moravský kras",
+      "country": "CZ"
+    },
+    {
+      "id": "region-demo-vysocina",
+      "name": "Ukázkový region – Vysočina",
+      "country": "CZ"
+    }
+  ],
+  "areas": [
+    {
+      "id": "area-sokoli-veze",
+      "regionId": "region-demo-vychodni-cechy",
+      "name": "Sokolí věže (ukázka)",
+      "summary": "Smyšlené pískovcové skalní město s klasickými věžovými výstupy.",
+      "description": "Sokolí věže jsou ukázková pískovcová oblast vytvořená pro vývoj aplikace. Kompaktní věže z hrubozrnného pískovce nabízejí spárové i stěnové lezení v tradičním saském stylu. Lezení je povoleno pouze za zcela suchého počasí a s textilním jištěním.",
+      "climbingTypes": ["trad"],
+      "rockType": "sandstone",
+      "location": { "latitude": 50.5842, "longitude": 16.1257 },
+      "parking": [
+        {
+          "id": "parking-sokoli-hlavni",
+          "name": "Parkoviště U Hájovny",
+          "location": { "latitude": 50.5791, "longitude": 16.1198 },
+          "note": "Placené v sezóně, kapacita cca 30 aut."
+        }
+      ],
+      "access": {
+        "description": "Od parkoviště U Hájovny po zelené turistické značce mírně do kopce. Po 20 minutách odbočka vpravo na pěšinu ke skalám.",
+        "approachMinutes": 25
+      },
+      "restrictions": [
+        {
+          "id": "restriction-sokoli-hnizdeni",
+          "title": "Hnízdění sokola stěhovavého",
+          "description": "Sektor Zadní město je od 1. 3. do 30. 6. uzavřen kvůli hnízdění sokola stěhovavého.",
+          "severity": "closure",
+          "seasonalNote": "1. 3. – 30. 6."
+        },
+        {
+          "id": "restriction-sokoli-vlhko",
+          "title": "Zákaz lezení na vlhké skále",
+          "description": "Pískovec je po dešti křehký. Lezte nejdříve 48 hodin po posledních srážkách.",
+          "severity": "warning"
+        }
+      ],
+      "sectors": [
+        {
+          "id": "sector-sokoli-predni-mesto",
+          "name": "Přední město",
+          "description": "Nejnavštěvovanější část oblasti s nejvyššími věžemi a klasickými spárami.",
+          "accessNote": "První věže po pravé straně pěšiny, 5 minut od rozcestí.",
+          "rocks": [
+            {
+              "id": "rock-sokoli-velka-vez",
+              "name": "Velká věž",
+              "description": "Dominanta oblasti, 35 m vysoká věž s vrcholovou knížkou.",
+              "routes": [
+                {
+                  "id": "route-sokoli-stara-cesta",
+                  "name": "Stará cesta",
+                  "grade": { "system": "czechSandstone", "value": "IV" },
+                  "type": "trad",
+                  "lengthMeters": 32,
+                  "description": "Klasická výstupová linie jižní stěnou. Komín přechází do ukloněné spáry, závěr po dobrých chytech na vrchol.",
+                  "protection": "Vlastní textilní jištění, 2 kruhy, slaňovací kruh na vrcholu.",
+                  "firstAscent": "K. Novák a J. Dvořák, 1923",
+                  "warnings": ["Na vrcholové plotně pozor na erozi."]
+                },
+                {
+                  "id": "route-sokoli-jizni-spara",
+                  "name": "Jižní spára",
+                  "grade": { "system": "czechSandstone", "value": "VIIb" },
+                  "type": "trad",
+                  "lengthMeters": 34,
+                  "description": "Výrazná ruční spára v jižní stěně. Fyzicky náročné, ale dobře jistitelné lezení.",
+                  "protection": "Smyčky a vklíněnce z textilu, 1 kruh v polovině.",
+                  "firstAscent": "M. Šimek, 1978"
+                },
+                {
+                  "id": "route-sokoli-severni-hrana",
+                  "name": "Severní hrana",
+                  "grade": { "system": "czechSandstone", "value": "VIIIa" },
+                  "type": "trad",
+                  "lengthMeters": 35,
+                  "description": "Vzdušné lezení po exponované hraně s minimem odpočinkových míst.",
+                  "protection": "3 kruhy, mezi nimi delší odskoky.",
+                  "firstAscent": "P. Krejčí, 1991",
+                  "warnings": ["Exponované, doporučeno jen zkušeným lezcům."]
+                }
+              ]
+            },
+            {
+              "id": "rock-sokoli-kazatelna",
+              "name": "Kazatelna",
+              "description": "Nižší masivní věž s kolmými stěnami a jemným lezením po strukturách.",
+              "routes": [
+                {
+                  "id": "route-sokoli-kazatel",
+                  "name": "Kazatel",
+                  "grade": { "system": "czechSandstone", "value": "VI" },
+                  "type": "trad",
+                  "lengthMeters": 22,
+                  "description": "Logická linie středem východní stěny po dírkách a lištách.",
+                  "protection": "2 kruhy, slaňák na vrcholu.",
+                  "firstAscent": "V. Malá, 1965"
+                },
+                {
+                  "id": "route-sokoli-nedelni-kazani",
+                  "name": "Nedělní kázání",
+                  "grade": { "system": "czechSandstone", "value": "VIIc" },
+                  "type": "trad",
+                  "lengthMeters": 24,
+                  "description": "Technická stěna s klíčovým místem nad druhým kruhem.",
+                  "protection": "3 kruhy."
+                }
+              ]
+            }
+          ],
+          "routes": []
+        },
+        {
+          "id": "sector-sokoli-zadni-mesto",
+          "name": "Zadní město",
+          "description": "Klidnější část oblasti s nižšími masivy. Cesty vedou přímo z pěšiny.",
+          "accessNote": "Pokračujte po pěšině za Přední město, dalších 10 minut.",
+          "warnings": ["V období hnízdění (1. 3. – 30. 6.) je sektor zcela uzavřen."],
+          "rocks": [],
+          "routes": [
+            {
+              "id": "route-sokoli-lesni-stena",
+              "name": "Lesní stěna",
+              "grade": { "system": "czechSandstone", "value": "V" },
+              "type": "trad",
+              "lengthMeters": 15,
+              "description": "Příjemné lezení po velkých chytech, vhodné jako první seznámení s pískovcem.",
+              "protection": "1 kruh, nahoře stromová smyčka."
+            },
+            {
+              "id": "route-sokoli-ticha-linie",
+              "name": "Tichá linie",
+              "grade": { "system": "czechSandstone", "value": "VIIa" },
+              "type": "trad",
+              "lengthMeters": 17,
+              "description": "Jemné stěnové lezení po oblých strukturách, klíčové místo hned na začátku.",
+              "protection": "2 kruhy."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "area-bily-lom",
+      "regionId": "region-demo-moravsky-kras",
+      "name": "Bílý lom (ukázka)",
+      "summary": "Smyšlená vápencová sportovní oblast v opuštěném lomu.",
+      "description": "Bílý lom je ukázková sportovní oblast vytvořená pro vývoj aplikace. Bývalý vápencový lom nabízí kolmé technické stěny i mírně převislé odjištěné cesty. Díky jižní orientaci se zde dá lézt od jara do podzimu.",
+      "climbingTypes": ["sport"],
+      "rockType": "limestone",
+      "location": { "latitude": 49.3634, "longitude": 16.7241 },
+      "parking": [
+        {
+          "id": "parking-bily-lom-obec",
+          "name": "Náves v obci Lomnička",
+          "location": { "latitude": 49.3598, "longitude": 16.7189 },
+          "note": "Parkujte ohleduplně, nezastavujte výjezdy."
+        },
+        {
+          "id": "parking-bily-lom-tocna",
+          "name": "Točna autobusu",
+          "location": { "latitude": 49.3612, "longitude": 16.7215 },
+          "note": "Pouze mimo časy školního autobusu (7:00–8:00, 14:00–15:30)."
+        }
+      ],
+      "access": {
+        "description": "Z návsi po polní cestě směrem k lesu. U kraje lesa vlevo, vstup do lomu je značen dřevěnou šipkou.",
+        "approachMinutes": 12
+      },
+      "restrictions": [
+        {
+          "id": "restriction-bily-lom-padajici",
+          "title": "Padající kamení u vstupu",
+          "description": "V horní hraně lomu se uvolňují kameny. Pod stěnou Hlavní stěny noste přilbu.",
+          "severity": "warning"
+        }
+      ],
+      "sectors": [
+        {
+          "id": "sector-bily-lom-hlavni",
+          "name": "Hlavní stěna",
+          "description": "Nejvyšší stěna lomu, 12–25 m, technické kolmé lezení s odjištěním po 2 metrech.",
+          "accessNote": "Přímo naproti vstupu do lomu.",
+          "warnings": ["Noste přilbu, hrozí pád kamení z horní hrany."],
+          "rocks": [],
+          "routes": [
+            {
+              "id": "route-bily-lom-bila-pani",
+              "name": "Bílá paní",
+              "grade": { "system": "french", "value": "5c" },
+              "type": "sport",
+              "lengthMeters": 14,
+              "description": "Ideální rozlezová cesta po velkých dírách v levé části stěny.",
+              "protection": "6 nýtů, slaňovací řetěz.",
+              "firstAscent": "T. Veselý, 2004"
+            },
+            {
+              "id": "route-bily-lom-vapenne-sny",
+              "name": "Vápenné sny",
+              "grade": { "system": "french", "value": "6b+" },
+              "type": "sport",
+              "lengthMeters": 18,
+              "description": "Technická plotna s klíčovým dlouhým krokem ve dvou třetinách.",
+              "protection": "8 nýtů, slaňovací řetěz.",
+              "firstAscent": "T. Veselý, 2005"
+            },
+            {
+              "id": "route-bily-lom-kalcit",
+              "name": "Kalcit",
+              "grade": { "system": "french", "value": "7a" },
+              "type": "sport",
+              "lengthMeters": 22,
+              "description": "Nejhezčí linie stěny. Mírný převis po kapkách zakončený výlezem přes hranu.",
+              "protection": "10 nýtů, slaňovací řetěz.",
+              "firstAscent": "L. Horáková, 2008"
+            },
+            {
+              "id": "route-bily-lom-stara-skola",
+              "name": "Stará škola",
+              "grade": { "system": "uiaa", "value": "VII-" },
+              "type": "sport",
+              "lengthMeters": 20,
+              "description": "Historická linie přejištěná nýty, klasifikace ponechána v UIAA.",
+              "protection": "7 nýtů, horní kruh.",
+              "firstAscent": "J. Pokorný, 1989"
+            }
+          ]
+        },
+        {
+          "id": "sector-bily-lom-levy-kout",
+          "name": "Levý kout",
+          "description": "Kratší převislé cesty v zákoutí lomu. Rychle osychá, stín po poledni.",
+          "rocks": [],
+          "routes": [
+            {
+              "id": "route-bily-lom-koutek",
+              "name": "Koutek pohody",
+              "grade": { "system": "french", "value": "6a" },
+              "type": "sport",
+              "lengthMeters": 12,
+              "description": "Lezení po stupíncích podél výrazného koutu.",
+              "protection": "5 nýtů, slaňovací kruh."
+            },
+            {
+              "id": "route-bily-lom-silova-zkouska",
+              "name": "Silová zkouška",
+              "grade": { "system": "french", "value": "7b" },
+              "type": "sport",
+              "lengthMeters": 13,
+              "description": "Krátká atletická cesta převisem, výrazné madlo na konci obtíží.",
+              "protection": "6 nýtů, slaňovací řetěz.",
+              "firstAscent": "M. Beneš, 2015",
+              "warnings": ["První nýt vysoko, doporučen klacek na první zapnutí."]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "area-tri-kameny",
+      "regionId": "region-demo-vysocina",
+      "name": "U Tří kamenů (ukázka)",
+      "summary": "Smyšlená žulová boulderová oblast v lese na Vysočině.",
+      "description": "U Tří kamenů je ukázková boulderová oblast vytvořená pro vývoj aplikace. Žulové balvany roztroušené v lese nabízejí boulderové problémy všech obtížností — od nízkých traverzů po vysoké highbally. Dopadové plochy jsou převážně rovné, přesto je bouldermatka nutná.",
+      "climbingTypes": ["boulder"],
+      "rockType": "granite",
+      "location": { "latitude": 49.4127, "longitude": 15.5872 },
+      "parking": [
+        {
+          "id": "parking-tri-kameny",
+          "name": "Odstavná plocha u silnice",
+          "location": { "latitude": 49.4098, "longitude": 15.5811 },
+          "note": "Malá kapacita (5 aut). Neblokujte lesní cestu."
+        }
+      ],
+      "access": {
+        "description": "Od odstavné plochy po lesní cestě, po 400 m odbočit vlevo po pěšině mezi smrky. Balvany jsou vidět z cesty.",
+        "approachMinutes": 8
+      },
+      "restrictions": [
+        {
+          "id": "restriction-tri-kameny-drevo",
+          "title": "Probíhá těžba dřeva",
+          "description": "V okolí sektoru Potok probíhá do konce roku těžba. Dbejte pokynů lesní správy.",
+          "severity": "info"
+        }
+      ],
+      "sectors": [
+        {
+          "id": "sector-tri-kameny-paseka",
+          "name": "Horní paseka",
+          "description": "Tři největší balvany oblasti na prosluněné pasece. Rychle osychá.",
+          "accessNote": "První skupina balvanů hned u pěšiny.",
+          "rocks": [
+            {
+              "id": "rock-tri-kameny-hlavni-kamen",
+              "name": "Hlavní kámen",
+              "description": "Největší balvan oblasti s převislou jižní stranou.",
+              "routes": [
+                {
+                  "id": "route-tri-kameny-prevodovka",
+                  "name": "Převodovka",
+                  "grade": { "system": "fontainebleau", "value": "6C" },
+                  "type": "boulder",
+                  "description": "Sedavý start pod převisem, dlouhé kroky po oblinách na vrchol.",
+                  "firstAscent": "O. Kratochvíl, 2012"
+                },
+                {
+                  "id": "route-tri-kameny-spojka",
+                  "name": "Spojka",
+                  "grade": { "system": "fontainebleau", "value": "7A+" },
+                  "type": "boulder",
+                  "description": "Traverz převisu zprava doleva do topu Převodovky. Náročné na tělesné napětí.",
+                  "firstAscent": "O. Kratochvíl, 2013"
+                },
+                {
+                  "id": "route-tri-kameny-plotna",
+                  "name": "Nedělní plotna",
+                  "grade": { "system": "fontainebleau", "value": "4+" },
+                  "type": "boulder",
+                  "description": "Severní plotna po dobrých chytech. Ideální pro začátečníky."
+                }
+              ]
+            },
+            {
+              "id": "rock-tri-kameny-highball",
+              "name": "Vysoký kámen",
+              "description": "5m vysoký balvan, všechny linie mají charakter highballu.",
+              "routes": [
+                {
+                  "id": "route-tri-kameny-odvaha",
+                  "name": "Odvaha",
+                  "grade": { "system": "vScale", "value": "V5" },
+                  "type": "boulder",
+                  "description": "Vysoká hrana s lehkým, ale psychicky náročným výlezem. Klasifikace prvovýstupce ve V-škále.",
+                  "firstAscent": "americký host B. Miller, 2016",
+                  "warnings": ["Highball – nutné více bouldermatek a spotter."]
+                }
+              ]
+            }
+          ],
+          "routes": []
+        },
+        {
+          "id": "sector-tri-kameny-potok",
+          "name": "Potok",
+          "description": "Menší kameny podél potoka. Déle drží vlhkost, ideální za horkých dnů.",
+          "warnings": ["Kameny u potoka bývají vlhké, chyty kontrolujte."],
+          "rocks": [],
+          "routes": [
+            {
+              "id": "route-tri-kameny-brod",
+              "name": "Brod",
+              "grade": { "system": "fontainebleau", "value": "5" },
+              "type": "boulder",
+              "description": "Nízký traverz nad potokem po lištách."
+            },
+            {
+              "id": "route-tri-kameny-mokra-vesta",
+              "name": "Mokrá vesta",
+              "grade": { "system": "fontainebleau", "value": "6A+" },
+              "type": "boulder",
+              "description": "Silový start z podchytu, zakončení na oblém topu."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
