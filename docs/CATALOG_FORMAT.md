@@ -112,10 +112,23 @@ Both hierarchy shapes are first-class: `sector → rocks[] → routes[]` and
 - Producers must keep IDs stable between exports — the app keys user data
   (favorites, projects, diary entries) on route and area IDs.
 
-## Requirements for the future ČHS importer
+## Optional producer metadata
 
-Per the roadmap, the importer is a separate CLI outside the Flutter app.
-It must additionally record `source URL` and `import date` for its own
-bookkeeping and change detection; those fields are internal to the
-importer and are not part of this exchange format yet — they will be
-added here (as optional metadata) once the importer exists.
+Producers may attach a `meta` object to an area with bookkeeping fields
+(the app ignores unknown keys). The ČHS importer writes:
+
+```jsonc
+"meta": {
+  "sourceUrl": "https://www.horosvaz.cz/skaly-sektor-470/",
+  "fetchedAt": "2026-07-12T14:00:00Z",
+  "chsOblast": "Skály u Poličky"   // ČHS grouping level with no catalog counterpart
+}
+```
+
+## The ČHS importer
+
+The importer lives in `importer/` as a standalone Dart CLI (see
+`importer/README.md`). It fetches pages into reviewable snapshots
+(source URL + fetch date + content hash per page), normalizes them into
+this format and validates the result before export. Its validator
+mirrors the rules above; a catalog that passes it loads in the app.

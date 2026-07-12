@@ -1,0 +1,6 @@
+# Fetched page snapshots and generated catalogs stay local — ČHS content
+# is not committed to the repository.
+snapshots/
+out/
+.dart_tool/
+pubspec.lock

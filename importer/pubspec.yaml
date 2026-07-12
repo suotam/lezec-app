@@ -1,0 +1,21 @@
+name: chs_importer
+description: >-
+  Standalone importer for the ČHS rock database (skály ČR) producing the
+  Crux CZ catalog exchange format (docs/CATALOG_FORMAT.md). Deliberately
+  separate from the Flutter app.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  args: ^2.6.0
+  crypto: ^3.0.6
+  html: ^0.15.5
+  http: ^1.3.0
+  path: ^1.9.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

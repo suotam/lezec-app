@@ -1,6 +1,7 @@
 # Implementation status
 
-_Last updated: 2026-07-10 (Stage 0 + Stage 1 + local diary)._
+_Last updated: 2026-07-12 (Stage 0 + Stage 1 + local diary + ČHS
+importer CLI)._
 
 ## Completed
 
@@ -59,14 +60,32 @@ _Last updated: 2026-07-10 (Stage 0 + Stage 1 + local diary)._
   simulated restart, log-ascent flow into the diary and entry deletion).
   `flutter analyze` is clean.
 
+**ČHS importer CLI (Stage 3 core)**
+- Standalone Dart package in `importer/` (no Flutter dependency), see
+  `importer/README.md`.
+- `fetch`: rate-limited (min 1 s, default 2 s), resumable download of
+  ČHS pages into snapshot directories; `manifest.json` records source
+  URL, fetch time and sha256 per page (change detection on refetch).
+- `build`: parses snapshots (defensive HTML parsing of sektor/skála
+  pages, GPS from the `map-code` endpoint, grade system from histogram
+  tooltips), normalizes to the exchange format (ČHS sektor → area,
+  skála → sector, cesta → route; grade-system/rock-type mapping; closure
+  icons → restrictions; source bookkeeping in `meta`) and validates.
+  Output: catalog JSON + plain-text review report.
+- `validate`: standalone format validation of any catalog file.
+- Tests: 23 passing (parser against synthetic markup fixtures,
+  normalizer incl. fallback warnings, validator rules, snapshot/build
+  integration). End-to-end verified against a real sektor (Bohuňovské
+  skály, 72 routes) and the output loads through the app's parser.
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
 pretend it does): authentication, backend/API, Firebase/Supabase,
-synchronization, ČHS scraper/importer CLI, diary statistics/calendar/
-filters, photos on ascents, comments/social/community features, issue
-reporting, roles, payments/QR donations, push notifications, weather,
-map tiles / offline maps, complex grade conversion.
+synchronization, diary statistics/calendar/filters, photos on ascents,
+comments/social/community features, issue reporting, roles, payments/QR
+donations, push notifications, weather, map tiles / offline maps,
+complex grade conversion.
 
 ## Known limitations
 
@@ -83,26 +102,38 @@ map tiles / offline maps, complex grade conversion.
 - External navigation behavior on devices depends on installed map apps.
 - No map view of areas (deliberately deferred; no map dependency yet).
 
+## Known importer limitations
+
+- Route lengths and multi-pitch info are not exported (not present on
+  the ČHS list pages; would require per-route page fetches).
+- Restrictions are derived from closure icons only; their seasonal
+  details ("Podmínky lezení" texts) still need manual review.
+- Parking coordinates are not available on ČHS pages.
+- Grade-system labels beyond the mapped set fall back to UIAA with a
+  report note; extend the mapping table as new labels appear.
+
 ## Recommended next stage
 
-**Stage 2 completion + Stage 3 start — diary statistics and the ČHS
-importer:**
+**Stage 2 completion + real data sample:**
 
 1. Diary enhancements: basic statistics (counts by style/grade/area,
    simple performance overview), filtering, and showing logged routes as
    "climbed" in route lists.
-2. Build the separate importer CLI (outside the Flutter app) that outputs
-   `docs/CATALOG_FORMAT.md`-conformant JSON: fetch ČHS structures with
-   rate limiting, normalize grades, keep source URL + import date,
-   detect duplicates, produce a validation report.
-3. Replace the demo asset with a real imported sample (bump the catalog
-   `version`; the app reseeds automatically).
+2. Replace the demo asset with a real imported sample: fetch one or two
+   whole oblasti with the importer, review the report, bump the catalog
+   `version` and ship it as the bundled asset (the app reseeds
+   automatically). Decide how to attribute the ČHS source in the UI
+   (the data-source notice on Discover should reference ČHS instead of
+   the demo disclaimer).
+3. Optional importer hardening: per-route page fetches for lengths and
+   restriction texts where the review report shows gaps.
 
 Suggested prompt for the next iteration:
 
 > Continue the Crux CZ Flutter app. Add diary statistics and filtering
-> (Etapa 2 completion) per docs/PRODUCT_ROADMAP.md, then start the
-> separate ČHS importer CLI (Etapa 3) producing catalogs conforming to
-> docs/CATALOG_FORMAT.md, including source-URL/import-date bookkeeping
-> and a validation report. Do not add backend communication. Follow
-> docs/ARCHITECTURE.md and keep repository boundaries unchanged.
+> (Etapa 2 completion) per docs/PRODUCT_ROADMAP.md. Then produce a real
+> catalog sample with importer/ (one or two oblasti), review the report,
+> and replace assets/demo_data/climbing_catalog.json with it, updating
+> the demo-data notices to a ČHS attribution. Do not add backend
+> communication. Follow docs/ARCHITECTURE.md and keep repository
+> boundaries unchanged.

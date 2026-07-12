@@ -181,17 +181,18 @@ User state repositories follow the same pattern: the future sync logic
 (last-write-wins or per-item journal) lives behind
 `UserRouteStateRepository` without touching a single widget.
 
-## The future ČHS importer stays separate
+## The ČHS importer stays separate
 
 The mobile app deliberately knows nothing about ČHS website structures,
-HTML or scraping. The importer will be a separate tool (server-side or
-CLI) that transforms source data into the app's normalized catalog format,
-specified in `docs/CATALOG_FORMAT.md` — the same shape as
-`assets/demo_data/climbing_catalog.json`. The app consumes only that
-normalized model, so importer changes never ripple into the mobile
-codebase, and the demo JSON doubles as the contract fixture for the
-importer's output. Producers bump the root `version` on every content
-change; that is what triggers the on-device reimport.
+HTML or scraping. The importer is a standalone Dart CLI in `importer/`
+(own pubspec, no Flutter dependency — see `importer/README.md`) that
+fetches ČHS pages into reviewable snapshots and transforms them into the
+app's normalized catalog format, specified in `docs/CATALOG_FORMAT.md` —
+the same shape as `assets/demo_data/climbing_catalog.json`. The app
+consumes only that normalized model, so importer changes never ripple
+into the mobile codebase, and the demo JSON doubles as the contract
+fixture for the importer's output. Producers bump the root `version` on
+every content change; that is what triggers the on-device reimport.
 
 ## Localization
 

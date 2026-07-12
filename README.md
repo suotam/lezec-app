@@ -89,6 +89,15 @@ interfaces: the imported catalog, favorite/project route IDs, recently
 viewed areas and the climbing diary (logged ascents with style, date and
 note).
 
+## ČHS importer
+
+Real data will come from the ČHS rock database via a standalone CLI in
+[importer/](importer/) — it fetches pages into reviewable snapshots
+(rate-limited, with source bookkeeping) and produces catalogs in the
+exchange format above, validated before export. See
+[importer/README.md](importer/README.md). The app itself contains no
+scraping code.
+
 ## Current limitations
 
 - Demo data only — no real areas, no backend, no synchronization.

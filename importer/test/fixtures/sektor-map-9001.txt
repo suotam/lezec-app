@@ -1,0 +1,8 @@
+<div class="skaly-mapa">
+<header><h1>Sektor Zkušební skály</h1></header>
+<div id="GoogleMap1" class="google-map"></div>
+<script>
+VizusGoogleMap1Area1.add({"lat":49.9001005,"lng":15.5002003,"title":"Velká stěna (skála)","events":[{"event":"click","action":"openWindow","url":"\/index.php?cmd=skaly-mapa-info&type=skala&id=8001"}]});
+VizusGoogleMap1Area1.add({"lat":49.9003444,"lng":15.5005650,"title":"Zkušební skály (sektor)","events":[{"event":"click","action":"openWindow","url":"\/index.php?cmd=skaly-mapa-info&type=sektor&id=9001"}]});
+</script>
+</div>
