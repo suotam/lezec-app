@@ -136,7 +136,7 @@ class DiscoverScreen extends ConsumerWidget {
                       const SizedBox(height: AppSpacing.sm),
                     ],
                   ],
-                  SectionHeader(title: l10n.discoverDemoTitle),
+                  SectionHeader(title: l10n.discoverDataSourceTitle),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(AppSpacing.lg),
@@ -148,14 +148,14 @@ class DiscoverScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(
-                          Icons.science_outlined,
+                          Icons.public,
                           size: 20,
                           color: theme.cruxColors.onInfo,
                         ),
                         const SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: Text(
-                            l10n.discoverDemoBody,
+                            l10n.discoverDataSourceBody,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.cruxColors.onInfo,
                             ),

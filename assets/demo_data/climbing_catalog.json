@@ -1,389 +1,1478 @@
 {
-  "version": 1,
+  "version": 2,
   "regions": [
     {
-      "id": "region-demo-vychodni-cechy",
-      "name": "Ukázkový region – Východní Čechy",
-      "country": "CZ"
-    },
-    {
-      "id": "region-demo-moravsky-kras",
-      "name": "Ukázkový region – Moravský kras",
-      "country": "CZ"
-    },
-    {
-      "id": "region-demo-vysocina",
-      "name": "Ukázkový region – Vysočina",
+      "id": "chs-region-9",
+      "name": "Českomoravská vrchovina",
       "country": "CZ"
     }
   ],
   "areas": [
     {
-      "id": "area-sokoli-veze",
-      "regionId": "region-demo-vychodni-cechy",
-      "name": "Sokolí věže (ukázka)",
-      "summary": "Smyšlené pískovcové skalní město s klasickými věžovými výstupy.",
-      "description": "Sokolí věže jsou ukázková pískovcová oblast vytvořená pro vývoj aplikace. Kompaktní věže z hrubozrnného pískovce nabízejí spárové i stěnové lezení v tradičním saském stylu. Lezení je povoleno pouze za zcela suchého počasí a s textilním jištěním.",
-      "climbingTypes": ["trad"],
-      "rockType": "sandstone",
-      "location": { "latitude": 50.5842, "longitude": 16.1257 },
-      "parking": [
-        {
-          "id": "parking-sokoli-hlavni",
-          "name": "Parkoviště U Hájovny",
-          "location": { "latitude": 50.5791, "longitude": 16.1198 },
-          "note": "Placené v sezóně, kapacita cca 30 aut."
-        }
+      "id": "chs-sektor-470",
+      "regionId": "chs-region-9",
+      "name": "Bohuňovské skály",
+      "summary": "Skupina Skály u Poličky. Hornina: amfibolit. 72 cest v databázi ČHS.",
+      "description": "Skály západně od obce Bohuňov po obou březích Křetínky. Sportovně odjištěné jsou pouze masiv Centrální stěny a Orlí věž. V Bohuňově se leze pravděpodobně od 80.let, kdy byla vylezena spousta klasických směrů. Většina těchto starých cest je ale dnes ponechána napospas vegetaci, péče se dostává více méně jen sportovním sektorům. Délka odjištěných cest je do 30 metrů, výše už je skála rozrušená a zarostlá. Může padat kamení, lezte s helmou!\n\nOblast je přírodní památkou, ze dna údolí vede od informační tabule pod skalami neznačená stezka na skalní vyhlídku.",
+      "climbingTypes": [
+        "sport",
+        "trad"
       ],
-      "access": {
-        "description": "Od parkoviště U Hájovny po zelené turistické značce mírně do kopce. Po 20 minutách odbočka vpravo na pěšinu ke skalám.",
-        "approachMinutes": 25
+      "rockType": "other",
+      "location": {
+        "latitude": 49.5983444,
+        "longitude": 16.455865
       },
-      "restrictions": [
-        {
-          "id": "restriction-sokoli-hnizdeni",
-          "title": "Hnízdění sokola stěhovavého",
-          "description": "Sektor Zadní město je od 1. 3. do 30. 6. uzavřen kvůli hnízdění sokola stěhovavého.",
-          "severity": "closure",
-          "seasonalNote": "1. 3. – 30. 6."
-        },
-        {
-          "id": "restriction-sokoli-vlhko",
-          "title": "Zákaz lezení na vlhké skále",
-          "description": "Pískovec je po dešti křehký. Lezte nejdříve 48 hodin po posledních srážkách.",
-          "severity": "warning"
-        }
-      ],
+      "access": {
+        "description": "z Brna po výpadovce č. 43 směrem na Svitavy. V Letovicích sjeďte a přes náměstí pokračujte po silnici č. 365 na obec Křetín a Bohuňov. Asi dva kilometry za Bohuňovem se údolí zužuje a po pravé straně již nemůžete přehlédnout až 50 metrů vysoké stěny."
+      },
+      "restrictions": [],
       "sectors": [
         {
-          "id": "sector-sokoli-predni-mesto",
-          "name": "Přední město",
-          "description": "Nejnavštěvovanější část oblasti s nejvyššími věžemi a klasickými spárami.",
-          "accessNote": "První věže po pravé straně pěšiny, 5 minut od rozcestí.",
-          "rocks": [
-            {
-              "id": "rock-sokoli-velka-vez",
-              "name": "Velká věž",
-              "description": "Dominanta oblasti, 35 m vysoká věž s vrcholovou knížkou.",
-              "routes": [
-                {
-                  "id": "route-sokoli-stara-cesta",
-                  "name": "Stará cesta",
-                  "grade": { "system": "czechSandstone", "value": "IV" },
-                  "type": "trad",
-                  "lengthMeters": 32,
-                  "description": "Klasická výstupová linie jižní stěnou. Komín přechází do ukloněné spáry, závěr po dobrých chytech na vrchol.",
-                  "protection": "Vlastní textilní jištění, 2 kruhy, slaňovací kruh na vrcholu.",
-                  "firstAscent": "K. Novák a J. Dvořák, 1923",
-                  "warnings": ["Na vrcholové plotně pozor na erozi."]
-                },
-                {
-                  "id": "route-sokoli-jizni-spara",
-                  "name": "Jižní spára",
-                  "grade": { "system": "czechSandstone", "value": "VIIb" },
-                  "type": "trad",
-                  "lengthMeters": 34,
-                  "description": "Výrazná ruční spára v jižní stěně. Fyzicky náročné, ale dobře jistitelné lezení.",
-                  "protection": "Smyčky a vklíněnce z textilu, 1 kruh v polovině.",
-                  "firstAscent": "M. Šimek, 1978"
-                },
-                {
-                  "id": "route-sokoli-severni-hrana",
-                  "name": "Severní hrana",
-                  "grade": { "system": "czechSandstone", "value": "VIIIa" },
-                  "type": "trad",
-                  "lengthMeters": 35,
-                  "description": "Vzdušné lezení po exponované hraně s minimem odpočinkových míst.",
-                  "protection": "3 kruhy, mezi nimi delší odskoky.",
-                  "firstAscent": "P. Krejčí, 1991",
-                  "warnings": ["Exponované, doporučeno jen zkušeným lezcům."]
-                }
-              ]
-            },
-            {
-              "id": "rock-sokoli-kazatelna",
-              "name": "Kazatelna",
-              "description": "Nižší masivní věž s kolmými stěnami a jemným lezením po strukturách.",
-              "routes": [
-                {
-                  "id": "route-sokoli-kazatel",
-                  "name": "Kazatel",
-                  "grade": { "system": "czechSandstone", "value": "VI" },
-                  "type": "trad",
-                  "lengthMeters": 22,
-                  "description": "Logická linie středem východní stěny po dírkách a lištách.",
-                  "protection": "2 kruhy, slaňák na vrcholu.",
-                  "firstAscent": "V. Malá, 1965"
-                },
-                {
-                  "id": "route-sokoli-nedelni-kazani",
-                  "name": "Nedělní kázání",
-                  "grade": { "system": "czechSandstone", "value": "VIIc" },
-                  "type": "trad",
-                  "lengthMeters": 24,
-                  "description": "Technická stěna s klíčovým místem nad druhým kruhem.",
-                  "protection": "3 kruhy."
-                }
-              ]
-            }
-          ],
-          "routes": []
-        },
-        {
-          "id": "sector-sokoli-zadni-mesto",
-          "name": "Zadní město",
-          "description": "Klidnější část oblasti s nižšími masivy. Cesty vedou přímo z pěšiny.",
-          "accessNote": "Pokračujte po pěšině za Přední město, dalších 10 minut.",
-          "warnings": ["V období hnízdění (1. 3. – 30. 6.) je sektor zcela uzavřen."],
+          "id": "chs-skala-7197",
+          "name": "Centrální stěna - M",
+          "description": "Hlavní sektor oblasti. Stěna nabízí cesty lehčího a středního charakteru s klasou od 3 - 7+ UIAA. Levá a pravá část stěny zůstala nepřejištěná, zde se nachází několik výstupů spíše horského charakteru bez fixního jištění. Dolní polovina cest je technická v kolmém, mírně převislé vrchní partie prověří zase sílu.",
           "rocks": [],
           "routes": [
             {
-              "id": "route-sokoli-lesni-stena",
-              "name": "Lesní stěna",
-              "grade": { "system": "czechSandstone", "value": "V" },
+              "id": "chs-cesta-51795",
+              "name": "A variant",
+              "grade": {
+                "system": "uiaa",
+                "value": "?"
+              },
               "type": "trad",
-              "lengthMeters": 15,
-              "description": "Příjemné lezení po velkých chytech, vhodné jako první seznámení s pískovcem.",
-              "protection": "1 kruh, nahoře stromová smyčka."
+              "description": "popis chybí",
+              "firstAscent": "Klempa",
+              "warnings": []
             },
             {
-              "id": "route-sokoli-ticha-linie",
-              "name": "Tichá linie",
-              "grade": { "system": "czechSandstone", "value": "VIIa" },
+              "id": "chs-cesta-51809",
+              "name": "Adam",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
               "type": "trad",
-              "lengthMeters": 17,
-              "description": "Jemné stěnové lezení po oblých strukturách, klíčové místo hned na začátku.",
-              "protection": "2 kruhy."
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51807",
+              "name": "Číňan",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51808",
+              "name": "David",
+              "grade": {
+                "system": "uiaa",
+                "value": "5"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51805",
+              "name": "Hadovka",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51829",
+              "name": "Chlapská",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Paňák",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51835",
+              "name": "Jalovcová",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51833",
+              "name": "Josef",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51802",
+              "name": "Kapucínek",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51837",
+              "name": "Kobylkova",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Kobylka, Chlup",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51836",
+              "name": "Koutem",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51801",
+              "name": "Mydlíčko",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51847",
+              "name": "Myška",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51804",
+              "name": "Pion",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51831",
+              "name": "Pionýr",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51830",
+              "name": "Protiva",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Smítal",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51806",
+              "name": "První",
+              "grade": {
+                "system": "uiaa",
+                "value": "3+"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mareček, Kobylka, Mikeš, Paňák",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51800",
+              "name": "Rodinná",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51838",
+              "name": "Roháč",
+              "grade": {
+                "system": "uiaa",
+                "value": "4+"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51842",
+              "name": "Růžový sad",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš, P. Šudoma",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51839",
+              "name": "Růžový sad II",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51841",
+              "name": "Růžový sad varianta",
+              "grade": {
+                "system": "uiaa",
+                "value": "II"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš, P. Šudoma",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51840",
+              "name": "Rybka",
+              "grade": {
+                "system": "uiaa",
+                "value": "II"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51832",
+              "name": "Samotář",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51812",
+              "name": "Šibal",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51803",
+              "name": "Špion",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51828",
+              "name": "Trnitá",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Pavel Šudoma",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51834",
+              "name": "Třebovská",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Kobylka, Šoufek, Mikeš, Paňák",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51810",
+              "name": "Variant véčka",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51811",
+              "name": "Véčko",
+              "grade": {
+                "system": "uiaa",
+                "value": "3+"
+              },
+              "type": "trad",
+              "description": "Popis chybí",
+              "firstAscent": "Mikeš, Klempa,1977",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51799",
+              "name": "Magorie",
+              "grade": {
+                "system": "uiaa",
+                "value": "4+"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Pavel Šudoma,30.4.1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51827",
+              "name": "Super gorgon",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,30.4.1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51791",
+              "name": "Gametofit",
+              "grade": {
+                "system": "uiaa",
+                "value": "4+"
+              },
+              "type": "trad",
+              "description": "Levou části plotny, od konce šikmé police, přímo k prvnímu nýtu, přes šikmou plotnu (2. nýt) dále k třetímu nýtu do cesty NKHG 88 a touto na polici ke štandu (č. 1).",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann, M. Kuda, P. Hartmann,10.8.2012",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51796",
+              "name": "NHKG 88",
+              "grade": {
+                "system": "uiaa",
+                "value": "5"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,30.4.1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51798",
+              "name": "Smrt anděla",
+              "grade": {
+                "system": "uiaa",
+                "value": "5-"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,25.9.1989",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51826",
+              "name": "Hanina cesta",
+              "grade": {
+                "system": "uiaa",
+                "value": "5"
+              },
+              "type": "trad",
+              "description": "Po lištách (nýt) přímo na polici (kruh) a hladkou plotnu n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,1.5.1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51793",
+              "name": "Obchod s kůží",
+              "grade": {
+                "system": "uiaa",
+                "value": "4+"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,17.3.1996",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101155",
+              "name": "U hrany",
+              "grade": {
+                "system": "uiaa",
+                "value": "5"
+              },
+              "type": "sport",
+              "description": "Autoři neznámí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51825",
+              "name": "Orlosup",
+              "grade": {
+                "system": "uiaa",
+                "value": "5+"
+              },
+              "type": "sport",
+              "description": "Přes velkou polici a spárou přímo a později doprava n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky), vklíněnce",
+              "firstAscent": "Autoři neznámí",
+              "warnings": [
+                "Nebezpečí"
+              ]
+            },
+            {
+              "id": "chs-cesta-51797",
+              "name": "Orlosup přímo",
+              "grade": {
+                "system": "uiaa",
+                "value": "?"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Autoři neznámí,26.4.1987",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101154",
+              "name": "Rock and roll",
+              "grade": {
+                "system": "uiaa",
+                "value": "6+"
+              },
+              "type": "sport",
+              "description": "Přes nazelenalou plotnu ke spáře, na odštíplý masiv a přímo n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Petr Hartmann a Pavel Hertmann,srpen 2012",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51850",
+              "name": "Climber blues",
+              "grade": {
+                "system": "uiaa",
+                "value": "6-"
+              },
+              "type": "trad",
+              "description": "Stěnou (4 borháky) na polici a vlevo od Nakloněného horizontu po lištách přímo n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,13.5.1989",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51792",
+              "name": "Nakloněný horizont",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "sport",
+              "description": "Cestou Climber blues přes tři borháky na polici, odtud stěnkou přes dva převísky 4 borháky na vrchol.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann, P. Hartmann, D. Vomáčka,3.5.2009",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51844",
+              "name": "Bezejmenná",
+              "grade": {
+                "system": "uiaa",
+                "value": "RP 6+"
+              },
+              "type": "sport",
+              "description": "popis chybí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101156",
+              "name": "Neznámá",
+              "grade": {
+                "system": "uiaa",
+                "value": "6+"
+              },
+              "type": "trad",
+              "description": "Autoři neznámí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51843",
+              "name": "Vpřed",
+              "grade": {
+                "system": "uiaa",
+                "value": "RP 7+"
+              },
+              "type": "trad",
+              "description": "Po lištách přímo na velkou polici. Převislou plotnou přes bočáky (3 nýt) a dále n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Pavel Šudoma,duben 1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51845",
+              "name": "Akumulátor",
+              "grade": {
+                "system": "uiaa",
+                "value": "6-"
+              },
+              "type": "sport",
+              "description": "Stejně jako Fousek, ale dále přímo převisem (3 borháky) n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann, P. Hartmann,25.5.2012",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51824",
+              "name": "Fousek",
+              "grade": {
+                "system": "uiaa",
+                "value": "6-"
+              },
+              "type": "sport",
+              "description": "Přímo (4 borháky) na velkou polici a pod převískem doprava (3 borháky). Zleva n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51849",
+              "name": "Epitaf",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "sport",
+              "description": "Popis chybí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann, J. Havel, M. Hartmann,7.9.2002",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51823",
+              "name": "Plotnou",
+              "grade": {
+                "system": "uiaa",
+                "value": "5+"
+              },
+              "type": "sport",
+              "description": "Stejně jako Západní traverz a dále doleva do koutku a přímo do hladké plotny. Zleva n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "J. Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51794",
+              "name": "Poličský variant",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "sport",
+              "description": "Stejně jako Západní traverz mírně převislou plotnou přímo n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Martin Hartmann, J. Havel, P. Krištof,8.9.2002",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51846",
+              "name": "Vampír",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "sport",
+              "description": "Stěnou vpravo od koutku pod převísek, přes něj vlevo do plotny a přímo n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann, P. Hartmann, V. Jílek,září 2002",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51848",
+              "name": "Mixák",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "sport",
+              "description": "Přímo přes dóm a stěnou a převisem n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann,26.2.2003",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51822",
+              "name": "Hadí voči",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "Popis chybí",
+              "firstAscent": "Pavel Šudoma,22.10.1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51821",
+              "name": "Západní traverz",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "sport",
+              "description": "Z leva dómu doprava kolem převisu a vlevo n. t.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "J. Mikeš, Paňák,duben 1988",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51820",
+              "name": "Kurýr",
+              "grade": {
+                "system": "uiaa",
+                "value": "5-"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51819",
+              "name": "Oko",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Ščobák, Paňák",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51818",
+              "name": "Zelený pilíř",
+              "grade": {
+                "system": "uiaa",
+                "value": "4+"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51817",
+              "name": "Myslivecká",
+              "grade": {
+                "system": "uiaa",
+                "value": "3"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Ščobák",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51816",
+              "name": "Zahradnická",
+              "grade": {
+                "system": "uiaa",
+                "value": "5"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Šoufek",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51815",
+              "name": "Klín střed",
+              "grade": {
+                "system": "uiaa",
+                "value": "4"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51814",
+              "name": "Klín pravý",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš, Klempa",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51813",
+              "name": "Školní",
+              "grade": {
+                "system": "uiaa",
+                "value": "2"
+              },
+              "type": "trad",
+              "description": "popis chybí",
+              "firstAscent": "Mikeš",
+              "warnings": []
             }
           ]
+        },
+        {
+          "id": "chs-skala-7198",
+          "name": "Orlí - M",
+          "description": "Ke stěně se dostaneme od parkoviště podél Křetínky až kde končí zábradlí. Zde přes říčku v místě dotyku skály s vodou, podél skal Břízkové a Supí až k Orlí stěně. Charakter: převislá stěna s cestami 7 – 8 UIAA.",
+          "rocks": [],
+          "routes": [
+            {
+              "id": "chs-cesta-101146",
+              "name": "Orlí drápky",
+              "grade": {
+                "system": "uiaa",
+                "value": "7"
+              },
+              "type": "sport",
+              "description": "Petr Hartmann a Pavel Hertmann,5.10.2013",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101147",
+              "name": "Křivé zobáky",
+              "grade": {
+                "system": "uiaa",
+                "value": "8"
+              },
+              "type": "sport",
+              "description": "Petr Hartmann a Pavel Hertmann,5.10.2013",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101148",
+              "name": "Dajretka",
+              "grade": {
+                "system": "uiaa",
+                "value": "7"
+              },
+              "type": "sport",
+              "description": "Petr Hartmann a Pavel Hertmann,2013",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101149",
+              "name": "Mechové bočáky",
+              "grade": {
+                "system": "uiaa",
+                "value": "7"
+              },
+              "type": "sport",
+              "description": "Petr Hartmann a Pavel Hertmann,2013",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101150",
+              "name": "Dlouhé lokty",
+              "grade": {
+                "system": "uiaa",
+                "value": "7+"
+              },
+              "type": "sport",
+              "description": "Petr Hartmann a Pavel Hertmann,2013",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101151",
+              "name": "projekt",
+              "grade": {
+                "system": "uiaa",
+                "value": "?"
+              },
+              "type": "sport",
+              "description": "Autoři neznámí",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101152",
+              "name": "Ozone QC",
+              "grade": {
+                "system": "uiaa",
+                "value": "8-"
+              },
+              "type": "sport",
+              "description": "Petr Hartmann a Pavel Hertmann,15.10.2013",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-101153",
+              "name": "Ozzy (projekt)",
+              "grade": {
+                "system": "uiaa",
+                "value": "?"
+              },
+              "type": "sport",
+              "description": "Autoři neznámí",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-51851",
+              "name": "Let kondora",
+              "grade": {
+                "system": "uiaa",
+                "value": "6"
+              },
+              "type": "sport",
+              "description": "Z levé strany údolní stěny (1. borhák) šikmo pravou částí pod pilíř (2. borhák) pilířem po šikmých plotnách (3. borhák) pod výrazný převis, jím (4. -5. borhák)a širokým pilířem na vrchol. (Slaňovací řetěz)",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "P. Hartmann, P. Hartmann,17.4.2011",
+              "warnings": []
+            }
+          ]
+        },
+        {
+          "id": "chs-skala-17545",
+          "name": "Supí - M",
+          "description": "¨První masiv zleva na pravém břehu Křetínky.",
+          "rocks": [],
+          "routes": []
         }
-      ]
+      ],
+      "meta": {
+        "sourceUrl": "https://www.horosvaz.cz/skaly-sektor-470/",
+        "fetchedAt": "2026-07-12T16:07:35.395358Z",
+        "chsOblast": "Skály u Poličky"
+      }
     },
     {
-      "id": "area-bily-lom",
-      "regionId": "region-demo-moravsky-kras",
-      "name": "Bílý lom (ukázka)",
-      "summary": "Smyšlená vápencová sportovní oblast v opuštěném lomu.",
-      "description": "Bílý lom je ukázková sportovní oblast vytvořená pro vývoj aplikace. Bývalý vápencový lom nabízí kolmé technické stěny i mírně převislé odjištěné cesty. Díky jižní orientaci se zde dá lézt od jara do podzimu.",
-      "climbingTypes": ["sport"],
+      "id": "chs-sektor-812",
+      "regionId": "chs-region-9",
+      "name": "Vápenka Jimramov",
+      "summary": "Skupina Okolí Jimramova. Hornina: vápenec. 2 cest v databázi ČHS.",
+      "description": "Jedná se o lezení ve spárkách a dírkách.",
+      "climbingTypes": [],
       "rockType": "limestone",
-      "location": { "latitude": 49.3634, "longitude": 16.7241 },
-      "parking": [
-        {
-          "id": "parking-bily-lom-obec",
-          "name": "Náves v obci Lomnička",
-          "location": { "latitude": 49.3598, "longitude": 16.7189 },
-          "note": "Parkujte ohleduplně, nezastavujte výjezdy."
-        },
-        {
-          "id": "parking-bily-lom-tocna",
-          "name": "Točna autobusu",
-          "location": { "latitude": 49.3612, "longitude": 16.7215 },
-          "note": "Pouze mimo časy školního autobusu (7:00–8:00, 14:00–15:30)."
-        }
-      ],
-      "access": {
-        "description": "Z návsi po polní cestě směrem k lesu. U kraje lesa vlevo, vstup do lomu je značen dřevěnou šipkou.",
-        "approachMinutes": 12
+      "location": {
+        "latitude": 49.6403917,
+        "longitude": 16.2409169
       },
-      "restrictions": [
-        {
-          "id": "restriction-bily-lom-padajici",
-          "title": "Padající kamení u vstupu",
-          "description": "V horní hraně lomu se uvolňují kameny. Pod stěnou Hlavní stěny noste přilbu.",
-          "severity": "warning"
-        }
-      ],
+      "restrictions": [],
       "sectors": [
         {
-          "id": "sector-bily-lom-hlavni",
-          "name": "Hlavní stěna",
-          "description": "Nejvyšší stěna lomu, 12–25 m, technické kolmé lezení s odjištěním po 2 metrech.",
-          "accessNote": "Přímo naproti vstupu do lomu.",
-          "warnings": ["Noste přilbu, hrozí pád kamení z horní hrany."],
+          "id": "chs-skala-9207",
+          "name": "Zadní stěnky",
+          "description": "Jedná se původně o vápencový lom. Chládkova vápenka zpracovávala vápno těžené v okolí Jimramova. Její provoz byl ukončen v roce 1958, a ačkoli byla o čtyři roky později rekonstruována, pálení vápna v ní již nebylo nikdy obnoveno. V dnešní době je na místě patrna pouze šachtová vápenná pec o průměru 7 metrů s komínem. Pozor stěny jsou na soukromém pozemku.",
           "rocks": [],
           "routes": [
             {
-              "id": "route-bily-lom-bila-pani",
-              "name": "Bílá paní",
-              "grade": { "system": "french", "value": "5c" },
+              "id": "chs-cesta-60589",
+              "name": "Cliffhanger",
+              "grade": {
+                "system": "uiaa",
+                "value": "9m"
+              },
               "type": "sport",
-              "lengthMeters": 14,
-              "description": "Ideální rozlezová cesta po velkých dírách v levé části stěny.",
-              "protection": "6 nýtů, slaňovací řetěz.",
-              "firstAscent": "T. Veselý, 2004"
+              "description": "Pravou částí převislé stěny šikmo v pravo přes tři borháky ke slaňovacímu řetězu. První nýt společný i pro Vertical limit.",
+              "firstAscent": "P. Hartmann, P. Hartmann,27.4.2012",
+              "warnings": [
+                "Nebezpečí"
+              ]
             },
             {
-              "id": "route-bily-lom-vapenne-sny",
-              "name": "Vápenné sny",
-              "grade": { "system": "french", "value": "6b+" },
+              "id": "chs-cesta-60590",
+              "name": "Vertical limit",
+              "grade": {
+                "system": "uiaa",
+                "value": "M7"
+              },
               "type": "sport",
-              "lengthMeters": 18,
-              "description": "Technická plotna s klíčovým dlouhým krokem ve dvou třetinách.",
-              "protection": "8 nýtů, slaňovací řetěz.",
-              "firstAscent": "T. Veselý, 2005"
-            },
-            {
-              "id": "route-bily-lom-kalcit",
-              "name": "Kalcit",
-              "grade": { "system": "french", "value": "7a" },
-              "type": "sport",
-              "lengthMeters": 22,
-              "description": "Nejhezčí linie stěny. Mírný převis po kapkách zakončený výlezem přes hranu.",
-              "protection": "10 nýtů, slaňovací řetěz.",
-              "firstAscent": "L. Horáková, 2008"
-            },
-            {
-              "id": "route-bily-lom-stara-skola",
-              "name": "Stará škola",
-              "grade": { "system": "uiaa", "value": "VII-" },
-              "type": "sport",
-              "lengthMeters": 20,
-              "description": "Historická linie přejištěná nýty, klasifikace ponechána v UIAA.",
-              "protection": "7 nýtů, horní kruh.",
-              "firstAscent": "J. Pokorný, 1989"
-            }
-          ]
-        },
-        {
-          "id": "sector-bily-lom-levy-kout",
-          "name": "Levý kout",
-          "description": "Kratší převislé cesty v zákoutí lomu. Rychle osychá, stín po poledni.",
-          "rocks": [],
-          "routes": [
-            {
-              "id": "route-bily-lom-koutek",
-              "name": "Koutek pohody",
-              "grade": { "system": "french", "value": "6a" },
-              "type": "sport",
-              "lengthMeters": 12,
-              "description": "Lezení po stupíncích podél výrazného koutu.",
-              "protection": "5 nýtů, slaňovací kruh."
-            },
-            {
-              "id": "route-bily-lom-silova-zkouska",
-              "name": "Silová zkouška",
-              "grade": { "system": "french", "value": "7b" },
-              "type": "sport",
-              "lengthMeters": 13,
-              "description": "Krátká atletická cesta převisem, výrazné madlo na konci obtíží.",
-              "protection": "6 nýtů, slaňovací řetěz.",
-              "firstAscent": "M. Beneš, 2015",
-              "warnings": ["První nýt vysoko, doporučen klacek na první zapnutí."]
+              "description": "Středem převislé stěnky přes tři nýty ke slaňovacímu řetězu.",
+              "firstAscent": "P. Hartmann,23.4.2011",
+              "warnings": []
             }
           ]
         }
-      ]
+      ],
+      "meta": {
+        "sourceUrl": "https://www.horosvaz.cz/skaly-sektor-812/",
+        "fetchedAt": "2026-07-12T16:07:39.351813Z",
+        "chsOblast": "Okolí Jimramova"
+      }
     },
     {
-      "id": "area-tri-kameny",
-      "regionId": "region-demo-vysocina",
-      "name": "U Tří kamenů (ukázka)",
-      "summary": "Smyšlená žulová boulderová oblast v lese na Vysočině.",
-      "description": "U Tří kamenů je ukázková boulderová oblast vytvořená pro vývoj aplikace. Žulové balvany roztroušené v lese nabízejí boulderové problémy všech obtížností — od nízkých traverzů po vysoké highbally. Dopadové plochy jsou převážně rovné, přesto je bouldermatka nutná.",
-      "climbingTypes": ["boulder"],
-      "rockType": "granite",
-      "location": { "latitude": 49.4127, "longitude": 15.5872 },
-      "parking": [
-        {
-          "id": "parking-tri-kameny",
-          "name": "Odstavná plocha u silnice",
-          "location": { "latitude": 49.4098, "longitude": 15.5811 },
-          "note": "Malá kapacita (5 aut). Neblokujte lesní cestu."
-        }
+      "id": "chs-sektor-1347",
+      "regionId": "chs-region-9",
+      "name": "Želiv",
+      "summary": "Skupina Pelhřimovsko. 33 cest v databázi ČHS.",
+      "description": "Bez popisu v databázi ČHS.",
+      "climbingTypes": [
+        "sport",
+        "trad"
       ],
-      "access": {
-        "description": "Od odstavné plochy po lesní cestě, po 400 m odbočit vlevo po pěšině mezi smrky. Balvany jsou vidět z cesty.",
-        "approachMinutes": 8
+      "rockType": "other",
+      "location": {
+        "latitude": 49.5300914,
+        "longitude": 15.2434553
       },
-      "restrictions": [
-        {
-          "id": "restriction-tri-kameny-drevo",
-          "title": "Probíhá těžba dřeva",
-          "description": "V okolí sektoru Potok probíhá do konce roku těžba. Dbejte pokynů lesní správy.",
-          "severity": "info"
-        }
-      ],
+      "restrictions": [],
       "sectors": [
         {
-          "id": "sector-tri-kameny-paseka",
-          "name": "Horní paseka",
-          "description": "Tři největší balvany oblasti na prosluněné pasece. Rychle osychá.",
-          "accessNote": "První skupina balvanů hned u pěšiny.",
-          "rocks": [
-            {
-              "id": "rock-tri-kameny-hlavni-kamen",
-              "name": "Hlavní kámen",
-              "description": "Největší balvan oblasti s převislou jižní stranou.",
-              "routes": [
-                {
-                  "id": "route-tri-kameny-prevodovka",
-                  "name": "Převodovka",
-                  "grade": { "system": "fontainebleau", "value": "6C" },
-                  "type": "boulder",
-                  "description": "Sedavý start pod převisem, dlouhé kroky po oblinách na vrchol.",
-                  "firstAscent": "O. Kratochvíl, 2012"
-                },
-                {
-                  "id": "route-tri-kameny-spojka",
-                  "name": "Spojka",
-                  "grade": { "system": "fontainebleau", "value": "7A+" },
-                  "type": "boulder",
-                  "description": "Traverz převisu zprava doleva do topu Převodovky. Náročné na tělesné napětí.",
-                  "firstAscent": "O. Kratochvíl, 2013"
-                },
-                {
-                  "id": "route-tri-kameny-plotna",
-                  "name": "Nedělní plotna",
-                  "grade": { "system": "fontainebleau", "value": "4+" },
-                  "type": "boulder",
-                  "description": "Severní plotna po dobrých chytech. Ideální pro začátečníky."
-                }
-              ]
-            },
-            {
-              "id": "rock-tri-kameny-highball",
-              "name": "Vysoký kámen",
-              "description": "5m vysoký balvan, všechny linie mají charakter highballu.",
-              "routes": [
-                {
-                  "id": "route-tri-kameny-odvaha",
-                  "name": "Odvaha",
-                  "grade": { "system": "vScale", "value": "V5" },
-                  "type": "boulder",
-                  "description": "Vysoká hrana s lehkým, ale psychicky náročným výlezem. Klasifikace prvovýstupce ve V-škále.",
-                  "firstAscent": "americký host B. Miller, 2016",
-                  "warnings": ["Highball – nutné více bouldermatek a spotter."]
-                }
-              ]
-            }
-          ],
+          "id": "chs-skala-18553",
+          "name": "Lom Želiv - M",
+          "description": "V zimě přes lomovou stěnu natékají ledy.",
+          "rocks": [],
           "routes": []
         },
         {
-          "id": "sector-tri-kameny-potok",
-          "name": "Potok",
-          "description": "Menší kameny podél potoka. Déle drží vlhkost, ideální za horkých dnů.",
-          "warnings": ["Kameny u potoka bývají vlhké, chyty kontrolujte."],
+          "id": "chs-skala-18539",
+          "name": "Na valše - M",
+          "description": "Poměrně zarostlý masiv další dva kilometry proti proudu od Vřesníku.",
+          "rocks": [],
+          "routes": []
+        },
+        {
+          "id": "chs-skala-18247",
+          "name": "Paní skála - M",
+          "description": "Místy až třicetimetrový masiv cca 1 km proti proudu řeky z Želivy. Nachází se na pravém břehu přímo nad hrází v. n. Vřesník. Cca 30 sportovních cest a další varianty.\n\ntopo (zdroj: HO Pelhřimov)",
           "rocks": [],
           "routes": [
             {
-              "id": "route-tri-kameny-brod",
-              "name": "Brod",
-              "grade": { "system": "fontainebleau", "value": "5" },
-              "type": "boulder",
-              "description": "Nízký traverz nad potokem po lištách."
+              "id": "chs-cesta-117140",
+              "name": "1",
+              "grade": {
+                "system": "uiaa",
+                "value": "15m"
+              },
+              "type": "sport",
+              "description": "Převislou hranou na polici. Dále ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý,Neznámý",
+              "warnings": []
             },
             {
-              "id": "route-tri-kameny-mokra-vesta",
-              "name": "Mokrá vesta",
-              "grade": { "system": "fontainebleau", "value": "6A+" },
-              "type": "boulder",
-              "description": "Silový start z podchytu, zakončení na oblém topu."
+              "id": "chs-cesta-117155",
+              "name": "10",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "trad",
+              "description": "Levým koutem z předskalí",
+              "protection": "Vklíněnce",
+              "firstAscent": "Neznámý,Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117156",
+              "name": "11",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "trad",
+              "description": "Pravým koutem z předskalí.",
+              "protection": "Vklíněnce",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117157",
+              "name": "12",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Koutem pod malý převis. Po překonání převisu stěnou a skalním žebrem pod převis. Přes něj ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117160",
+              "name": "15",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Hranou a přes malé převisy na polici. Koutem či převislou hranou doleva ke štandu. Varianta z police doprava ke štandu. 5+",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117161",
+              "name": "16",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Plotnou pod převis. Přes převis a po hraně vzhůru.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117164",
+              "name": "18",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "trad",
+              "description": "Začátek stejně jako cesta \"Prvni políbení\". Vrchní část hranou převisu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117165",
+              "name": "19",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Varianta cesty \"18\". Vrchní část přímo převisem a stěnou ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117141",
+              "name": "2",
+              "grade": {
+                "system": "uiaa",
+                "value": "15m"
+              },
+              "type": "sport",
+              "description": "Převislou plotnou",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý,Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117166",
+              "name": "20",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou přes plotny pod převis. Levou části převisu vzhůru.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117168",
+              "name": "23",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Hranou pod převis. Převisem doleva a spárou ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117178",
+              "name": "23",
+              "grade": {
+                "system": "uiaa",
+                "value": "15m"
+              },
+              "type": "sport",
+              "description": "Stěna se nachází 30m vpravo od hlavní stěny. Stěnou vpravo od hrany ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117169",
+              "name": "24",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou (nejištěno) pod převis. Převisem doleva ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117170",
+              "name": "25",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou (nejištěno) pod převis. Převisem doprava ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117171",
+              "name": "26",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou pod převis. Převisem a jeho hranou je štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117172",
+              "name": "27",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou pod plotnu pod hlavní převis. Plotnou zleva pod převis. Převisem ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117173",
+              "name": "28",
+              "grade": {
+                "system": "uiaa",
+                "value": "22m"
+              },
+              "type": "sport",
+              "description": "Stěnou (vhodné dojistit vklinenci) pod pravou hranou převisu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117174",
+              "name": "29",
+              "grade": {
+                "system": "uiaa",
+                "value": "22m"
+              },
+              "type": "sport",
+              "description": "Z předskalí zarostlou stěnou pod menší převis. Převisem ke Štandu cesty \"28\"",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117142",
+              "name": "3",
+              "grade": {
+                "system": "uiaa",
+                "value": "20m"
+              },
+              "type": "sport",
+              "description": "Stěnou na začátek komína. Komínem a traverz doprava ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý,Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117176",
+              "name": "31",
+              "grade": {
+                "system": "uiaa",
+                "value": "15m"
+              },
+              "type": "sport",
+              "description": "Stěna se nachází 30m vpravo od hlavní stěny. Z police převisem ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117177",
+              "name": "32",
+              "grade": {
+                "system": "uiaa",
+                "value": "15m"
+              },
+              "type": "sport",
+              "description": "Stěna se nachází 30m vpravo od hlavní stěny. Hranou stěny na vrchol.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117143",
+              "name": "4",
+              "grade": {
+                "system": "uiaa",
+                "value": "20m"
+              },
+              "type": "sport",
+              "description": "Převislou hranou ke komínu. Dále cestou 3",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117152",
+              "name": "6",
+              "grade": {
+                "system": "uiaa",
+                "value": "22m"
+              },
+              "type": "sport",
+              "description": "Traverzem z levého předskalí do stěny. Tou vzhůru.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý,Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117153",
+              "name": "Alergikův sen",
+              "grade": {
+                "system": "uiaa",
+                "value": "30m"
+              },
+              "type": "sport",
+              "description": "Z nejnižšího místa stěny koutem pod převis. Převisem a dále cestou \"6\"",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Martin Sankot, Jakub Rybář,17.6.2020",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117144",
+              "name": "Koutová",
+              "grade": {
+                "system": "uiaa",
+                "value": "22m"
+              },
+              "type": "sport",
+              "description": "Sokolíkem na polici. Dále koutem a mírně převislou stěnou ke štandu. Varianta nástupu pravým komínem.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý,Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117159",
+              "name": "Pornozaliby",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Přímo striktně plotnou pod převis. Přes něj ke štandu",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Jakub Rybář",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117175",
+              "name": "Poslední cesta romantiků",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "trad",
+              "description": "Romanticky zarostlou pravou hranou.",
+              "protection": "Vklíněnce",
+              "firstAscent": "Jakub Rybář,1.7.2020",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117163",
+              "name": "První políbení",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou přímo pod levým okrajem převisu do kouta. Koutem ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117154",
+              "name": "Pyj po dědovi",
+              "grade": {
+                "system": "uiaa",
+                "value": "30m"
+              },
+              "type": "sport",
+              "description": "Pravou hranou převisu. Dále po hraně.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Martin Kott, Ondřej Záhora,1.7.2019",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117162",
+              "name": "Technická",
+              "grade": {
+                "system": "uiaa",
+                "value": "20m"
+              },
+              "type": "sport",
+              "description": "Položenou a mírně doleva ukloněnou stenou. Varianta vrchní části po pravé hraně. 5+",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117158",
+              "name": "Velký kout",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Koutem a komínem pod převis. Pravou části převisu ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117145",
+              "name": "Žabí cesta",
+              "grade": {
+                "system": "uiaa",
+                "value": "22m"
+              },
+              "type": "sport",
+              "description": "Závěrem cestou \"Koutová\". Dále hranou na polici a stěnou ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Jakub Rybář, Martin Kott,1.7.2020",
+              "warnings": []
+            },
+            {
+              "id": "chs-cesta-117167",
+              "name": "Želivská spára",
+              "grade": {
+                "system": "uiaa",
+                "value": "25m"
+              },
+              "type": "sport",
+              "description": "Stěnou přes plotny pod převis. Převisem do spáry a tou ke štandu.",
+              "protection": "Fixní jištění (kruhy, nýty, borháky)",
+              "firstAscent": "Neznámý",
+              "warnings": []
             }
           ]
         }
-      ]
+      ],
+      "meta": {
+        "sourceUrl": "https://www.horosvaz.cz/skaly-sektor-1347/",
+        "fetchedAt": "2026-07-12T16:07:47.263941Z",
+        "chsOblast": "Pelhřimovsko"
+      }
     }
   ]
 }

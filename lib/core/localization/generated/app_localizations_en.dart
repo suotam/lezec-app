@@ -43,9 +43,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonClearFilters => 'Clear filters';
 
   @override
-  String get demoBadge => 'DEMO';
-
-  @override
   String get discoverSearchHint => 'Search areas, regions or rocks…';
 
   @override
@@ -67,11 +64,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverBrowseAllAreas => 'Browse all areas';
 
   @override
-  String get discoverDemoTitle => 'You are viewing demo data';
+  String get discoverDataSourceTitle => 'Data source';
 
   @override
-  String get discoverDemoBody =>
-      'All areas, sectors and routes shown are fictional and exist only to try out the app. Real Czech climbing data will be added in a later stage.';
+  String get discoverDataSourceBody =>
+      'The data comes from the ČHS rock database (horosvaz.cz) and covers only a small sample of areas for now. Verify route and restriction details directly in the ČHS database. Full data will be added in a later stage.';
 
   @override
   String get discoverRestrictionsTitle => 'Current restrictions';
@@ -328,6 +325,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routeMyAscentsTitle => 'My ascents';
+
+  @override
+  String get routeClimbedLabel => 'Climbed';
+
+  @override
+  String get diaryStatsTotalLabel => 'Total';
+
+  @override
+  String get diaryStatsThisYearLabel => 'This year';
+
+  @override
+  String get diaryStatsRoutesLabel => 'Distinct routes';
+
+  @override
+  String get diaryFilterEmptyTitle => 'Nothing matches the filter';
+
+  @override
+  String get diaryFilterEmptyBody =>
+      'No ascent has the selected style. Clear the filter to see your entries again.';
 
   @override
   String get ascentStyleOnsight => 'OS';

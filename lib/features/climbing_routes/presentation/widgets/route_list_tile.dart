@@ -8,6 +8,7 @@ import '../../../../core/localization/l10n.dart';
 import '../../../../core/theme/crux_colors.dart';
 import '../../../../shared/extensions/domain_labels.dart';
 import '../../../../shared/widgets/grade_badge.dart';
+import '../../../diary/presentation/diary_providers.dart';
 import '../../../projects/presentation/user_route_state_providers.dart';
 import '../../domain/climbing_route.dart';
 
@@ -25,6 +26,7 @@ class RouteListTile extends ConsumerWidget {
     final userState = ref.watch(userRouteStateProvider).value;
     final isFavorite = userState?.isFavorite(route.id) ?? false;
     final isProject = userState?.isProject(route.id) ?? false;
+    final isClimbed = ref.watch(climbedRouteIdsProvider).contains(route.id);
 
     final meta = [
       route.type.label(l10n),
@@ -53,6 +55,15 @@ class RouteListTile extends ConsumerWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (isClimbed) ...[
+            Icon(
+              Icons.check_circle,
+              size: 18,
+              color: theme.colorScheme.primary,
+              semanticLabel: l10n.routeClimbedLabel,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+          ],
           if (isFavorite)
             Icon(
               Icons.favorite,

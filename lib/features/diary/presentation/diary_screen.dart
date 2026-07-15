@@ -10,53 +10,168 @@ import '../../../shared/extensions/domain_labels.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/empty_state_view.dart';
 import '../../../shared/widgets/grade_badge.dart';
-import 'diary_providers.dart';
 import '../domain/ascent.dart';
+import '../domain/diary_stats.dart';
+import 'diary_providers.dart';
 
-/// Chronological list of logged ascents, newest first.
+/// Chronological list of logged ascents with basic statistics and a
+/// style filter.
 class DiaryScreen extends ConsumerWidget {
   const DiaryScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final ascents = ref.watch(diaryProvider);
+    final filtered = ref.watch(filteredAscentsProvider);
+    final stats = ref.watch(diaryStatsProvider);
+    final filter = ref.watch(diaryFilterProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.diaryTitle)),
       body: AsyncValueView(
-        value: ascents,
+        value: filtered,
         onRetry: () => ref.invalidate(diaryProvider),
         data: (entries) {
-          if (entries.isEmpty) {
+          if (stats == null || stats.totalAscents == 0) {
             return EmptyStateView(
               icon: Icons.menu_book_outlined,
               title: l10n.diaryEmptyTitle,
               message: l10n.diaryEmptyBody,
             );
           }
-          return ListView.separated(
+          return ListView(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.lg,
               AppSpacing.sm,
               AppSpacing.lg,
               AppSpacing.xl,
             ),
-            itemCount: entries.length + 1,
-            separatorBuilder: (context, index) =>
-                const SizedBox(height: AppSpacing.sm),
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return Text(
+            children: [
+              _StatsCard(stats: stats),
+              const SizedBox(height: AppSpacing.md),
+              _StyleFilterChips(stats: stats, filter: filter),
+              const SizedBox(height: AppSpacing.md),
+              if (entries.isEmpty)
+                EmptyStateView(
+                  icon: Icons.filter_alt_off_outlined,
+                  title: l10n.diaryFilterEmptyTitle,
+                  message: l10n.diaryFilterEmptyBody,
+                  action: OutlinedButton(
+                    onPressed: () =>
+                        ref.read(diaryFilterProvider.notifier).clear(),
+                    child: Text(l10n.commonClearFilters),
+                  ),
+                )
+              else ...[
+                Text(
                   l10n.diaryAscentsCount(entries.length),
                   style: Theme.of(context).textTheme.titleMedium,
-                );
-              }
-              return _AscentCard(ascent: entries[index - 1]);
-            },
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                for (final ascent in entries) ...[
+                  _AscentCard(ascent: ascent),
+                  const SizedBox(height: AppSpacing.sm),
+                ],
+              ],
+            ],
           );
         },
       ),
+    );
+  }
+}
+
+class _StatsCard extends StatelessWidget {
+  const _StatsCard({required this.stats});
+
+  final DiaryStats stats;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.lg,
+          horizontal: AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            _StatItem(
+              value: stats.totalAscents,
+              label: l10n.diaryStatsTotalLabel,
+            ),
+            _StatItem(
+              value: stats.ascentsThisYear,
+              label: l10n.diaryStatsThisYearLabel,
+            ),
+            _StatItem(
+              value: stats.uniqueRoutes,
+              label: l10n.diaryStatsRoutesLabel,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StatItem extends StatelessWidget {
+  const _StatItem({required this.value, required this.label});
+
+  final int value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            '$value',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            label,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// One chip per style that occurs in the diary (with its count); tapping
+/// filters the list, multiple styles combine.
+class _StyleFilterChips extends ConsumerWidget {
+  const _StyleFilterChips({required this.stats, required this.filter});
+
+  final DiaryStats stats;
+  final DiaryFilter filter;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    return Wrap(
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.xs,
+      children: [
+        for (final entry in stats.byStyle.entries)
+          FilterChip(
+            label: Text('${entry.key.label(l10n)} · ${entry.value}'),
+            selected: filter.styles.contains(entry.key),
+            onSelected: (_) =>
+                ref.read(diaryFilterProvider.notifier).toggleStyle(entry.key),
+          ),
+      ],
     );
   }
 }
@@ -73,6 +188,7 @@ class _AscentCard extends ConsumerWidget {
     final note = ascent.note;
 
     return Card(
+      margin: EdgeInsets.zero,
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         leading: GradeBadge(grade: ascent.grade),

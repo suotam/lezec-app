@@ -43,9 +43,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get commonClearFilters => 'Zrušit filtry';
 
   @override
-  String get demoBadge => 'UKÁZKA';
-
-  @override
   String get discoverSearchHint => 'Hledat oblast, region nebo skálu…';
 
   @override
@@ -67,11 +64,11 @@ class AppLocalizationsCs extends AppLocalizations {
   String get discoverBrowseAllAreas => 'Procházet všechny oblasti';
 
   @override
-  String get discoverDemoTitle => 'Pracujete s ukázkovými daty';
+  String get discoverDataSourceTitle => 'Zdroj dat';
 
   @override
-  String get discoverDemoBody =>
-      'Všechny zobrazené oblasti, sektory a cesty jsou smyšlené a slouží pouze k vyzkoušení aplikace. Skutečná data českých skal budou doplněna v další fázi.';
+  String get discoverDataSourceBody =>
+      'Data pocházejí z Databáze skal ČHS (horosvaz.cz) a zatím jde jen o malý vzorek oblastí. Údaje o cestách a omezeních si ověřujte přímo v databázi ČHS. Kompletní data budou doplněna v další fázi.';
 
   @override
   String get discoverRestrictionsTitle => 'Aktuální omezení';
@@ -333,6 +330,25 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get routeMyAscentsTitle => 'Moje přelezy';
+
+  @override
+  String get routeClimbedLabel => 'Přelezeno';
+
+  @override
+  String get diaryStatsTotalLabel => 'Celkem';
+
+  @override
+  String get diaryStatsThisYearLabel => 'Letos';
+
+  @override
+  String get diaryStatsRoutesLabel => 'Různých cest';
+
+  @override
+  String get diaryFilterEmptyTitle => 'Nic neodpovídá filtru';
+
+  @override
+  String get diaryFilterEmptyBody =>
+      'Žádný přelez nemá vybraný styl. Zrušte filtr a záznamy se znovu zobrazí.';
 
   @override
   String get ascentStyleOnsight => 'OS';

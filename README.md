@@ -61,7 +61,7 @@ flutter analyze   # static analysis (must be clean)
 flutter test      # unit + widget tests
 ```
 
-## How demo data works
+## How catalog data works
 
 The whole catalog lives in a single JSON asset:
 
@@ -69,10 +69,12 @@ The whole catalog lives in a single JSON asset:
 assets/demo_data/climbing_catalog.json
 ```
 
-It contains three fictional areas (sandstone towers, a sport-climbing
-limestone quarry and a granite bouldering area) with regions, sectors,
-rocks, routes, grades in several grading systems, parking coordinates,
-access descriptions and restrictions.
+Since catalog version 2 it contains a real sample imported from the ČHS
+rock database (Bohuňovské skály, Vápenka Jimramov and Želiv — 107
+routes), produced by the importer below. To refresh or extend it, run
+the importer, review its report and copy the output over the asset with
+a bumped `version` — the app reimports the catalog into its local
+database on the next launch.
 
 The asset is parsed defensively in the data layer
 (`lib/features/climbing_areas/data/demo_catalog_parser.dart`). A malformed
@@ -100,9 +102,10 @@ scraping code.
 
 ## Current limitations
 
-- Demo data only — no real areas, no backend, no synchronization.
+- Only a small real-data sample (3 areas) — no backend, no
+  synchronization.
 - Community and Profile tabs are "coming soon" placeholders.
-- Diary has no statistics or filtering yet; no photos on ascents.
+- No photos on ascents, no diary calendar view.
 - No comments, maps or weather.
 - Grades are displayed in their original system; no conversion yet.
 - The UI language is pinned to Czech (English strings exist but there is

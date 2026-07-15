@@ -70,6 +70,38 @@ void main() {
     expect(reopened.entries, hasLength(3), reason: 'upsert, not append');
   });
 
+  test('dropEmptyAreas removes areas without any route', () async {
+    final snapshot = await Snapshot.open(tempDir.path);
+    // Only the sektor pages — no skála pages, so the area has no routes.
+    await snapshot.store(
+      kind: 'sektor',
+      id: 9001,
+      url: 'https://www.horosvaz.cz/skaly-sektor-9001/',
+      body: File('test/fixtures/sektor-9001.html').readAsStringSync(),
+      sha256: 'x',
+      fetchedAt: DateTime.utc(2026, 7, 12),
+    );
+    await snapshot.store(
+      kind: 'sektor-map',
+      id: 9001,
+      url: 'https://www.horosvaz.cz/skaly-sektor-9001/?action=map-code',
+      body: File('test/fixtures/sektor-map-9001.txt').readAsStringSync(),
+      sha256: 'y',
+      fetchedAt: DateTime.utc(2026, 7, 12),
+    );
+
+    final kept = await buildCatalogFromSnapshot(snapshot, version: 1);
+    expect((kept.catalog['areas'] as List), hasLength(1));
+
+    final dropped = await buildCatalogFromSnapshot(
+      snapshot,
+      version: 1,
+      dropEmptyAreas: true,
+    );
+    expect((dropped.catalog['areas'] as List), isEmpty);
+    expect(dropped.warnings.join(), contains('dropped'));
+  });
+
   test('report summarizes counts and validation', () async {
     final snapshot = await snapshotFromFixtures();
     final result = await buildCatalogFromSnapshot(snapshot, version: 3);

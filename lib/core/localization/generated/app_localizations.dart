@@ -164,12 +164,6 @@ abstract class AppLocalizations {
   /// **'Zrušit filtry'**
   String get commonClearFilters;
 
-  /// No description provided for @demoBadge.
-  ///
-  /// In cs, this message translates to:
-  /// **'UKÁZKA'**
-  String get demoBadge;
-
   /// No description provided for @discoverSearchHint.
   ///
   /// In cs, this message translates to:
@@ -212,17 +206,17 @@ abstract class AppLocalizations {
   /// **'Procházet všechny oblasti'**
   String get discoverBrowseAllAreas;
 
-  /// No description provided for @discoverDemoTitle.
+  /// No description provided for @discoverDataSourceTitle.
   ///
   /// In cs, this message translates to:
-  /// **'Pracujete s ukázkovými daty'**
-  String get discoverDemoTitle;
+  /// **'Zdroj dat'**
+  String get discoverDataSourceTitle;
 
-  /// No description provided for @discoverDemoBody.
+  /// No description provided for @discoverDataSourceBody.
   ///
   /// In cs, this message translates to:
-  /// **'Všechny zobrazené oblasti, sektory a cesty jsou smyšlené a slouží pouze k vyzkoušení aplikace. Skutečná data českých skal budou doplněna v další fázi.'**
-  String get discoverDemoBody;
+  /// **'Data pocházejí z Databáze skal ČHS (horosvaz.cz) a zatím jde jen o malý vzorek oblastí. Údaje o cestách a omezeních si ověřujte přímo v databázi ČHS. Kompletní data budou doplněna v další fázi.'**
+  String get discoverDataSourceBody;
 
   /// No description provided for @discoverRestrictionsTitle.
   ///
@@ -661,6 +655,42 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Moje přelezy'**
   String get routeMyAscentsTitle;
+
+  /// No description provided for @routeClimbedLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Přelezeno'**
+  String get routeClimbedLabel;
+
+  /// No description provided for @diaryStatsTotalLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Celkem'**
+  String get diaryStatsTotalLabel;
+
+  /// No description provided for @diaryStatsThisYearLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Letos'**
+  String get diaryStatsThisYearLabel;
+
+  /// No description provided for @diaryStatsRoutesLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Různých cest'**
+  String get diaryStatsRoutesLabel;
+
+  /// No description provided for @diaryFilterEmptyTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nic neodpovídá filtru'**
+  String get diaryFilterEmptyTitle;
+
+  /// No description provided for @diaryFilterEmptyBody.
+  ///
+  /// In cs, this message translates to:
+  /// **'Žádný přelez nemá vybraný styl. Zrušte filtr a záznamy se znovu zobrazí.'**
+  String get diaryFilterEmptyBody;
 
   /// No description provided for @ascentStyleOnsight.
   ///

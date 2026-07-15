@@ -10,15 +10,16 @@ import '../helpers/test_helpers.dart';
 
 void main() {
   group('parseDemoCatalog', () {
-    test('parses the bundled demo asset', () {
+    test('parses the bundled catalog asset', () {
       final raw = File(
         'assets/demo_data/climbing_catalog.json',
       ).readAsStringSync();
 
       final catalog = parseDemoCatalog(raw);
 
-      expect(catalog.regions, hasLength(3));
-      expect(catalog.areas, hasLength(3));
+      expect(catalog.version, greaterThanOrEqualTo(2));
+      expect(catalog.regions, isNotEmpty);
+      expect(catalog.areas, isNotEmpty);
       // Every area must resolve its region and contain routes.
       for (final area in catalog.areas) {
         expect(area.regionName, isNotEmpty);

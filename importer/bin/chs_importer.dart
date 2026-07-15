@@ -28,6 +28,10 @@ Future<void> main(List<String> arguments) async {
           'version',
           mandatory: true,
           help: 'Catalog version to stamp (bump on every content change)',
+        )
+        ..addFlag(
+          'drop-empty-areas',
+          help: 'Exclude areas that contain no routes at all',
         ),
     )
     ..addCommand(
@@ -149,6 +153,7 @@ Future<void> _build(ArgResults args) async {
   final result = await buildCatalogFromSnapshot(
     snapshot,
     version: int.parse(args['version'] as String),
+    dropEmptyAreas: args['drop-empty-areas'] as bool,
   );
 
   final outFile = File(args['out'] as String)..parent.createSync(recursive: true);

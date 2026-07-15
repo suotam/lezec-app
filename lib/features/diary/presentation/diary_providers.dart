@@ -7,6 +7,7 @@ import '../../climbing_routes/domain/route_context.dart';
 import '../data/drift_diary_repository.dart';
 import '../domain/ascent.dart';
 import '../domain/diary_repository.dart';
+import '../domain/diary_stats.dart';
 
 final diaryRepositoryProvider = Provider<DiaryRepository>(
   (ref) => DriftDiaryRepository(ref.watch(databaseProvider)),
@@ -73,4 +74,42 @@ final routeAscentsProvider = Provider.family<List<Ascent>, String>((
     for (final ascent in ascents)
       if (ascent.routeId == routeId) ascent,
   ];
+});
+
+/// IDs of every route with at least one logged ascent, for the "climbed"
+/// mark in route lists.
+final climbedRouteIdsProvider = Provider<Set<String>>((ref) {
+  final ascents = ref.watch(diaryProvider).value ?? const <Ascent>[];
+  return {for (final ascent in ascents) ascent.routeId};
+});
+
+/// Active diary list filter; widgets mutate it only through these methods.
+class DiaryFilterController extends Notifier<DiaryFilter> {
+  @override
+  DiaryFilter build() => const DiaryFilter();
+
+  void toggleStyle(AscentStyle style) => state = state.toggled(style);
+
+  void clear() => state = const DiaryFilter();
+}
+
+final diaryFilterProvider =
+    NotifierProvider<DiaryFilterController, DiaryFilter>(
+      DiaryFilterController.new,
+    );
+
+/// Ascents matching the current filter, still an [AsyncValue] so the
+/// screen keeps the diary's load/error states.
+final filteredAscentsProvider = Provider<AsyncValue<List<Ascent>>>((ref) {
+  final filter = ref.watch(diaryFilterProvider);
+  return ref
+      .watch(diaryProvider)
+      .whenData((ascents) => filterAscents(ascents, filter));
+});
+
+/// Stats over the whole (unfiltered) diary; null while loading.
+final diaryStatsProvider = Provider<DiaryStats?>((ref) {
+  final ascents = ref.watch(diaryProvider).value;
+  if (ascents == null) return null;
+  return DiaryStats.from(ascents, now: DateTime.now());
 });

@@ -1,7 +1,7 @@
 # Implementation status
 
-_Last updated: 2026-07-12 (Stage 0 + Stage 1 + local diary + ČHS
-importer CLI)._
+_Last updated: 2026-07-15 (Stage 0–2 + ČHS importer CLI + real data
+sample)._
 
 ## Completed
 
@@ -73,32 +73,58 @@ importer CLI)._
   icons → restrictions; source bookkeeping in `meta`) and validates.
   Output: catalog JSON + plain-text review report.
 - `validate`: standalone format validation of any catalog file.
-- Tests: 23 passing (parser against synthetic markup fixtures,
+- Tests: 24 passing (parser against synthetic markup fixtures,
   normalizer incl. fallback warnings, validator rules, snapshot/build
-  integration). End-to-end verified against a real sektor (Bohuňovské
-  skály, 72 routes) and the output loads through the app's parser.
+  integration, empty-area dropping). End-to-end verified against a real
+  sektor (Bohuňovské skály, 72 routes) and the output loads through the
+  app's parser.
+
+**Diary statistics + filtering (Stage 2 completion)**
+- `DiaryStats` (total, this-year, distinct routes, counts per style) and
+  `DiaryFilter` as pure, unit-tested domain functions.
+- Diary screen: stats card, per-style filter chips with counts
+  (multi-select), filtered count, empty-filter state with a clear
+  action.
+- Routes with at least one logged ascent show a "climbed" check mark in
+  sector route lists (`climbedRouteIdsProvider`).
+
+**Real data sample (bundled catalog v2)**
+- `assets/demo_data/climbing_catalog.json` now contains a real imported
+  sample from the ČHS database: oblasti Skály u Poličky, Okolí
+  Jimramova and Pelhřimovsko → 3 areas (Bohuňovské skály, Vápenka
+  Jimramov, Želiv), 107 routes, catalog version 2, built with
+  `--drop-empty-areas` (Senožaty had no routes). Import report reviewed:
+  0 validation errors.
+- Discover data notice replaced by a ČHS attribution
+  (`discoverDataSourceTitle/Body`); the unused demo badge string was
+  removed.
+- App tests: 66 passing, `flutter analyze` clean.
 
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
 pretend it does): authentication, backend/API, Firebase/Supabase,
-synchronization, diary statistics/calendar/filters, photos on ascents,
-comments/social/community features, issue reporting, roles, payments/QR
+synchronization, diary calendar view, photos on ascents, comments/
+social/community features, issue reporting, roles, payments/QR
 donations, push notifications, weather, map tiles / offline maps,
 complex grade conversion.
 
 ## Known limitations
 
-- Catalog is fictional demo data; list virtualization with thousands of
-  routes is untested. The areas list still parses all area documents
-  (the repository interface returns full models); switch to summary
-  projections when real data volumes arrive.
+- Catalog is a small real sample (3 areas, 107 routes); list
+  virtualization with thousands of routes is untested. The areas list
+  still parses all area documents (the repository interface returns
+  full models); switch to summary projections when full data volumes
+  arrive.
+- Imported areas have no parking coordinates and often no route lengths
+  (not available on ČHS list pages), so those route-detail rows are
+  simply absent.
 - Grade sorting uses a per-system heuristic ordinal (not a conversion
   table).
 - UI language is pinned to Czech; no language switcher yet.
 - Area-level favorites are not implemented (only route favorites).
-- Diary has no statistics, filtering or calendar yet — only the
-  chronological list.
+- Diary filtering covers styles only (no date range or area filter yet);
+  no calendar view.
 - External navigation behavior on devices depends on installed map apps.
 - No map view of areas (deliberately deferred; no map dependency yet).
 
@@ -114,26 +140,24 @@ complex grade conversion.
 
 ## Recommended next stage
 
-**Stage 2 completion + real data sample:**
+**Stage 4 start — offline-ready data at scale + importer hardening:**
 
-1. Diary enhancements: basic statistics (counts by style/grade/area,
-   simple performance overview), filtering, and showing logged routes as
-   "climbed" in route lists.
-2. Replace the demo asset with a real imported sample: fetch one or two
-   whole oblasti with the importer, review the report, bump the catalog
-   `version` and ship it as the bundled asset (the app reseeds
-   automatically). Decide how to attribute the ČHS source in the UI
-   (the data-source notice on Discover should reference ČHS instead of
-   the demo disclaimer).
-3. Optional importer hardening: per-route page fetches for lengths and
-   restriction texts where the review report shows gaps.
+1. Scale the catalog: import one or two full regions with the importer,
+   check list performance with thousands of routes, and introduce
+   area-summary projections in `ClimbingAreaRepository` if the areas
+   list gets slow (interface change confined to data + presentation
+   providers).
+2. Importer hardening driven by the review report: per-route page
+   fetches for lengths and restriction texts ("Podmínky lezení"),
+   extended grade-system mapping.
+3. Diary polish: date-range/area filters or a simple performance chart
+   (roadmap Etapa 2 extras), plus an ascent edit flow.
 
 Suggested prompt for the next iteration:
 
-> Continue the Crux CZ Flutter app. Add diary statistics and filtering
-> (Etapa 2 completion) per docs/PRODUCT_ROADMAP.md. Then produce a real
-> catalog sample with importer/ (one or two oblasti), review the report,
-> and replace assets/demo_data/climbing_catalog.json with it, updating
-> the demo-data notices to a ČHS attribution. Do not add backend
-> communication. Follow docs/ARCHITECTURE.md and keep repository
-> boundaries unchanged.
+> Continue the Crux CZ Flutter app. Import one or two full regions with
+> importer/ (review the report, bump the catalog version), verify list
+> performance with thousands of routes and add area-summary projections
+> if needed. Harden the importer where the report shows gaps (route
+> lengths, restriction texts). Do not add backend communication. Follow
+> docs/ARCHITECTURE.md and keep repository boundaries unchanged.

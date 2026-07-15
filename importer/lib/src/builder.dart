@@ -23,6 +23,7 @@ class BuildResult {
 Future<BuildResult> buildCatalogFromSnapshot(
   Snapshot snapshot, {
   required int version,
+  bool dropEmptyAreas = false,
 }) async {
   final sektory = <RawChsSektor>[];
   final skaly = <RawChsSkala>[];
@@ -65,9 +66,28 @@ Future<BuildResult> buildCatalogFromSnapshot(
     skaly: skaly,
     version: version,
   );
+  final warnings = [...result.warnings];
+
+  if (dropEmptyAreas) {
+    final areas = (result.catalog['areas'] as List)
+        .cast<Map<String, Object?>>();
+    areas.removeWhere((area) {
+      final empty = (area['sectors'] as List)
+          .cast<Map<String, Object?>>()
+          .every((sector) => (sector['routes'] as List).isEmpty);
+      if (empty) {
+        warnings.add(
+          '${area['id']} (${area['name']}): dropped — no routes in the '
+          'whole area',
+        );
+      }
+      return empty;
+    });
+  }
+
   return BuildResult(
     catalog: result.catalog,
-    warnings: result.warnings,
+    warnings: warnings,
     validation: validateCatalog(result.catalog),
   );
 }
