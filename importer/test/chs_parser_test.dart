@@ -13,6 +13,12 @@ void main() {
     expect(parseSektorIds(fixture('oblast-300.html')), [9001]);
   });
 
+  test('parseRegionIds and parseOblastIds find linked ids', () {
+    final page = fixture('sektor-9001.html');
+    expect(parseRegionIds(page), [5]);
+    expect(parseOblastIds(page), [300]);
+  });
+
   group('parseSektorPage', () {
     late RawChsSektor sektor;
 

@@ -11,6 +11,10 @@ import 'snapshot.dart';
 
 const chsBaseUrl = 'https://www.horosvaz.cz';
 
+/// Landing page of the rock database; links every region and oblast.
+const chsDbIndexUrl = '$chsBaseUrl/databaze-skal-cr/';
+
+String regionUrl(int id) => '$chsBaseUrl/skaly-region-$id/';
 String sektorUrl(int id) => '$chsBaseUrl/skaly-sektor-$id/';
 String sektorMapUrl(int id) => '$chsBaseUrl/skaly-sektor-$id/?action=map-code';
 String oblastUrl(int id) => '$chsBaseUrl/skaly-oblast-$id/';
@@ -37,10 +41,15 @@ class ChsFetcher {
   /// keep this at seconds, not milliseconds.
   final Duration delay;
 
+  /// Manifest is flushed every N stored pages during bulk crawls; on an
+  /// interrupted run, at most this many pages are refetched.
+  static const _manifestFlushInterval = 25;
+
   final int maxAttempts;
   final http.Client _client;
   final void Function(String message) _log;
   DateTime? _lastRequest;
+  int _storedSinceFlush = 0;
 
   // ASCII only — HTTP header values must not contain non-ASCII bytes.
   static const _userAgent =
@@ -84,6 +93,9 @@ class ChsFetcher {
       return;
     }
     final body = await fetch(url);
+    _storedSinceFlush++;
+    final flush = _storedSinceFlush >= _manifestFlushInterval;
+    if (flush) _storedSinceFlush = 0;
     final changed = await snapshot.store(
       kind: kind,
       id: id,
@@ -91,6 +103,7 @@ class ChsFetcher {
       body: body,
       sha256: sha256.convert(utf8.encode(body)).toString(),
       fetchedAt: DateTime.now().toUtc(),
+      flush: flush,
     );
     _log('  fetched $kind-$id${changed ? ' (changed since last fetch)' : ''}');
   }

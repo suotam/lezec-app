@@ -27,22 +27,19 @@ String _cleanText(String text) =>
 
 /// All `/skaly-sektor-N/` ids linked from a page (used on oblast pages,
 /// whose sidebar tree lists the sektory of the active oblast).
-List<int> parseSektorIds(String pageHtml) {
-  final document = html.parse(pageHtml);
-  final ids = <int>{};
-  for (final anchor in document.querySelectorAll('a[href]')) {
-    final id = _idFromHref(anchor.attributes['href'], 'sektor');
-    if (id != null) ids.add(id);
-  }
-  return ids.toList();
-}
+List<int> parseSektorIds(String pageHtml) => _linkedIds(pageHtml, 'sektor');
 
-/// All `/skaly-oblast-N/` ids linked from a region page.
-List<int> parseOblastIds(String pageHtml) {
+/// All `/skaly-oblast-N/` ids linked from a region or index page.
+List<int> parseOblastIds(String pageHtml) => _linkedIds(pageHtml, 'oblast');
+
+/// All `/skaly-region-N/` ids linked from the database index page.
+List<int> parseRegionIds(String pageHtml) => _linkedIds(pageHtml, 'region');
+
+List<int> _linkedIds(String pageHtml, String kind) {
   final document = html.parse(pageHtml);
   final ids = <int>{};
   for (final anchor in document.querySelectorAll('a[href]')) {
-    final id = _idFromHref(anchor.attributes['href'], 'oblast');
+    final id = _idFromHref(anchor.attributes['href'], kind);
     if (id != null) ids.add(id);
   }
   return ids.toList();

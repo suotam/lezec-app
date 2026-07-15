@@ -9,6 +9,8 @@ Future<void> main(List<String> arguments) async {
     ..addCommand(
       'fetch',
       ArgParser()
+        ..addFlag('all', help: 'Fetch the whole ČHS database (hours!)')
+        ..addMultiOption('region', help: 'ČHS region id(s) to fetch fully')
         ..addMultiOption('oblast', help: 'ČHS oblast id(s) to fetch fully')
         ..addMultiOption('sektor', help: 'ČHS sektor id(s) to fetch')
         ..addOption('snapshot', mandatory: true, help: 'Snapshot directory')
@@ -73,10 +75,12 @@ ${parser.commands.keys.map((c) => '  $c\n${parser.commands[c]!.usage.split('\n')
 ''';
 
 Future<void> _fetch(ArgResults args) async {
-  final oblastIds = (args['oblast'] as List<String>).map(int.parse).toList();
+  final all = args['all'] as bool;
+  final regionIds = (args['region'] as List<String>).map(int.parse).toSet();
+  final oblastIds = (args['oblast'] as List<String>).map(int.parse).toSet();
   final sektorIds = (args['sektor'] as List<String>).map(int.parse).toSet();
-  if (oblastIds.isEmpty && sektorIds.isEmpty) {
-    _fail('fetch needs at least one --oblast or --sektor id');
+  if (!all && regionIds.isEmpty && oblastIds.isEmpty && sektorIds.isEmpty) {
+    _fail('fetch needs --all or at least one --region/--oblast/--sektor id');
   }
   final delayMs = int.parse(args['delay-ms'] as String);
   if (delayMs < 1000) {
@@ -86,63 +90,105 @@ Future<void> _fetch(ArgResults args) async {
 
   final snapshot = await Snapshot.open(args['snapshot'] as String);
   final fetcher = ChsFetcher(delay: Duration(milliseconds: delayMs));
+
+  // One failed page must not kill an hours-long crawl: log, skip and let
+  // a re-run of the same command retry just the missing pages.
+  final failures = <String>[];
+  Future<void> guarded(String label, Future<void> Function() step) async {
+    try {
+      await step();
+    } on Exception catch (e) {
+      failures.add('$label: $e');
+      stderr.writeln('  FAILED $label: $e');
+    }
+  }
+
   try {
+    if (all) {
+      await guarded('index', () async {
+        final body = await fetcher.fetch(chsDbIndexUrl);
+        oblastIds.addAll(parseOblastIds(body));
+        regionIds.addAll(parseRegionIds(body));
+      });
+    }
+
+    for (final regionId in regionIds) {
+      stdout.writeln('region $regionId');
+      await guarded('region-$regionId', () async {
+        oblastIds.addAll(parseOblastIds(await fetcher.fetch(regionUrl(regionId))));
+      });
+    }
+
     for (final oblastId in oblastIds) {
       stdout.writeln('oblast $oblastId');
-      await fetcher.fetchInto(
-        snapshot,
-        kind: 'oblast',
-        id: oblastId,
-        url: oblastUrl(oblastId),
-        force: force,
-      );
-      final entry = snapshot.find('oblast', oblastId)!;
-      sektorIds.addAll(parseSektorIds(await snapshot.readEntry(entry)));
+      await guarded('oblast-$oblastId', () async {
+        await fetcher.fetchInto(
+          snapshot,
+          kind: 'oblast',
+          id: oblastId,
+          url: oblastUrl(oblastId),
+          force: force,
+        );
+        final entry = snapshot.find('oblast', oblastId)!;
+        sektorIds.addAll(parseSektorIds(await snapshot.readEntry(entry)));
+      });
     }
 
     final skalaIds = <int>{};
     for (final sektorId in sektorIds) {
       stdout.writeln('sektor $sektorId');
-      await fetcher.fetchInto(
-        snapshot,
-        kind: 'sektor',
-        id: sektorId,
-        url: sektorUrl(sektorId),
-        force: force,
-      );
-      await fetcher.fetchInto(
-        snapshot,
-        kind: 'sektor-map',
-        id: sektorId,
-        url: sektorMapUrl(sektorId),
-        force: force,
-      );
-      final entry = snapshot.find('sektor', sektorId)!;
-      final sektor = parseSektorPage(
-        await snapshot.readEntry(entry),
-        id: sektorId,
-        sourceUrl: entry.url,
-        fetchedAt: entry.fetchedAt,
-      );
-      skalaIds.addAll(sektor.skalaIds);
+      await guarded('sektor-$sektorId', () async {
+        await fetcher.fetchInto(
+          snapshot,
+          kind: 'sektor',
+          id: sektorId,
+          url: sektorUrl(sektorId),
+          force: force,
+        );
+        await fetcher.fetchInto(
+          snapshot,
+          kind: 'sektor-map',
+          id: sektorId,
+          url: sektorMapUrl(sektorId),
+          force: force,
+        );
+        final entry = snapshot.find('sektor', sektorId)!;
+        final sektor = parseSektorPage(
+          await snapshot.readEntry(entry),
+          id: sektorId,
+          sourceUrl: entry.url,
+          fetchedAt: entry.fetchedAt,
+        );
+        skalaIds.addAll(sektor.skalaIds);
+      });
     }
 
     for (final skalaId in skalaIds) {
       stdout.writeln('skala $skalaId');
-      await fetcher.fetchInto(
-        snapshot,
-        kind: 'skala',
-        id: skalaId,
-        url: skalaUrl(skalaId),
-        force: force,
-      );
+      await guarded('skala-$skalaId', () {
+        return fetcher.fetchInto(
+          snapshot,
+          kind: 'skala',
+          id: skalaId,
+          url: skalaUrl(skalaId),
+          force: force,
+        );
+      });
     }
   } finally {
+    await snapshot.flushManifest();
     fetcher.close();
   }
   stdout.writeln(
     'done: ${snapshot.entries.length} pages in ${snapshot.directory.path}',
   );
+  if (failures.isNotEmpty) {
+    stderr.writeln(
+      '${failures.length} pages failed — re-run the same command to retry:',
+    );
+    failures.forEach(stderr.writeln);
+    exitCode = 1;
+  }
 }
 
 Future<void> _build(ArgResults args) async {

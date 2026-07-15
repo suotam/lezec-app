@@ -85,6 +85,11 @@ class Snapshot {
 
   /// Stores [body] and upserts the manifest entry. Returns whether the
   /// content changed compared to a previous fetch of the same page.
+  ///
+  /// Pass `flush: false` during bulk crawls to skip the manifest write
+  /// (the entry stays in memory); call [flushManifest] periodically and
+  /// at the end. Pages missing from a stale manifest are simply
+  /// refetched on the next run.
   Future<bool> store({
     required String kind,
     required int id,
@@ -92,6 +97,7 @@ class Snapshot {
     required String body,
     required String sha256,
     required DateTime fetchedAt,
+    bool flush = true,
   }) async {
     directory.createSync(recursive: true);
     final file = '$kind-$id.html';
@@ -110,9 +116,11 @@ class Snapshot {
         sha256: sha256,
       ),
     );
-    await _writeManifest();
+    if (flush) await _writeManifest();
     return changed;
   }
+
+  Future<void> flushManifest() => _writeManifest();
 
   Future<void> _writeManifest() async {
     final tmp = File('${_manifestFile.path}.tmp');
