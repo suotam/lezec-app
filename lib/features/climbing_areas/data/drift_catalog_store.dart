@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:drift/drift.dart' show Value;
+import 'package:drift/drift.dart' show TableInfo, Value, countAll;
 
 import '../../../core/database/crux_database.dart';
 import '../../../core/errors/demo_data_format_exception.dart';
@@ -9,6 +9,15 @@ import '../domain/catalog_search.dart';
 import '../domain/climbing_area.dart';
 import 'demo_catalog_data_source.dart';
 import 'demo_catalog_parser.dart';
+
+/// Summary of the imported catalog shown on the profile screen.
+typedef CatalogInfo = ({
+  String? version,
+  DateTime? importedAt,
+  int regionCount,
+  int areaCount,
+  int routeCount,
+});
 
 /// Imports the bundled catalog into the local database and keeps it there.
 ///
@@ -237,6 +246,28 @@ class DriftCatalogStore {
       }
     }
     return rows;
+  }
+
+  /// Summary of the imported catalog for the profile/about screen.
+  /// Nullable fields cover a corrupted meta table; the UI shows a dash.
+  Future<CatalogInfo> info() async {
+    await ensureSeeded();
+    final importedAtRaw = await _readMeta(_importedAtKey);
+    return (
+      version: await _readMeta(_versionKey),
+      importedAt: importedAtRaw == null
+          ? null
+          : DateTime.tryParse(importedAtRaw),
+      regionCount: await _count(_db.catalogRegions),
+      areaCount: await _count(_db.catalogAreas),
+      routeCount: await _count(_db.catalogRouteIndex),
+    );
+  }
+
+  Future<int> _count(TableInfo table) async {
+    final count = countAll();
+    final query = _db.selectOnly(table)..addColumns([count]);
+    return (await query.getSingle()).read(count)!;
   }
 
   Future<String?> _readMeta(String key) async {

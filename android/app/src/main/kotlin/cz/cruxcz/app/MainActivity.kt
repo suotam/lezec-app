@@ -1,4 +1,4 @@
-package com.example.lezec_app
+package cz.cruxcz.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -866,11 +866,65 @@ abstract class AppLocalizations {
   /// **'Komentáře, novinky ze skal a sdílení s ostatními lezci.'**
   String get communityDescription;
 
-  /// No description provided for @profileDescription.
+  /// No description provided for @profileVersionLabel.
   ///
   /// In cs, this message translates to:
-  /// **'Váš lezecký profil, nastavení a synchronizace mezi zařízeními.'**
-  String get profileDescription;
+  /// **'Verze'**
+  String get profileVersionLabel;
+
+  /// No description provided for @profileDataTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Data katalogu'**
+  String get profileDataTitle;
+
+  /// No description provided for @profileCatalogVersionLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Verze katalogu'**
+  String get profileCatalogVersionLabel;
+
+  /// No description provided for @profileCatalogImportedLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Importováno'**
+  String get profileCatalogImportedLabel;
+
+  /// No description provided for @profileMapCacheTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Mapová cache'**
+  String get profileMapCacheTitle;
+
+  /// No description provided for @profileMapCacheBody.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zobrazené výřezy map se ukládají pro použití bez signálu.'**
+  String get profileMapCacheBody;
+
+  /// No description provided for @profileMapCacheClear.
+  ///
+  /// In cs, this message translates to:
+  /// **'Vymazat'**
+  String get profileMapCacheClear;
+
+  /// No description provided for @profileMapCacheCleared.
+  ///
+  /// In cs, this message translates to:
+  /// **'Mapová cache byla vymazána.'**
+  String get profileMapCacheCleared;
+
+  /// No description provided for @profileSourcesTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zdroje dat'**
+  String get profileSourcesTitle;
+
+  /// No description provided for @profileSourcesBody.
+  ///
+  /// In cs, this message translates to:
+  /// **'Databáze skal a cest vychází z veřejné Databáze skal ČR Českého horolezeckého svazu (horosvaz.cz). Jde o offline kopii — před lezením vždy ověřte aktuální podmínky a omezení u zdroje. Mapové podklady poskytuje OpenStreetMap, případně Mapy.com (Seznam.cz).'**
+  String get profileSourcesBody;
 
   /// No description provided for @notFoundTitle.
   ///

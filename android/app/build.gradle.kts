@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.lezec_app"
+    namespace = "cz.cruxcz.app"
     compileSdk = flutter.compileSdkVersion
     // Pinned to the locally installed NDK; Flutter's default (28.2) repeatedly
     // failed to download on this machine. None of the current plugins ship
@@ -19,10 +19,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.lezec_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "cz.cruxcz.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

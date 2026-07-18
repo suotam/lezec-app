@@ -69,7 +69,7 @@ class CruxMap extends ConsumerWidget {
       children: [
         TileLayer(
           urlTemplate: source.urlTemplate,
-          userAgentPackageName: 'com.example.lezec_app',
+          userAgentPackageName: 'cz.cruxcz.app',
           tileProvider: ref.watch(mapTileProviderFactoryProvider)(),
         ),
         MarkerLayer(markers: markers),

@@ -446,8 +446,36 @@ class AppLocalizationsCs extends AppLocalizations {
       'Komentáře, novinky ze skal a sdílení s ostatními lezci.';
 
   @override
-  String get profileDescription =>
-      'Váš lezecký profil, nastavení a synchronizace mezi zařízeními.';
+  String get profileVersionLabel => 'Verze';
+
+  @override
+  String get profileDataTitle => 'Data katalogu';
+
+  @override
+  String get profileCatalogVersionLabel => 'Verze katalogu';
+
+  @override
+  String get profileCatalogImportedLabel => 'Importováno';
+
+  @override
+  String get profileMapCacheTitle => 'Mapová cache';
+
+  @override
+  String get profileMapCacheBody =>
+      'Zobrazené výřezy map se ukládají pro použití bez signálu.';
+
+  @override
+  String get profileMapCacheClear => 'Vymazat';
+
+  @override
+  String get profileMapCacheCleared => 'Mapová cache byla vymazána.';
+
+  @override
+  String get profileSourcesTitle => 'Zdroje dat';
+
+  @override
+  String get profileSourcesBody =>
+      'Databáze skal a cest vychází z veřejné Databáze skal ČR Českého horolezeckého svazu (horosvaz.cz). Jde o offline kopii — před lezením vždy ověřte aktuální podmínky a omezení u zdroje. Mapové podklady poskytuje OpenStreetMap, případně Mapy.com (Seznam.cz).';
 
   @override
   String get notFoundTitle => 'Nenalezeno';

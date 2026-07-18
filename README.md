@@ -73,6 +73,24 @@ The app then uses the Mapy.com "outdoor" tile set (hiking trails,
 terrain). Before a public release, review the Mapy.com API terms
 (attribution incl. logo placement).
 
+Viewed tiles are cached on disk, so maps you have already looked at
+keep working offline (manageable from the Profile tab).
+
+## Tester builds
+
+```bash
+flutter build apk --release --dart-define=MAPY_API_KEY=<key>
+```
+
+The APK lands in `build/app/outputs/flutter-apk/app-release.apk` and can
+be sideloaded (it is signed with the debug key — fine for testing, not
+for the Play Store). Add `--split-per-abi` to get per-architecture APKs
+(~25 MB instead of 70 MB); send testers the `arm64-v8a` one. Application id is `cz.cruxcz.app`, app name
+"Crux CZ", launcher icon generated from `assets/icon/` (regenerate via
+`python3 tool/generate_icon.py && dart run flutter_launcher_icons`).
+The Profile tab shows the app version, catalog version/import date and
+data-source attributions — useful when collecting tester feedback.
+
 The code is cross-platform; `flutter run` on an iOS simulator works the
 same way.
 
@@ -91,8 +109,9 @@ The whole catalog lives in a single gzipped JSON asset:
 assets/demo_data/climbing_catalog.json.gz
 ```
 
-Since catalog version 3 it contains the full ČHS rock database — 16
-regions, 951 areas and ~104,000 routes (5 MB gzipped), produced by the
+Since catalog version 3 it contains the full ČHS rock database — as of
+version 4: 16 regions, 951 areas and ~105,500 routes (5 MB gzipped),
+produced by the
 importer below. On first launch the app imports it into its local
 SQLite database (~1.5 s on desktop); later starts skip the import
 entirely unless the asset changes. To refresh the data, run the

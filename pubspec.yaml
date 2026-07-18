@@ -2,7 +2,7 @@ name: lezec_app
 description: "Crux CZ – climbing guide for Czech rock climbers (demo data stage)."
 publish_to: 'none'
 
-version: 0.1.0+1
+version: 0.5.0+2
 
 environment:
   sdk: ^3.12.2
@@ -24,6 +24,8 @@ dependencies:
   geolocator: ^14.0.3
   flutter_map: ^8.3.1
   latlong2: ^0.10.1
+  package_info_plus: ^10.2.1
+  path_provider: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +33,7 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   drift_dev: ^2.34.0
   build_runner: ^2.15.1
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -38,3 +41,11 @@ flutter:
 
   assets:
     - assets/demo_data/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#1B2028"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+  remove_alpha_ios: true

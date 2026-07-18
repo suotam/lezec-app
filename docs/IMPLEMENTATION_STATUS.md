@@ -94,7 +94,7 @@ catalog)._
   server outage/block near the end and can be fetched later by
   re-running `fetch --all` on the same snapshot).
 - `assets/demo_data/climbing_catalog.json.gz` now ships **16 regions,
-  951 areas and 104,217 routes** (catalog version 3, 31 MB JSON → 5 MB
+  951 areas and 105,480 routes** (catalog version 4, 33 MB JSON → 5 MB
   gzip, built with `--drop-empty-areas`). Import report reviewed: 0
   validation errors, ~1,300 review notes (empty skály, missing grades on
   projects, unmapped rock types).
@@ -164,6 +164,22 @@ catalog)._
 - App tests: 82 passing, importer tests: 26 passing, both analyzers
   clean.
 
+**Release readiness (tester build)**
+- Real application identity: id `cz.cruxcz.app` on Android (namespace,
+  applicationId, MainActivity package) and iOS (bundle ids), app name
+  "Crux CZ", version 0.5.0+2.
+- Launcher icon: generated brand icon (graphite + orange peaks; pure
+  stdlib generator in `tool/generate_icon.py`), all platform sizes via
+  `flutter_launcher_icons`, incl. Android adaptive icon.
+- Offline map tiles (passive): `DiskCachingTileProvider` persists every
+  fetched tile in the OS cache directory, so already-viewed maps render
+  without a connection. No eviction; manual clearing on the Profile tab.
+  Bulk "download this area" prefetch stays deferred.
+- Profile tab is now a real screen: app version (package_info_plus),
+  catalog version + import date + area/route counts (from catalog meta),
+  map cache size with a clear action, and data-source attributions
+  (ČHS, OpenStreetMap/Mapy.com).
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
@@ -175,10 +191,11 @@ complex grade conversion.
 
 ## Known limitations
 
-- ~650 of 17,791 ČHS skály (3.7 %) are missing: the ČHS server stopped
-  responding near the end of the crawl (site-wide, even for browsers).
-  Re-run `fetch --all` on the existing snapshot in a few days, rebuild
-  with version 4 and reship the asset.
+- ~440 of 17,791 ČHS skály (2.5 %) are still missing: the ČHS server
+  keeps going down mid-crawl (2026-07-18 it recovered long enough for
+  ~200 more skály, then stalled again — catalog v4 ships those).
+  Re-run `fetch --all` on the existing snapshot when the server is
+  stable, rebuild with a bumped version and reship the asset.
 - On-device timings are extrapolated from desktop measurements; verify
   the first-launch import (~1.5 s desktop) and list scrolling on a real
   phone.
@@ -205,8 +222,9 @@ complex grade conversion.
   Maps was considered and rejected for now: it needs a billing-enabled
   API key and a separate widget stack (google_maps_flutter) that would
   replace flutter_map instead of plugging into it.
-  flutter_map logs a debug warning because the application id is still
-  `com.example.lezec_app` — set a real id before release.
+  The application id is `cz.cruxcz.app` (register the domain or adjust
+  the id before a store release — sideloaded tester builds don't care,
+  but the Play Store id is permanent).
 - INTERNET permission was missing from the main Android manifest until
   2026-07-18 (debug builds mask this); release builds older than that
   show an empty map.
@@ -223,21 +241,20 @@ complex grade conversion.
 
 ## Recommended next stage
 
-1. Verify the app on a real Android device: first-launch import time,
-   list scrolling with 951 areas, the location-permission flow for
-   distance sorting, APK size.
-2. Complete the crawl once the ČHS server recovers (re-run `fetch --all`
-   on the existing snapshot, rebuild as version 4, reship the asset).
-3. Importer follow-ups from the review report: restriction texts
-   ("Podmínky lezení") via per-route fetches, extended grade-system
-   mapping for the labels the report flags.
-4. Optional diary polish: a simple performance chart (ascents per grade
-   over time).
+The app is tester-ready. Next milestone per the roadmap: **Etapa 5 —
+backend and synchronization** (then Etapa 6 login/profiles). Decisions
+needed from the product owner before starting: platform (managed —
+e.g. Supabase — vs. a custom server), hosting and who pays for it.
+The repository boundaries were designed for this step: backend-backed
+implementations replace the local ones behind unchanged interfaces
+(`ClimbingAreaRepository`, `UserRouteStateRepository`,
+`DiaryRepository`, …), and the catalog exchange format is the API
+contract candidate.
 
-Suggested prompt for the next iteration:
-
-> Continue the Crux CZ Flutter app with fixes from the physical-device
-> test round, then per docs/IMPLEMENTATION_STATUS.md: catalog v4 once
-> the ČHS server recovers, importer follow-ups (restriction texts).
-> Do not add backend communication. Follow docs/ARCHITECTURE.md and
-> keep repository boundaries unchanged.
+Smaller follow-ups that can ride along:
+1. Fixes from the tester round (collect via the Profile screen's
+   version info).
+2. Finish the crawl when the ČHS server stays up (~440 skály), ship
+   catalog v5.
+3. Importer follow-ups: restriction texts ("Podmínky lezení"),
+   extended grade-system mapping.

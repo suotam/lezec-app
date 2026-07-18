@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/database/crux_database.dart';
 import '../../core/database/database_provider.dart';
 import '../../core/database/legacy_preferences_migration.dart';
+import '../../core/utilities/map_tile_cache.dart';
+import '../../shared/widgets/crux_map.dart';
 import '../app.dart';
 
 /// Initializes app-wide services and runs the app.
@@ -18,9 +23,21 @@ Future<void> bootstrap() async {
   final prefs = await SharedPreferences.getInstance();
   await migrateLegacyPreferences(database, prefs);
 
+  // Map tiles persist in the OS cache directory so already-viewed maps
+  // keep working offline.
+  final tileCache = MapTileCache(
+    Directory('${(await getApplicationCacheDirectory()).path}/map_tiles'),
+  );
+
   runApp(
     ProviderScope(
-      overrides: [databaseProvider.overrideWithValue(database)],
+      overrides: [
+        databaseProvider.overrideWithValue(database),
+        mapTileCacheProvider.overrideWithValue(tileCache),
+        mapTileProviderFactoryProvider.overrideWithValue(
+          () => DiskCachingTileProvider(tileCache),
+        ),
+      ],
       child: const CruxApp(),
     ),
   );

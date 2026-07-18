@@ -9,6 +9,7 @@ import '../../features/climbing_areas/presentation/sector_detail_screen.dart';
 import '../../features/climbing_routes/presentation/route_detail_screen.dart';
 import '../../features/diary/presentation/diary_screen.dart';
 import '../../features/discover/presentation/discover_screen.dart';
+import '../../features/profile/presentation/profile_screen.dart';
 import '../../shared/widgets/coming_soon_screen.dart';
 import 'app_shell.dart';
 
@@ -97,11 +98,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (context, state) => ComingSoonScreen(
-                  title: context.l10n.navProfile,
-                  description: context.l10n.profileDescription,
-                  icon: Icons.person_outline,
-                ),
+                builder: (context, state) => const ProfileScreen(),
               ),
             ],
           ),

@@ -441,8 +441,36 @@ class AppLocalizationsEn extends AppLocalizations {
       'Comments, crag news and sharing with other climbers.';
 
   @override
-  String get profileDescription =>
-      'Your climbing profile, settings and cross-device sync.';
+  String get profileVersionLabel => 'Version';
+
+  @override
+  String get profileDataTitle => 'Catalog data';
+
+  @override
+  String get profileCatalogVersionLabel => 'Catalog version';
+
+  @override
+  String get profileCatalogImportedLabel => 'Imported';
+
+  @override
+  String get profileMapCacheTitle => 'Map cache';
+
+  @override
+  String get profileMapCacheBody =>
+      'Viewed map areas are stored for use without a signal.';
+
+  @override
+  String get profileMapCacheClear => 'Clear';
+
+  @override
+  String get profileMapCacheCleared => 'Map cache cleared.';
+
+  @override
+  String get profileSourcesTitle => 'Data sources';
+
+  @override
+  String get profileSourcesBody =>
+      'The rock and route database comes from the public Czech Mountaineering Federation database (horosvaz.cz). It is an offline copy — always verify current conditions and restrictions at the source before climbing. Map data is provided by OpenStreetMap or Mapy.com (Seznam.cz).';
 
   @override
   String get notFoundTitle => 'Not found';
