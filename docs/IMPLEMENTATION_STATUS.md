@@ -114,6 +114,20 @@ catalog)._
 - Discover data notice updated: offline copy of the ČHS database,
   verify current conditions at the source.
 
+**Catalog-wide search**
+- Search-index table (`CatalogSearchEntries`, schema v3) written during
+  catalog import: one row per sector, rock and route with normalized
+  (lowercased, diacritics-stripped) names and denormalized navigation
+  context (area/sector ids and names, route grade).
+- `CatalogSearchRepository` runs multi-word SQL LIKE matching with prefix
+  matches ranked first, capped at 20 rows per group; a blank/1-char query
+  short-circuits.
+- The areas screen shows grouped results below the area list: Sektory,
+  Skály a věže, Cesty — sector and rock tiles open the sector screen,
+  route tiles (with grade badge) open the route detail; a hint appears
+  when a group hits the cap. Area filter chips keep constraining only the
+  area section.
+
 **Area discovery at country scale (roadmap §5 subset)**
 - Region filter chips on the areas screen (16 regions from the catalog).
 - Sorting: name (diacritics-insensitive, the default), route count,
@@ -125,6 +139,21 @@ catalog)._
 - Discover restriction teasers capped at 4 (was: every restricted area
   in the catalog).
 - Area cards show the distance when the list is sorted by proximity.
+
+**Map of areas (roadmap §5 "na mapě" + §6 internal map)**
+- `flutter_map` (OpenStreetMap tiles, no API key) behind a shared
+  `CruxMap` widget with app-wide tile source, attribution and an
+  injectable tile provider (`mapTileProviderFactoryProvider`) — widget
+  tests run fully offline against a transparent fake tile.
+- Areas tab list/map toggle (AppBar action, state survives tab
+  switches). Markers follow the active search and filters; the camera
+  refits when the filtered set changes; tapping a marker shows the area
+  card, tapping the card opens the detail.
+- Area detail mini-map: static (non-interactive) preview with the area
+  marker and parking markers, camera fitted to include parking spots.
+- Map tiles are the only online dependency of the app; everything else
+  stays offline. Tiles are not persisted (offline map packages remain
+  deferred per Etapa 4).
 
 **Diary polish (Etapa 2 extras)**
 - Ascent editing: `Ascent.copyWith`, `DiaryRepository.updateAscent`,
@@ -166,7 +195,21 @@ complex grade conversion.
 - Diary filtering covers styles only (no date range or area filter yet);
   no calendar view.
 - External navigation behavior on devices depends on installed map apps.
-- No map view of areas (deliberately deferred; no map dependency yet).
+- Map markers are not clustered; at country zoom the 951 markers
+  overlap visually (flutter_map culls off-screen markers, so
+  performance is fine). Add `flutter_map_marker_cluster` if this
+  bothers users.
+- Map tiles require network; no tile caching beyond the in-memory one.
+  Default style is OpenStreetMap; with `--dart-define=MAPY_API_KEY=…`
+  the app switches to the Mapy.com outdoor (tourist) tile set. Google
+  Maps was considered and rejected for now: it needs a billing-enabled
+  API key and a separate widget stack (google_maps_flutter) that would
+  replace flutter_map instead of plugging into it.
+  flutter_map logs a debug warning because the application id is still
+  `com.example.lezec_app` — set a real id before release.
+- INTERNET permission was missing from the main Android manifest until
+  2026-07-18 (debug builds mask this); release builds older than that
+  show an empty map.
 
 ## Known importer limitations
 

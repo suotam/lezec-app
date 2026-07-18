@@ -4,10 +4,12 @@ import '../../../core/database/database_provider.dart';
 import '../../../core/utilities/location_service.dart';
 import '../../climbing_routes/domain/climbing_type.dart';
 import '../data/demo_catalog_data_source.dart';
+import '../data/drift_catalog_search_repository.dart';
 import '../data/drift_catalog_store.dart';
 import '../data/drift_climbing_area_repository.dart';
 import '../data/drift_recently_viewed_repository.dart';
 import '../domain/area_filter.dart';
+import '../domain/catalog_search.dart';
 import '../domain/climbing_area.dart';
 import '../domain/climbing_area_repository.dart';
 import '../domain/climbing_region.dart';
@@ -88,8 +90,7 @@ class AreaFilterController extends Notifier<AreaFilter> {
   /// Switches to distance sorting; returns false (and keeps the current
   /// sort) when no position is available.
   Future<bool> sortByDistance() async {
-    final origin =
-        await ref.read(locationServiceProvider).getCurrentPosition();
+    final origin = await ref.read(locationServiceProvider).getCurrentPosition();
     if (origin == null) return false;
     state = state.copyWith(sort: AreaSort.distance, origin: origin);
     return true;
@@ -115,6 +116,34 @@ final filteredAreasProvider = Provider<AsyncValue<List<ClimbingArea>>>((ref) {
   return ref
       .watch(areasProvider)
       .whenData((areas) => filterAreas(areas, filter));
+});
+
+final catalogSearchRepositoryProvider = Provider<CatalogSearchRepository>(
+  (ref) => DriftCatalogSearchRepository(
+    ref.watch(databaseProvider),
+    ref.watch(driftCatalogStoreProvider),
+  ),
+);
+
+/// The current query must have at least this many characters before the
+/// catalog-wide search kicks in; shorter queries only filter the area list.
+const catalogSearchMinQueryLength = 2;
+
+/// How many rows each result group (sectors/rocks/routes) holds at most.
+const catalogSearchResultsPerType = 20;
+
+/// Sectors, rocks and routes matching the current search query. Watches
+/// only the query, so toggling area filter chips does not re-query.
+final catalogSearchResultsProvider = FutureProvider<CatalogSearchResults>((
+  ref,
+) async {
+  final query = ref.watch(areaFilterProvider.select((f) => f.query)).trim();
+  if (query.length < catalogSearchMinQueryLength) {
+    return CatalogSearchResults.empty;
+  }
+  return ref
+      .watch(catalogSearchRepositoryProvider)
+      .search(query, limitPerType: catalogSearchResultsPerType);
 });
 
 final recentlyViewedRepositoryProvider =

@@ -43,7 +43,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get commonClearFilters => 'Zrušit filtry';
 
   @override
-  String get discoverSearchHint => 'Hledat oblast, region nebo skálu…';
+  String get discoverSearchHint => 'Hledat oblasti, sektory, skály i cesty…';
 
   @override
   String get discoverFeaturedTitle => 'Doporučené oblasti';
@@ -77,7 +77,30 @@ class AppLocalizationsCs extends AppLocalizations {
   String get areasTitle => 'Oblasti';
 
   @override
-  String get areasSearchHint => 'Hledat podle názvu, regionu nebo popisu';
+  String get areasSearchHint => 'Hledat oblasti, sektory, skály i cesty';
+
+  @override
+  String get areasShowMapTooltip => 'Zobrazit mapu';
+
+  @override
+  String get areasShowListTooltip => 'Zobrazit seznam';
+
+  @override
+  String get areaDetailMapTitle => 'Mapa';
+
+  @override
+  String get searchSectorsTitle => 'Sektory';
+
+  @override
+  String get searchRocksTitle => 'Skály a věže';
+
+  @override
+  String get searchRoutesTitle => 'Cesty';
+
+  @override
+  String searchMoreResultsHint(int count) {
+    return 'Zobrazeno prvních $count výsledků, upřesněte hledání.';
+  }
 
   @override
   String areasResultsCount(int count) {

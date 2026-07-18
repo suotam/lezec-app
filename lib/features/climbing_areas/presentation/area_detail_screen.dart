@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../app/router/app_router.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/localization/l10n.dart';
+import '../../../core/theme/crux_colors.dart';
 import '../../../core/utilities/external_navigation.dart';
 import '../../../shared/extensions/domain_labels.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/empty_state_view.dart';
+import '../../../shared/widgets/crux_map.dart';
 import '../../../shared/widgets/restriction_widgets.dart';
 import '../../../shared/widgets/section_header.dart';
 import '../domain/climbing_area.dart';
@@ -133,6 +137,8 @@ class _AreaDetailBody extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
           ],
         ],
+        SectionHeader(title: l10n.areaDetailMapTitle),
+        _AreaMiniMap(area: area),
         SectionHeader(title: l10n.areaDetailAboutTitle),
         Text(area.description, style: theme.textTheme.bodyMedium),
         if (area.access case final access?) ...[
@@ -246,6 +252,77 @@ class _SectorCard extends StatelessWidget {
               const Icon(Icons.chevron_right),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Static map preview of the area with its parking spots. Interaction is
+/// disabled so it does not fight the surrounding scroll view — navigation
+/// happens through the dedicated buttons.
+class _AreaMiniMap extends StatelessWidget {
+  const _AreaMiniMap({required this.area});
+
+  final ClimbingArea area;
+
+  static LatLng _toLatLng(GeoPoint point) =>
+      LatLng(point.latitude, point.longitude);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final points = [
+      _toLatLng(area.location),
+      for (final parking in area.parking) _toLatLng(parking.location),
+    ];
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppRadii.lg),
+      child: SizedBox(
+        height: 200,
+        child: CruxMap(
+          options: MapOptions(
+            initialCenter: points.first,
+            initialZoom: 14,
+            initialCameraFit: points.length > 1
+                ? CameraFit.coordinates(
+                    coordinates: points,
+                    padding: const EdgeInsets.all(40),
+                    maxZoom: 15,
+                  )
+                : null,
+            interactionOptions: const InteractionOptions(
+              flags: InteractiveFlag.none,
+            ),
+          ),
+          markers: [
+            Marker(
+              point: points.first,
+              width: 36,
+              height: 36,
+              alignment: Alignment.topCenter,
+              child: Icon(
+                Icons.location_on,
+                size: 36,
+                color: theme.colorScheme.primary,
+                shadows: const [Shadow(blurRadius: 4, color: Colors.black45)],
+              ),
+            ),
+            for (final parking in area.parking)
+              Marker(
+                point: _toLatLng(parking.location),
+                width: 26,
+                height: 26,
+                // Blue like road-sign parking markings, not the theme's
+                // near-black secondary.
+                child: Icon(
+                  Icons.local_parking,
+                  size: 26,
+                  color: theme.cruxColors.project,
+                  shadows: const [Shadow(blurRadius: 4, color: Colors.black45)],
+                ),
+              ),
+          ],
         ),
       ),
     );

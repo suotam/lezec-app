@@ -8,12 +8,16 @@ import '../../../core/localization/l10n.dart';
 import '../../../shared/extensions/domain_labels.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/empty_state_view.dart';
+import '../../../shared/widgets/section_header.dart';
 import '../../climbing_routes/domain/climbing_type.dart';
 import '../domain/area_filter.dart';
+import '../domain/catalog_search.dart';
 import '../domain/climbing_region.dart';
 import '../domain/rock_type.dart';
 import 'climbing_areas_providers.dart';
 import 'widgets/area_card.dart';
+import 'widgets/areas_map_view.dart';
+import 'widgets/search_result_tile.dart';
 
 /// Searchable, filterable list of all climbing areas.
 class AreasScreen extends ConsumerStatefulWidget {
@@ -25,6 +29,10 @@ class AreasScreen extends ConsumerStatefulWidget {
 
 class _AreasScreenState extends ConsumerState<AreasScreen> {
   late final TextEditingController _searchController;
+
+  /// List/map presentation of the results; survives tab switches thanks to
+  /// the shell's IndexedStack.
+  bool _showMap = false;
 
   @override
   void initState() {
@@ -45,17 +53,54 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
     _searchController.clear();
   }
 
+  /// Header + tiles for one group of catalog search matches; empty when
+  /// the group has no results.
+  List<Widget> _searchSection(String title, List<CatalogSearchResult> items) {
+    if (items.isEmpty) return const [];
+    final theme = Theme.of(context);
+    return [
+      SectionHeader(title: title),
+      Card(
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: [for (final item in items) SearchResultTile(result: item)],
+        ),
+      ),
+      if (items.length >= catalogSearchResultsPerType)
+        Text(
+          context.l10n.searchMoreResultsHint(catalogSearchResultsPerType),
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final filter = ref.watch(areaFilterProvider);
     final controller = ref.read(areaFilterProvider.notifier);
     final areas = ref.watch(filteredAreasProvider);
+    final searchValue = ref.watch(catalogSearchResultsProvider);
     final regions =
         ref.watch(regionsProvider).value ?? const <ClimbingRegion>[];
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.areasTitle)),
+      appBar: AppBar(
+        title: Text(l10n.areasTitle),
+        actions: [
+          IconButton(
+            icon: Icon(
+              _showMap ? Icons.view_list_outlined : Icons.map_outlined,
+            ),
+            tooltip: _showMap
+                ? l10n.areasShowListTooltip
+                : l10n.areasShowMapTooltip,
+            onPressed: () => setState(() => _showMap = !_showMap),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
@@ -116,7 +161,19 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
               value: areas,
               onRetry: () => ref.invalidate(areasProvider),
               data: (areas) {
-                if (areas.isEmpty) {
+                if (_showMap) {
+                  return AreasMapView(
+                    areas: areas,
+                    onAreaTap: (area) => context.go(AppRoutes.area(area.id)),
+                  );
+                }
+                final results = searchValue.value ?? CatalogSearchResults.empty;
+                if (areas.isEmpty && results.isEmpty) {
+                  // Hold the empty state back while a catalog search for
+                  // the current query is still running.
+                  if (searchValue.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
                   return EmptyStateView(
                     icon: Icons.search_off,
                     title: l10n.areasEmptyTitle,
@@ -130,6 +187,37 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
                           ),
                   );
                 }
+                final origin = filter.sort == AreaSort.distance
+                    ? filter.origin
+                    : null;
+                final rows = <Widget>[
+                  if (areas.isNotEmpty)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            l10n.areasResultsCount(areas.length),
+                            style: Theme.of(context).textTheme.labelMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                          ),
+                        ),
+                        _SortMenuButton(sort: filter.sort),
+                      ],
+                    ),
+                  for (final area in areas)
+                    AreaCard(
+                      area: area,
+                      distanceKm: origin?.distanceInKmTo(area.location),
+                      onTap: () => context.go(AppRoutes.area(area.id)),
+                    ),
+                  ..._searchSection(l10n.searchSectorsTitle, results.sectors),
+                  ..._searchSection(l10n.searchRocksTitle, results.rocks),
+                  ..._searchSection(l10n.searchRoutesTitle, results.routes),
+                ];
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.lg,
@@ -137,38 +225,10 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
                     AppSpacing.lg,
                     AppSpacing.xl,
                   ),
-                  itemCount: areas.length + 1,
+                  itemCount: rows.length,
                   separatorBuilder: (_, _) =>
                       const SizedBox(height: AppSpacing.md),
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              l10n.areasResultsCount(areas.length),
-                              style: Theme.of(context).textTheme.labelMedium
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
-                                  ),
-                            ),
-                          ),
-                          _SortMenuButton(sort: filter.sort),
-                        ],
-                      );
-                    }
-                    final area = areas[index - 1];
-                    final origin = filter.sort == AreaSort.distance
-                        ? filter.origin
-                        : null;
-                    return AreaCard(
-                      area: area,
-                      distanceKm: origin?.distanceInKmTo(area.location),
-                      onTap: () => context.go(AppRoutes.area(area.id)),
-                    );
-                  },
+                  itemBuilder: (context, index) => rows[index],
                 );
               },
             ),

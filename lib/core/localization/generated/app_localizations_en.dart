@@ -43,7 +43,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonClearFilters => 'Clear filters';
 
   @override
-  String get discoverSearchHint => 'Search areas, regions or rocks…';
+  String get discoverSearchHint => 'Search areas, sectors, rocks and routes…';
 
   @override
   String get discoverFeaturedTitle => 'Featured areas';
@@ -77,7 +77,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get areasTitle => 'Areas';
 
   @override
-  String get areasSearchHint => 'Search by name, region or description';
+  String get areasSearchHint => 'Search areas, sectors, rocks and routes';
+
+  @override
+  String get areasShowMapTooltip => 'Show map';
+
+  @override
+  String get areasShowListTooltip => 'Show list';
+
+  @override
+  String get areaDetailMapTitle => 'Map';
+
+  @override
+  String get searchSectorsTitle => 'Sectors';
+
+  @override
+  String get searchRocksTitle => 'Rocks and towers';
+
+  @override
+  String get searchRoutesTitle => 'Routes';
+
+  @override
+  String searchMoreResultsHint(int count) {
+    return 'Showing the first $count results, refine your search.';
+  }
 
   @override
   String areasResultsCount(int count) {

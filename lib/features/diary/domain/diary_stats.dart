@@ -61,8 +61,11 @@ class DiaryFilter {
       (years.isEmpty || years.contains(ascent.date.year)) &&
       (areaId == null || ascent.areaId == areaId);
 
-  DiaryFilter toggledStyle(AscentStyle style) =>
-      DiaryFilter(styles: _toggled(styles, style), years: years, areaId: areaId);
+  DiaryFilter toggledStyle(AscentStyle style) => DiaryFilter(
+    styles: _toggled(styles, style),
+    years: years,
+    areaId: areaId,
+  );
 
   DiaryFilter toggledYear(int year) =>
       DiaryFilter(styles: styles, years: _toggled(years, year), areaId: areaId);
@@ -103,5 +106,7 @@ List<DiaryAreaOption> diaryAreas(List<Ascent> ascents) {
   return options;
 }
 
-List<Ascent> filterAscents(List<Ascent> ascents, DiaryFilter filter) =>
-    [for (final ascent in ascents) if (filter.matches(ascent)) ascent];
+List<Ascent> filterAscents(List<Ascent> ascents, DiaryFilter filter) => [
+  for (final ascent in ascents)
+    if (filter.matches(ascent)) ascent,
+];

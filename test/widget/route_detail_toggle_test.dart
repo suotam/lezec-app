@@ -39,10 +39,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.favorite), findsOneWidget);
-    expect(
-      await DriftUserRouteStateRepository(db).getFavoriteRouteIds(),
-      {'route-hrana'},
-    );
+    expect(await DriftUserRouteStateRepository(db).getFavoriteRouteIds(), {
+      'route-hrana',
+    });
   });
 
   testWidgets('project toggle persists to storage', (tester) async {
@@ -52,10 +51,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.flag), findsOneWidget);
-    expect(
-      await DriftUserRouteStateRepository(db).getProjectRouteIds(),
-      {'route-hrana'},
-    );
+    expect(await DriftUserRouteStateRepository(db).getProjectRouteIds(), {
+      'route-hrana',
+    });
   });
 
   testWidgets('favorite state survives an app restart', (tester) async {

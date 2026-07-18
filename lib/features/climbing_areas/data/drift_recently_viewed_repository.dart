@@ -37,10 +37,9 @@ class DriftRecentlyViewedRepository implements RecentlyViewedAreasRepository {
         ..addColumns([_db.recentAreaViews.areaId])
         ..orderBy([OrderingTerm.desc(_db.recentAreaViews.viewedAtMicros)])
         ..limit(_maxEntries);
-      await (_db.delete(_db.recentAreaViews)..where(
-            (t) => t.areaId.isNotInQuery(keep),
-          ))
-          .go();
+      await (_db.delete(
+        _db.recentAreaViews,
+      )..where((t) => t.areaId.isNotInQuery(keep))).go();
     });
   }
 }

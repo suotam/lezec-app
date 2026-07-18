@@ -45,9 +45,7 @@ class DiaryNotifier extends AsyncNotifier<List<Ascent>> {
         style: style,
         date: DateUtils.dateOnly(date),
         createdAt: DateTime.now(),
-        note: (trimmedNote == null || trimmedNote.isEmpty)
-            ? null
-            : trimmedNote,
+        note: (trimmedNote == null || trimmedNote.isEmpty) ? null : trimmedNote,
       ),
     );
     state = AsyncData(await _repository.getAscents());

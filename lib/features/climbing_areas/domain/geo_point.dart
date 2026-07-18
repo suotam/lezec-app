@@ -17,7 +17,8 @@ class GeoPoint {
     double radians(double degrees) => degrees * pi / 180;
     final dLat = radians(other.latitude - latitude);
     final dLng = radians(other.longitude - longitude);
-    final a = pow(sin(dLat / 2), 2) +
+    final a =
+        pow(sin(dLat / 2), 2) +
         cos(radians(latitude)) *
             cos(radians(other.latitude)) *
             pow(sin(dLng / 2), 2);

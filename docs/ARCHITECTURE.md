@@ -227,3 +227,14 @@ the `CruxColors` ThemeExtension. Spacing and radii come from `AppSpacing`
 / `AppRadii`. Shared visual atoms: `GradeBadge`, `SeverityBadge`,
 `RestrictionCard`, `WarningBanner`, `SectionHeader`, `EmptyStateView`,
 `ErrorStateView`.
+
+## Maps
+
+All maps go through the shared `CruxMap` widget (`shared/widgets/`),
+which fixes the tile source (OpenStreetMap via `flutter_map`), the
+attribution and the tile provider. The provider comes from
+`mapTileProviderFactoryProvider`, so tests override it with an offline
+fake and a future tile cache (offline map packages, Etapa 4) plugs in at
+one place. Feature-level map UI builds on top: `AreasMapView` (markers +
+selection card on the Areas tab) and the static mini-map on the area
+detail. Map tiles are the app's only online dependency.

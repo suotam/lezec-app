@@ -165,19 +165,17 @@ void main() {
         'ostrava',
         'praha',
       ]);
-      expect(
-        sortAreas(unsorted, AreaSort.routeCount).first.routeCount,
-        20,
-      );
+      expect(sortAreas(unsorted, AreaSort.routeCount).first.routeCount, 20);
     });
 
     test('by distance from the origin, nearest first', () {
       // Origin near Olomouc: Brno ~60 km, Ostrava ~90 km, Praha ~200 km.
       const olomouc = GeoPoint(latitude: 49.59, longitude: 17.25);
-      expect(
-        ids(sortAreas(unsorted, AreaSort.distance, origin: olomouc)),
-        ['brno', 'ostrava', 'praha'],
-      );
+      expect(ids(sortAreas(unsorted, AreaSort.distance, origin: olomouc)), [
+        'brno',
+        'ostrava',
+        'praha',
+      ]);
       // Origin near Prague flips the order.
       const praha = GeoPoint(latitude: 50.07, longitude: 14.44);
       expect(

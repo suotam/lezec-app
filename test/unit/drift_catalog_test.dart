@@ -2,9 +2,12 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lezec_app/core/database/crux_database.dart';
 import 'package:lezec_app/features/climbing_areas/data/demo_catalog_data_source.dart';
+import 'package:lezec_app/features/climbing_areas/data/drift_catalog_search_repository.dart';
 import 'package:lezec_app/features/climbing_areas/data/drift_catalog_store.dart';
 import 'package:lezec_app/features/climbing_areas/data/drift_climbing_area_repository.dart';
+import 'package:lezec_app/features/climbing_areas/domain/catalog_search.dart';
 import 'package:lezec_app/features/climbing_routes/data/drift_climbing_route_repository.dart';
+import 'package:lezec_app/features/climbing_routes/domain/route_grade.dart';
 
 import '../helpers/test_helpers.dart';
 
@@ -19,6 +22,7 @@ void main() {
   ({
     DriftClimbingAreaRepository areas,
     DriftClimbingRouteRepository routes,
+    DriftCatalogSearchRepository search,
   })
   buildRepositories({String? catalogJson}) {
     final store = DriftCatalogStore(
@@ -31,6 +35,7 @@ void main() {
     return (
       areas: areaRepository,
       routes: DriftClimbingRouteRepository(db, store, areaRepository),
+      search: DriftCatalogSearchRepository(db, store),
     );
   }
 
@@ -48,8 +53,11 @@ void main() {
     expect(areas.first.sectorCount, 1);
     expect(areas.first.routeCount, 1);
     expect(areas.last.routeCount, 2);
-    expect(areas.first.restrictions, isNotEmpty,
-        reason: 'restrictions must survive in the summary projection');
+    expect(
+      areas.first.restrictions,
+      isNotEmpty,
+      reason: 'restrictions must survive in the summary projection',
+    );
   });
 
   test('getAreaById parses a single stored document', () async {
@@ -89,6 +97,84 @@ void main() {
     final names = (await updated.areas.getAreas()).map((a) => a.name);
     expect(names, contains('Nový lom'));
     expect(names, isNot(contains('Testový lom')));
+  });
+
+  group('catalog search', () {
+    test('finds a route with its navigation context and grade', () async {
+      final results = await buildRepositories().search.search('hrana');
+
+      expect(results.sectors, isEmpty);
+      expect(results.rocks, isEmpty);
+      final route = results.routes.single;
+      expect(route.type, CatalogSearchResultType.route);
+      expect(route.name, 'Testová hrana');
+      expect(route.areaId, 'area-lom');
+      expect(route.areaName, 'Testový lom');
+      expect(route.sectorId, 'sector-stena');
+      expect(route.sectorName, 'Stěna');
+      expect(
+        route.grade,
+        const RouteGrade(system: GradingSystem.french, value: '6b+'),
+      );
+    });
+
+    test('finds sectors and rocks, diacritics-insensitively', () async {
+      final results = await buildRepositories().search.search('vez');
+
+      final sector = results.sectors.single;
+      expect(sector.type, CatalogSearchResultType.sector);
+      expect(sector.name, 'Věže');
+      expect(sector.sectorId, sector.id);
+      expect(sector.sectorName, isNull);
+
+      final rock = results.rocks.single;
+      expect(rock.type, CatalogSearchResultType.rock);
+      expect(rock.name, 'Hlavní věž');
+      expect(rock.sectorId, 'sector-veze');
+      expect(rock.sectorName, 'Věže');
+      expect(rock.areaId, 'area-piskovce');
+
+      expect(results.routes, isEmpty);
+    });
+
+    test('requires every query word to match', () async {
+      final search = buildRepositories().search;
+
+      final both = await search.search('testova hrana');
+      expect(both.routes.map((r) => r.name), ['Testová hrana']);
+
+      expect((await search.search('hrana veze')).isEmpty, isTrue);
+    });
+
+    test(
+      'returns nothing for a blank query without touching the store',
+      () async {
+        final results = await buildRepositories().search.search('   ');
+        expect(results.isEmpty, isTrue);
+      },
+    );
+
+    test('caps each group at limitPerType, prefix matches first', () async {
+      final results = await buildRepositories().search.search(
+        'testova',
+        limitPerType: 2,
+      );
+      expect(results.routes, hasLength(2));
+      expect(results.routes.first.name, 'Testová hrana');
+    });
+
+    test('reseeding replaces the search index', () async {
+      await buildRepositories().search.search('hrana');
+
+      final updatedJson = testCatalogJson
+          .replaceFirst('"version": 1', '"version": 2')
+          .replaceFirst('Testová hrana', 'Přejmenovaný kout');
+      final updated = buildRepositories(catalogJson: updatedJson);
+
+      expect((await updated.search.search('hrana')).isEmpty, isTrue);
+      final renamed = await updated.search.search('prejmenovany');
+      expect(renamed.routes.single.name, 'Přejmenovaný kout');
+    });
   });
 
   test('keeps the imported catalog while the version is unchanged', () async {

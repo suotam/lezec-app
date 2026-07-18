@@ -16,10 +16,10 @@ import 'diary_providers.dart';
 /// caller can show a confirmation.
 class LogAscentSheet extends ConsumerStatefulWidget {
   const LogAscentSheet({super.key, this.routeContext, this.initial})
-      : assert(
-          (routeContext == null) != (initial == null),
-          'pass either routeContext (log) or initial (edit)',
-        );
+    : assert(
+        (routeContext == null) != (initial == null),
+        'pass either routeContext (log) or initial (edit)',
+      );
 
   final RouteContext? routeContext;
   final Ascent? initial;
@@ -47,11 +47,11 @@ class LogAscentSheet extends ConsumerStatefulWidget {
 }
 
 class _LogAscentSheetState extends ConsumerState<LogAscentSheet> {
-  late AscentStyle _style =
-      widget.initial?.style ?? AscentStyle.redpoint;
+  late AscentStyle _style = widget.initial?.style ?? AscentStyle.redpoint;
   late DateTime _date = widget.initial?.date ?? DateTime.now();
-  late final _noteController =
-      TextEditingController(text: widget.initial?.note ?? '');
+  late final _noteController = TextEditingController(
+    text: widget.initial?.note ?? '',
+  );
   bool _saving = false;
 
   @override

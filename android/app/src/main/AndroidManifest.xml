@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Map tiles are the app's only online feature; without this,
+         release builds show an empty map (debug builds inherit INTERNET
+         from the debug manifest, which hides the problem). -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- Optional: sorting areas by distance from the user. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

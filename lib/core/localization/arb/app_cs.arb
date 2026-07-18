@@ -11,7 +11,7 @@
   "commonErrorTitle": "Něco se pokazilo",
   "commonDataLoadError": "Data se nepodařilo načíst. Zkuste to prosím znovu.",
   "commonClearFilters": "Zrušit filtry",
-  "discoverSearchHint": "Hledat oblast, region nebo skálu…",
+  "discoverSearchHint": "Hledat oblasti, sektory, skály i cesty…",
   "discoverFeaturedTitle": "Doporučené oblasti",
   "discoverRecentTitle": "Naposledy zobrazené",
   "discoverMyClimbingTitle": "Moje lezení",
@@ -22,7 +22,21 @@
   "discoverDataSourceBody": "Data pocházejí z Databáze skal ČHS (horosvaz.cz). Jde o offline kopii pořízenou při vývoji aplikace — aktuální stav, omezení a podmínky lezení si vždy ověřujte přímo v databázi ČHS.",
   "discoverRestrictionsTitle": "Aktuální omezení",
   "areasTitle": "Oblasti",
-  "areasSearchHint": "Hledat podle názvu, regionu nebo popisu",
+  "areasSearchHint": "Hledat oblasti, sektory, skály i cesty",
+  "areasShowMapTooltip": "Zobrazit mapu",
+  "areasShowListTooltip": "Zobrazit seznam",
+  "areaDetailMapTitle": "Mapa",
+  "searchSectorsTitle": "Sektory",
+  "searchRocksTitle": "Skály a věže",
+  "searchRoutesTitle": "Cesty",
+  "searchMoreResultsHint": "Zobrazeno prvních {count} výsledků, upřesněte hledání.",
+  "@searchMoreResultsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "areasResultsCount": "{count, plural, one{1 oblast} few{{count} oblasti} other{{count} oblastí}}",
   "@areasResultsCount": {
     "placeholders": {

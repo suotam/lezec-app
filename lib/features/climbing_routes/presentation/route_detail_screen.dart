@@ -169,8 +169,8 @@ class _RouteDetailBody extends ConsumerWidget {
           SectionHeader(title: l10n.routeFirstAscentTitle),
           Text(firstAscent, style: theme.textTheme.bodyMedium),
         ],
-        if (ref.watch(routeAscentsProvider(route.id))
-            case final ascents when ascents.isNotEmpty) ...[
+        if (ref.watch(routeAscentsProvider(route.id)) case final ascents
+            when ascents.isNotEmpty) ...[
           SectionHeader(title: l10n.routeMyAscentsTitle),
           Card(
             clipBehavior: Clip.antiAlias,

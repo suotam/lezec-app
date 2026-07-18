@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @discoverSearchHint.
   ///
   /// In cs, this message translates to:
-  /// **'Hledat oblast, region nebo skálu…'**
+  /// **'Hledat oblasti, sektory, skály i cesty…'**
   String get discoverSearchHint;
 
   /// No description provided for @discoverFeaturedTitle.
@@ -233,8 +233,50 @@ abstract class AppLocalizations {
   /// No description provided for @areasSearchHint.
   ///
   /// In cs, this message translates to:
-  /// **'Hledat podle názvu, regionu nebo popisu'**
+  /// **'Hledat oblasti, sektory, skály i cesty'**
   String get areasSearchHint;
+
+  /// No description provided for @areasShowMapTooltip.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zobrazit mapu'**
+  String get areasShowMapTooltip;
+
+  /// No description provided for @areasShowListTooltip.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zobrazit seznam'**
+  String get areasShowListTooltip;
+
+  /// No description provided for @areaDetailMapTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Mapa'**
+  String get areaDetailMapTitle;
+
+  /// No description provided for @searchSectorsTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Sektory'**
+  String get searchSectorsTitle;
+
+  /// No description provided for @searchRocksTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Skály a věže'**
+  String get searchRocksTitle;
+
+  /// No description provided for @searchRoutesTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Cesty'**
+  String get searchRoutesTitle;
+
+  /// No description provided for @searchMoreResultsHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zobrazeno prvních {count} výsledků, upřesněte hledání.'**
+  String searchMoreResultsHint(int count);
 
   /// No description provided for @areasResultsCount.
   ///

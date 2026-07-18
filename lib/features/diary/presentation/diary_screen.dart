@@ -292,9 +292,7 @@ class _AscentCard extends ConsumerWidget {
             PopupMenuItem<void>(
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);
-                await ref
-                    .read(diaryProvider.notifier)
-                    .deleteAscent(ascent.id);
+                await ref.read(diaryProvider.notifier).deleteAscent(ascent.id);
                 messenger.showSnackBar(
                   SnackBar(content: Text(l10n.ascentDeletedMessage)),
                 );

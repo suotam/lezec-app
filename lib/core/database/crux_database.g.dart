@@ -1502,6 +1502,643 @@ class CatalogRouteIndexCompanion
   }
 }
 
+class $CatalogSearchEntriesTable extends CatalogSearchEntries
+    with TableInfo<$CatalogSearchEntriesTable, CatalogSearchEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CatalogSearchEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
+  @override
+  late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
+    'entity_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityIdMeta = const VerificationMeta(
+    'entityId',
+  );
+  @override
+  late final GeneratedColumn<String> entityId = GeneratedColumn<String>(
+    'entity_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _normalizedNameMeta = const VerificationMeta(
+    'normalizedName',
+  );
+  @override
+  late final GeneratedColumn<String> normalizedName = GeneratedColumn<String>(
+    'normalized_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _areaIdMeta = const VerificationMeta('areaId');
+  @override
+  late final GeneratedColumn<String> areaId = GeneratedColumn<String>(
+    'area_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _areaNameMeta = const VerificationMeta(
+    'areaName',
+  );
+  @override
+  late final GeneratedColumn<String> areaName = GeneratedColumn<String>(
+    'area_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sectorIdMeta = const VerificationMeta(
+    'sectorId',
+  );
+  @override
+  late final GeneratedColumn<String> sectorId = GeneratedColumn<String>(
+    'sector_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sectorNameMeta = const VerificationMeta(
+    'sectorName',
+  );
+  @override
+  late final GeneratedColumn<String> sectorName = GeneratedColumn<String>(
+    'sector_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _gradeValueMeta = const VerificationMeta(
+    'gradeValue',
+  );
+  @override
+  late final GeneratedColumn<String> gradeValue = GeneratedColumn<String>(
+    'grade_value',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _gradeSystemMeta = const VerificationMeta(
+    'gradeSystem',
+  );
+  @override
+  late final GeneratedColumn<String> gradeSystem = GeneratedColumn<String>(
+    'grade_system',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    entityType,
+    entityId,
+    name,
+    normalizedName,
+    areaId,
+    areaName,
+    sectorId,
+    sectorName,
+    gradeValue,
+    gradeSystem,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'catalog_search_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CatalogSearchEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('entity_type')) {
+      context.handle(
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entityTypeMeta);
+    }
+    if (data.containsKey('entity_id')) {
+      context.handle(
+        _entityIdMeta,
+        entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entityIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('normalized_name')) {
+      context.handle(
+        _normalizedNameMeta,
+        normalizedName.isAcceptableOrUnknown(
+          data['normalized_name']!,
+          _normalizedNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_normalizedNameMeta);
+    }
+    if (data.containsKey('area_id')) {
+      context.handle(
+        _areaIdMeta,
+        areaId.isAcceptableOrUnknown(data['area_id']!, _areaIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_areaIdMeta);
+    }
+    if (data.containsKey('area_name')) {
+      context.handle(
+        _areaNameMeta,
+        areaName.isAcceptableOrUnknown(data['area_name']!, _areaNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_areaNameMeta);
+    }
+    if (data.containsKey('sector_id')) {
+      context.handle(
+        _sectorIdMeta,
+        sectorId.isAcceptableOrUnknown(data['sector_id']!, _sectorIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sectorIdMeta);
+    }
+    if (data.containsKey('sector_name')) {
+      context.handle(
+        _sectorNameMeta,
+        sectorName.isAcceptableOrUnknown(data['sector_name']!, _sectorNameMeta),
+      );
+    }
+    if (data.containsKey('grade_value')) {
+      context.handle(
+        _gradeValueMeta,
+        gradeValue.isAcceptableOrUnknown(data['grade_value']!, _gradeValueMeta),
+      );
+    }
+    if (data.containsKey('grade_system')) {
+      context.handle(
+        _gradeSystemMeta,
+        gradeSystem.isAcceptableOrUnknown(
+          data['grade_system']!,
+          _gradeSystemMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {entityType, entityId};
+  @override
+  CatalogSearchEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CatalogSearchEntry(
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      )!,
+      entityId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      normalizedName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}normalized_name'],
+      )!,
+      areaId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}area_id'],
+      )!,
+      areaName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}area_name'],
+      )!,
+      sectorId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sector_id'],
+      )!,
+      sectorName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sector_name'],
+      ),
+      gradeValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}grade_value'],
+      ),
+      gradeSystem: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}grade_system'],
+      ),
+    );
+  }
+
+  @override
+  $CatalogSearchEntriesTable createAlias(String alias) {
+    return $CatalogSearchEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class CatalogSearchEntry extends DataClass
+    implements Insertable<CatalogSearchEntry> {
+  /// `sector`, `rock` or `route` ([CatalogSearchResultType] name).
+  final String entityType;
+  final String entityId;
+  final String name;
+  final String normalizedName;
+  final String areaId;
+  final String areaName;
+
+  /// Equals [entityId] for sectors.
+  final String sectorId;
+
+  /// Null for sector rows.
+  final String? sectorName;
+
+  /// Original grade of route rows.
+  final String? gradeValue;
+  final String? gradeSystem;
+  const CatalogSearchEntry({
+    required this.entityType,
+    required this.entityId,
+    required this.name,
+    required this.normalizedName,
+    required this.areaId,
+    required this.areaName,
+    required this.sectorId,
+    this.sectorName,
+    this.gradeValue,
+    this.gradeSystem,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['entity_type'] = Variable<String>(entityType);
+    map['entity_id'] = Variable<String>(entityId);
+    map['name'] = Variable<String>(name);
+    map['normalized_name'] = Variable<String>(normalizedName);
+    map['area_id'] = Variable<String>(areaId);
+    map['area_name'] = Variable<String>(areaName);
+    map['sector_id'] = Variable<String>(sectorId);
+    if (!nullToAbsent || sectorName != null) {
+      map['sector_name'] = Variable<String>(sectorName);
+    }
+    if (!nullToAbsent || gradeValue != null) {
+      map['grade_value'] = Variable<String>(gradeValue);
+    }
+    if (!nullToAbsent || gradeSystem != null) {
+      map['grade_system'] = Variable<String>(gradeSystem);
+    }
+    return map;
+  }
+
+  CatalogSearchEntriesCompanion toCompanion(bool nullToAbsent) {
+    return CatalogSearchEntriesCompanion(
+      entityType: Value(entityType),
+      entityId: Value(entityId),
+      name: Value(name),
+      normalizedName: Value(normalizedName),
+      areaId: Value(areaId),
+      areaName: Value(areaName),
+      sectorId: Value(sectorId),
+      sectorName: sectorName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sectorName),
+      gradeValue: gradeValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(gradeValue),
+      gradeSystem: gradeSystem == null && nullToAbsent
+          ? const Value.absent()
+          : Value(gradeSystem),
+    );
+  }
+
+  factory CatalogSearchEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CatalogSearchEntry(
+      entityType: serializer.fromJson<String>(json['entityType']),
+      entityId: serializer.fromJson<String>(json['entityId']),
+      name: serializer.fromJson<String>(json['name']),
+      normalizedName: serializer.fromJson<String>(json['normalizedName']),
+      areaId: serializer.fromJson<String>(json['areaId']),
+      areaName: serializer.fromJson<String>(json['areaName']),
+      sectorId: serializer.fromJson<String>(json['sectorId']),
+      sectorName: serializer.fromJson<String?>(json['sectorName']),
+      gradeValue: serializer.fromJson<String?>(json['gradeValue']),
+      gradeSystem: serializer.fromJson<String?>(json['gradeSystem']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'entityType': serializer.toJson<String>(entityType),
+      'entityId': serializer.toJson<String>(entityId),
+      'name': serializer.toJson<String>(name),
+      'normalizedName': serializer.toJson<String>(normalizedName),
+      'areaId': serializer.toJson<String>(areaId),
+      'areaName': serializer.toJson<String>(areaName),
+      'sectorId': serializer.toJson<String>(sectorId),
+      'sectorName': serializer.toJson<String?>(sectorName),
+      'gradeValue': serializer.toJson<String?>(gradeValue),
+      'gradeSystem': serializer.toJson<String?>(gradeSystem),
+    };
+  }
+
+  CatalogSearchEntry copyWith({
+    String? entityType,
+    String? entityId,
+    String? name,
+    String? normalizedName,
+    String? areaId,
+    String? areaName,
+    String? sectorId,
+    Value<String?> sectorName = const Value.absent(),
+    Value<String?> gradeValue = const Value.absent(),
+    Value<String?> gradeSystem = const Value.absent(),
+  }) => CatalogSearchEntry(
+    entityType: entityType ?? this.entityType,
+    entityId: entityId ?? this.entityId,
+    name: name ?? this.name,
+    normalizedName: normalizedName ?? this.normalizedName,
+    areaId: areaId ?? this.areaId,
+    areaName: areaName ?? this.areaName,
+    sectorId: sectorId ?? this.sectorId,
+    sectorName: sectorName.present ? sectorName.value : this.sectorName,
+    gradeValue: gradeValue.present ? gradeValue.value : this.gradeValue,
+    gradeSystem: gradeSystem.present ? gradeSystem.value : this.gradeSystem,
+  );
+  CatalogSearchEntry copyWithCompanion(CatalogSearchEntriesCompanion data) {
+    return CatalogSearchEntry(
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
+      entityId: data.entityId.present ? data.entityId.value : this.entityId,
+      name: data.name.present ? data.name.value : this.name,
+      normalizedName: data.normalizedName.present
+          ? data.normalizedName.value
+          : this.normalizedName,
+      areaId: data.areaId.present ? data.areaId.value : this.areaId,
+      areaName: data.areaName.present ? data.areaName.value : this.areaName,
+      sectorId: data.sectorId.present ? data.sectorId.value : this.sectorId,
+      sectorName: data.sectorName.present
+          ? data.sectorName.value
+          : this.sectorName,
+      gradeValue: data.gradeValue.present
+          ? data.gradeValue.value
+          : this.gradeValue,
+      gradeSystem: data.gradeSystem.present
+          ? data.gradeSystem.value
+          : this.gradeSystem,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CatalogSearchEntry(')
+          ..write('entityType: $entityType, ')
+          ..write('entityId: $entityId, ')
+          ..write('name: $name, ')
+          ..write('normalizedName: $normalizedName, ')
+          ..write('areaId: $areaId, ')
+          ..write('areaName: $areaName, ')
+          ..write('sectorId: $sectorId, ')
+          ..write('sectorName: $sectorName, ')
+          ..write('gradeValue: $gradeValue, ')
+          ..write('gradeSystem: $gradeSystem')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    entityType,
+    entityId,
+    name,
+    normalizedName,
+    areaId,
+    areaName,
+    sectorId,
+    sectorName,
+    gradeValue,
+    gradeSystem,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CatalogSearchEntry &&
+          other.entityType == this.entityType &&
+          other.entityId == this.entityId &&
+          other.name == this.name &&
+          other.normalizedName == this.normalizedName &&
+          other.areaId == this.areaId &&
+          other.areaName == this.areaName &&
+          other.sectorId == this.sectorId &&
+          other.sectorName == this.sectorName &&
+          other.gradeValue == this.gradeValue &&
+          other.gradeSystem == this.gradeSystem);
+}
+
+class CatalogSearchEntriesCompanion
+    extends UpdateCompanion<CatalogSearchEntry> {
+  final Value<String> entityType;
+  final Value<String> entityId;
+  final Value<String> name;
+  final Value<String> normalizedName;
+  final Value<String> areaId;
+  final Value<String> areaName;
+  final Value<String> sectorId;
+  final Value<String?> sectorName;
+  final Value<String?> gradeValue;
+  final Value<String?> gradeSystem;
+  final Value<int> rowid;
+  const CatalogSearchEntriesCompanion({
+    this.entityType = const Value.absent(),
+    this.entityId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.normalizedName = const Value.absent(),
+    this.areaId = const Value.absent(),
+    this.areaName = const Value.absent(),
+    this.sectorId = const Value.absent(),
+    this.sectorName = const Value.absent(),
+    this.gradeValue = const Value.absent(),
+    this.gradeSystem = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CatalogSearchEntriesCompanion.insert({
+    required String entityType,
+    required String entityId,
+    required String name,
+    required String normalizedName,
+    required String areaId,
+    required String areaName,
+    required String sectorId,
+    this.sectorName = const Value.absent(),
+    this.gradeValue = const Value.absent(),
+    this.gradeSystem = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : entityType = Value(entityType),
+       entityId = Value(entityId),
+       name = Value(name),
+       normalizedName = Value(normalizedName),
+       areaId = Value(areaId),
+       areaName = Value(areaName),
+       sectorId = Value(sectorId);
+  static Insertable<CatalogSearchEntry> custom({
+    Expression<String>? entityType,
+    Expression<String>? entityId,
+    Expression<String>? name,
+    Expression<String>? normalizedName,
+    Expression<String>? areaId,
+    Expression<String>? areaName,
+    Expression<String>? sectorId,
+    Expression<String>? sectorName,
+    Expression<String>? gradeValue,
+    Expression<String>? gradeSystem,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (entityType != null) 'entity_type': entityType,
+      if (entityId != null) 'entity_id': entityId,
+      if (name != null) 'name': name,
+      if (normalizedName != null) 'normalized_name': normalizedName,
+      if (areaId != null) 'area_id': areaId,
+      if (areaName != null) 'area_name': areaName,
+      if (sectorId != null) 'sector_id': sectorId,
+      if (sectorName != null) 'sector_name': sectorName,
+      if (gradeValue != null) 'grade_value': gradeValue,
+      if (gradeSystem != null) 'grade_system': gradeSystem,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CatalogSearchEntriesCompanion copyWith({
+    Value<String>? entityType,
+    Value<String>? entityId,
+    Value<String>? name,
+    Value<String>? normalizedName,
+    Value<String>? areaId,
+    Value<String>? areaName,
+    Value<String>? sectorId,
+    Value<String?>? sectorName,
+    Value<String?>? gradeValue,
+    Value<String?>? gradeSystem,
+    Value<int>? rowid,
+  }) {
+    return CatalogSearchEntriesCompanion(
+      entityType: entityType ?? this.entityType,
+      entityId: entityId ?? this.entityId,
+      name: name ?? this.name,
+      normalizedName: normalizedName ?? this.normalizedName,
+      areaId: areaId ?? this.areaId,
+      areaName: areaName ?? this.areaName,
+      sectorId: sectorId ?? this.sectorId,
+      sectorName: sectorName ?? this.sectorName,
+      gradeValue: gradeValue ?? this.gradeValue,
+      gradeSystem: gradeSystem ?? this.gradeSystem,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (entityType.present) {
+      map['entity_type'] = Variable<String>(entityType.value);
+    }
+    if (entityId.present) {
+      map['entity_id'] = Variable<String>(entityId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (normalizedName.present) {
+      map['normalized_name'] = Variable<String>(normalizedName.value);
+    }
+    if (areaId.present) {
+      map['area_id'] = Variable<String>(areaId.value);
+    }
+    if (areaName.present) {
+      map['area_name'] = Variable<String>(areaName.value);
+    }
+    if (sectorId.present) {
+      map['sector_id'] = Variable<String>(sectorId.value);
+    }
+    if (sectorName.present) {
+      map['sector_name'] = Variable<String>(sectorName.value);
+    }
+    if (gradeValue.present) {
+      map['grade_value'] = Variable<String>(gradeValue.value);
+    }
+    if (gradeSystem.present) {
+      map['grade_system'] = Variable<String>(gradeSystem.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CatalogSearchEntriesCompanion(')
+          ..write('entityType: $entityType, ')
+          ..write('entityId: $entityId, ')
+          ..write('name: $name, ')
+          ..write('normalizedName: $normalizedName, ')
+          ..write('areaId: $areaId, ')
+          ..write('areaName: $areaName, ')
+          ..write('sectorId: $sectorId, ')
+          ..write('sectorName: $sectorName, ')
+          ..write('gradeValue: $gradeValue, ')
+          ..write('gradeSystem: $gradeSystem, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -2224,6 +2861,8 @@ abstract class _$CruxDatabase extends GeneratedDatabase {
   late final $CatalogAreasTable catalogAreas = $CatalogAreasTable(this);
   late final $CatalogRouteIndexTable catalogRouteIndex =
       $CatalogRouteIndexTable(this);
+  late final $CatalogSearchEntriesTable catalogSearchEntries =
+      $CatalogSearchEntriesTable(this);
   late final $AscentsTable ascents = $AscentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -2236,6 +2875,7 @@ abstract class _$CruxDatabase extends GeneratedDatabase {
     catalogRegions,
     catalogAreas,
     catalogRouteIndex,
+    catalogSearchEntries,
     ascents,
   ];
 }
@@ -3199,6 +3839,327 @@ typedef $$CatalogRouteIndexTableProcessedTableManager =
       CatalogRouteIndexData,
       PrefetchHooks Function()
     >;
+typedef $$CatalogSearchEntriesTableCreateCompanionBuilder =
+    CatalogSearchEntriesCompanion Function({
+      required String entityType,
+      required String entityId,
+      required String name,
+      required String normalizedName,
+      required String areaId,
+      required String areaName,
+      required String sectorId,
+      Value<String?> sectorName,
+      Value<String?> gradeValue,
+      Value<String?> gradeSystem,
+      Value<int> rowid,
+    });
+typedef $$CatalogSearchEntriesTableUpdateCompanionBuilder =
+    CatalogSearchEntriesCompanion Function({
+      Value<String> entityType,
+      Value<String> entityId,
+      Value<String> name,
+      Value<String> normalizedName,
+      Value<String> areaId,
+      Value<String> areaName,
+      Value<String> sectorId,
+      Value<String?> sectorName,
+      Value<String?> gradeValue,
+      Value<String?> gradeSystem,
+      Value<int> rowid,
+    });
+
+class $$CatalogSearchEntriesTableFilterComposer
+    extends Composer<_$CruxDatabase, $CatalogSearchEntriesTable> {
+  $$CatalogSearchEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entityId => $composableBuilder(
+    column: $table.entityId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get normalizedName => $composableBuilder(
+    column: $table.normalizedName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get areaId => $composableBuilder(
+    column: $table.areaId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get areaName => $composableBuilder(
+    column: $table.areaName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sectorId => $composableBuilder(
+    column: $table.sectorId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sectorName => $composableBuilder(
+    column: $table.sectorName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get gradeValue => $composableBuilder(
+    column: $table.gradeValue,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get gradeSystem => $composableBuilder(
+    column: $table.gradeSystem,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CatalogSearchEntriesTableOrderingComposer
+    extends Composer<_$CruxDatabase, $CatalogSearchEntriesTable> {
+  $$CatalogSearchEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entityId => $composableBuilder(
+    column: $table.entityId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get normalizedName => $composableBuilder(
+    column: $table.normalizedName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get areaId => $composableBuilder(
+    column: $table.areaId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get areaName => $composableBuilder(
+    column: $table.areaName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sectorId => $composableBuilder(
+    column: $table.sectorId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sectorName => $composableBuilder(
+    column: $table.sectorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get gradeValue => $composableBuilder(
+    column: $table.gradeValue,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get gradeSystem => $composableBuilder(
+    column: $table.gradeSystem,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CatalogSearchEntriesTableAnnotationComposer
+    extends Composer<_$CruxDatabase, $CatalogSearchEntriesTable> {
+  $$CatalogSearchEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get entityId =>
+      $composableBuilder(column: $table.entityId, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get normalizedName => $composableBuilder(
+    column: $table.normalizedName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get areaId =>
+      $composableBuilder(column: $table.areaId, builder: (column) => column);
+
+  GeneratedColumn<String> get areaName =>
+      $composableBuilder(column: $table.areaName, builder: (column) => column);
+
+  GeneratedColumn<String> get sectorId =>
+      $composableBuilder(column: $table.sectorId, builder: (column) => column);
+
+  GeneratedColumn<String> get sectorName => $composableBuilder(
+    column: $table.sectorName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get gradeValue => $composableBuilder(
+    column: $table.gradeValue,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get gradeSystem => $composableBuilder(
+    column: $table.gradeSystem,
+    builder: (column) => column,
+  );
+}
+
+class $$CatalogSearchEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$CruxDatabase,
+          $CatalogSearchEntriesTable,
+          CatalogSearchEntry,
+          $$CatalogSearchEntriesTableFilterComposer,
+          $$CatalogSearchEntriesTableOrderingComposer,
+          $$CatalogSearchEntriesTableAnnotationComposer,
+          $$CatalogSearchEntriesTableCreateCompanionBuilder,
+          $$CatalogSearchEntriesTableUpdateCompanionBuilder,
+          (
+            CatalogSearchEntry,
+            BaseReferences<
+              _$CruxDatabase,
+              $CatalogSearchEntriesTable,
+              CatalogSearchEntry
+            >,
+          ),
+          CatalogSearchEntry,
+          PrefetchHooks Function()
+        > {
+  $$CatalogSearchEntriesTableTableManager(
+    _$CruxDatabase db,
+    $CatalogSearchEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CatalogSearchEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CatalogSearchEntriesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$CatalogSearchEntriesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> entityType = const Value.absent(),
+                Value<String> entityId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> normalizedName = const Value.absent(),
+                Value<String> areaId = const Value.absent(),
+                Value<String> areaName = const Value.absent(),
+                Value<String> sectorId = const Value.absent(),
+                Value<String?> sectorName = const Value.absent(),
+                Value<String?> gradeValue = const Value.absent(),
+                Value<String?> gradeSystem = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CatalogSearchEntriesCompanion(
+                entityType: entityType,
+                entityId: entityId,
+                name: name,
+                normalizedName: normalizedName,
+                areaId: areaId,
+                areaName: areaName,
+                sectorId: sectorId,
+                sectorName: sectorName,
+                gradeValue: gradeValue,
+                gradeSystem: gradeSystem,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String entityType,
+                required String entityId,
+                required String name,
+                required String normalizedName,
+                required String areaId,
+                required String areaName,
+                required String sectorId,
+                Value<String?> sectorName = const Value.absent(),
+                Value<String?> gradeValue = const Value.absent(),
+                Value<String?> gradeSystem = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CatalogSearchEntriesCompanion.insert(
+                entityType: entityType,
+                entityId: entityId,
+                name: name,
+                normalizedName: normalizedName,
+                areaId: areaId,
+                areaName: areaName,
+                sectorId: sectorId,
+                sectorName: sectorName,
+                gradeValue: gradeValue,
+                gradeSystem: gradeSystem,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CatalogSearchEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CruxDatabase,
+      $CatalogSearchEntriesTable,
+      CatalogSearchEntry,
+      $$CatalogSearchEntriesTableFilterComposer,
+      $$CatalogSearchEntriesTableOrderingComposer,
+      $$CatalogSearchEntriesTableAnnotationComposer,
+      $$CatalogSearchEntriesTableCreateCompanionBuilder,
+      $$CatalogSearchEntriesTableUpdateCompanionBuilder,
+      (
+        CatalogSearchEntry,
+        BaseReferences<
+          _$CruxDatabase,
+          $CatalogSearchEntriesTable,
+          CatalogSearchEntry
+        >,
+      ),
+      CatalogSearchEntry,
+      PrefetchHooks Function()
+    >;
 typedef $$AscentsTableCreateCompanionBuilder =
     AscentsCompanion Function({
       required String id,
@@ -3550,6 +4511,8 @@ class $CruxDatabaseManager {
       $$CatalogAreasTableTableManager(_db, _db.catalogAreas);
   $$CatalogRouteIndexTableTableManager get catalogRouteIndex =>
       $$CatalogRouteIndexTableTableManager(_db, _db.catalogRouteIndex);
+  $$CatalogSearchEntriesTableTableManager get catalogSearchEntries =>
+      $$CatalogSearchEntriesTableTableManager(_db, _db.catalogSearchEntries);
   $$AscentsTableTableManager get ascents =>
       $$AscentsTableTableManager(_db, _db.ascents);
 }

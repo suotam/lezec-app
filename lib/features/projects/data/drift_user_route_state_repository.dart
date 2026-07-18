@@ -29,16 +29,11 @@ class DriftUserRouteStateRepository implements UserRouteStateRepository {
   Future<Set<String>> _idsWhere(
     Expression<bool> Function($UserRouteFlagsTable t) predicate,
   ) async {
-    final rows = await (_db.select(_db.userRouteFlags)..where(predicate))
-        .get();
+    final rows = await (_db.select(_db.userRouteFlags)..where(predicate)).get();
     return {for (final row in rows) row.routeId};
   }
 
-  Future<void> _writeFlags(
-    String routeId, {
-    bool? favorite,
-    bool? project,
-  }) {
+  Future<void> _writeFlags(String routeId, {bool? favorite, bool? project}) {
     return _db.transaction(() async {
       final existing = await (_db.select(
         _db.userRouteFlags,

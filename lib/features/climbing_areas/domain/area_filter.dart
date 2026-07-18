@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../core/utilities/text_normalization.dart';
 import '../../climbing_routes/domain/climbing_type.dart';
 import 'climbing_area.dart';
 import 'geo_point.dart';
@@ -137,15 +138,4 @@ List<ClimbingArea> sortAreas(
   return result;
 }
 
-/// Lowercases and strips Czech diacritics so `veze` finds `věže`.
-String _normalize(String input) {
-  const diacritics = 'áčďéěíňóřšťúůýžàäëöü';
-  const plain = 'acdeeinorstuuyzaaeou';
-  final buffer = StringBuffer();
-  for (final rune in input.toLowerCase().runes) {
-    final char = String.fromCharCode(rune);
-    final index = diacritics.indexOf(char);
-    buffer.write(index >= 0 ? plain[index] : char);
-  }
-  return buffer.toString().trim();
-}
+String _normalize(String input) => normalizeSearchText(input);

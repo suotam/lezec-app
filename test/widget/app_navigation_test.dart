@@ -24,9 +24,10 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Testový lom'), findsOneWidget);
 
-    // Open the area detail.
+    // Open the area detail; the description sits below the mini-map.
     await tester.tap(find.text('Testový lom'));
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Dlouhý popis lomu.'), 200);
     expect(find.text('Dlouhý popis lomu.'), findsOneWidget);
     expect(find.text('Sektory'), findsOneWidget);
 
@@ -75,5 +76,58 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Naposledy zobrazené'), findsOneWidget);
+  });
+
+  testWidgets('a route found by search opens its detail directly', (
+    tester,
+  ) async {
+    final overrides = await testOverrides();
+    await tester.pumpWidget(
+      ProviderScope(overrides: overrides, child: const CruxApp()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Oblasti'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'spára');
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Testová spára'));
+    await tester.pumpAndSettle();
+
+    // Route detail with its context; the route lives on a rock.
+    expect(find.text('Oblíbená'), findsOneWidget);
+    expect(find.text('Věže · Hlavní věž'), findsOneWidget);
+
+    // Back returns to the search results.
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.text('Cesty'), findsOneWidget);
+  });
+
+  testWidgets('an area picked on the map opens its detail', (tester) async {
+    final overrides = await testOverrides();
+    await tester.pumpWidget(
+      ProviderScope(overrides: overrides, child: const CruxApp()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Oblasti'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'lom');
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Zobrazit mapu'));
+    await tester.pumpAndSettle();
+
+    // Marker → selection card → area detail.
+    await tester.tap(find.byIcon(Icons.location_on));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Testový lom'));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(find.text('Dlouhý popis lomu.'), 200);
+    expect(find.text('Dlouhý popis lomu.'), findsOneWidget);
   });
 }

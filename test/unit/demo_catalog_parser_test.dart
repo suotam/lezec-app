@@ -13,9 +13,7 @@ void main() {
     test('parses the bundled catalog asset', () {
       final raw = utf8.decode(
         gzip.decode(
-          File(
-            'assets/demo_data/climbing_catalog.json.gz',
-          ).readAsBytesSync(),
+          File('assets/demo_data/climbing_catalog.json.gz').readAsBytesSync(),
         ),
       );
 

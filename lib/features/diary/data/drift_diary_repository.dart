@@ -31,19 +31,19 @@ class DriftDiaryRepository implements DiaryRepository {
 
   AscentsCompanion _toCompanion(domain.Ascent ascent) =>
       AscentsCompanion.insert(
-          id: ascent.id,
-          routeId: ascent.routeId,
-          routeName: ascent.routeName,
-          gradeValue: ascent.grade.value,
-          gradeSystem: ascent.grade.system.name,
-          areaId: ascent.areaId,
-          areaName: ascent.areaName,
-          sectorName: ascent.sectorName,
-          style: ascent.style.name,
-          climbedOn: ascent.date,
-          note: Value(ascent.note),
-          createdAtMicros: ascent.createdAt.microsecondsSinceEpoch,
-        );
+        id: ascent.id,
+        routeId: ascent.routeId,
+        routeName: ascent.routeName,
+        gradeValue: ascent.grade.value,
+        gradeSystem: ascent.grade.system.name,
+        areaId: ascent.areaId,
+        areaName: ascent.areaName,
+        sectorName: ascent.sectorName,
+        style: ascent.style.name,
+        climbedOn: ascent.date,
+        note: Value(ascent.note),
+        createdAtMicros: ascent.createdAt.microsecondsSinceEpoch,
+      );
 
   @override
   Future<void> deleteAscent(String id) =>

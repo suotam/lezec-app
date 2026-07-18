@@ -93,7 +93,11 @@ void main() {
     final db = createTestDatabase();
     final repository = DriftDiaryRepository(db);
     await repository.addAscent(
-      buildAscent(id: 'a1', style: AscentStyle.onsight, date: DateTime(2026, 7, 1)),
+      buildAscent(
+        id: 'a1',
+        style: AscentStyle.onsight,
+        date: DateTime(2026, 7, 1),
+      ),
     );
     await repository.addAscent(
       buildAscent(
@@ -128,11 +132,11 @@ void main() {
     expect(find.text('Testová plotna'), findsOneWidget);
   });
 
-  testWidgets('empty filter result offers clearing the filter',
-      (tester) async {
+  testWidgets('empty filter result offers clearing the filter', (tester) async {
     final db = createTestDatabase();
-    await DriftDiaryRepository(db)
-        .addAscent(buildAscent(id: 'a1', style: AscentStyle.onsight));
+    await DriftDiaryRepository(
+      db,
+    ).addAscent(buildAscent(id: 'a1', style: AscentStyle.onsight));
 
     await tester.pumpWidget(
       wrapScreen(const DiaryScreen(), await testOverrides(database: db)),
@@ -143,15 +147,18 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('OS · 1'));
     await tester.pumpAndSettle();
-    expect(find.text('Testová hrana'), findsOneWidget,
-        reason: 'toggling a chip twice must reset to all entries');
+    expect(
+      find.text('Testová hrana'),
+      findsOneWidget,
+      reason: 'toggling a chip twice must reset to all entries',
+    );
   });
 
   testWidgets('editing an entry changes style and note', (tester) async {
     final db = createTestDatabase();
-    await DriftDiaryRepository(db).addAscent(
-      buildAscent(id: 'a1', style: AscentStyle.flash),
-    );
+    await DriftDiaryRepository(
+      db,
+    ).addAscent(buildAscent(id: 'a1', style: AscentStyle.flash));
 
     await tester.pumpWidget(
       wrapScreen(const DiaryScreen(), await testOverrides(database: db)),
@@ -223,8 +230,9 @@ void main() {
     expect(find.text('Testová hrana'), findsNothing);
   });
 
-  testWidgets('climbed route gets a check mark in the sector route list',
-      (tester) async {
+  testWidgets('climbed route gets a check mark in the sector route list', (
+    tester,
+  ) async {
     final db = createTestDatabase();
     await DriftDiaryRepository(db).addAscent(buildAscent(id: 'a1'));
 
@@ -236,7 +244,10 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.check_circle), findsOneWidget,
-        reason: 'only route-hrana is climbed, route-plotna is not');
+    expect(
+      find.byIcon(Icons.check_circle),
+      findsOneWidget,
+      reason: 'only route-hrana is climbed, route-plotna is not',
+    );
   });
 }

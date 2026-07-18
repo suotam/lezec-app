@@ -59,7 +59,7 @@ class AreaCard extends StatelessWidget {
                 distanceKm == null
                     ? area.regionName
                     : '${area.regionName} · '
-                        '${l10n.areaDistanceKm(distanceKm!.round())}',
+                          '${l10n.areaDistanceKm(distanceKm!.round())}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

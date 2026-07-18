@@ -16,7 +16,27 @@ import 'package:lezec_app/features/climbing_areas/domain/climbing_area.dart';
 import 'package:lezec_app/features/climbing_areas/domain/geo_point.dart';
 import 'package:lezec_app/features/climbing_areas/domain/rock_type.dart';
 import 'package:lezec_app/features/climbing_areas/presentation/climbing_areas_providers.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:lezec_app/features/climbing_routes/domain/climbing_type.dart';
+import 'package:lezec_app/shared/widgets/crux_map.dart';
+
+/// 1×1 transparent PNG, used as an offline map tile in widget tests.
+final Uint8List transparentPngBytes = Uint8List.fromList(const [
+  0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, //
+  0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, //
+  0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4, 0x89, 0x00, 0x00, 0x00, //
+  0x0A, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9C, 0x63, 0x00, 0x01, 0x00, 0x00, //
+  0x05, 0x00, 0x01, 0x0D, 0x0A, 0x2D, 0xB4, 0x00, 0x00, 0x00, 0x00, 0x49, //
+  0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
+]);
+
+/// Map tile provider that serves the transparent tile for every request,
+/// keeping widget tests fully offline.
+class FakeTileProvider extends TileProvider {
+  @override
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) =>
+      MemoryImage(transparentPngBytes);
+}
 
 /// Serves [json] for any asset path so tests never touch the real bundle.
 class FakeAssetBundle extends CachingAssetBundle {
@@ -151,6 +171,7 @@ Future<List<Override>> testOverrides({
         bundle: FakeAssetBundle(catalogJson ?? testCatalogJson),
       ),
     ),
+    mapTileProviderFactoryProvider.overrideWithValue(FakeTileProvider.new),
   ];
 }
 

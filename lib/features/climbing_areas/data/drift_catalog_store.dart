@@ -1,7 +1,12 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart' show Value;
+
 import '../../../core/database/crux_database.dart';
 import '../../../core/errors/demo_data_format_exception.dart';
+import '../../../core/utilities/text_normalization.dart';
+import '../domain/catalog_search.dart';
+import '../domain/climbing_area.dart';
 import 'demo_catalog_data_source.dart';
 import 'demo_catalog_parser.dart';
 
@@ -100,6 +105,7 @@ class DriftCatalogStore {
     }
 
     await _db.transaction(() async {
+      await _db.delete(_db.catalogSearchEntries).go();
       await _db.delete(_db.catalogRouteIndex).go();
       await _db.delete(_db.catalogAreas).go();
       await _db.delete(_db.catalogRegions).go();
@@ -112,15 +118,19 @@ class DriftCatalogStore {
       final routeIds = <String>{};
       var areaRows = <CatalogAreasCompanion>[];
       var indexRows = <CatalogRouteIndexCompanion>[];
+      var searchRows = <CatalogSearchEntriesCompanion>[];
       Future<void> flushRows() async {
         final areas = areaRows;
         final index = indexRows;
+        final search = searchRows;
         areaRows = [];
         indexRows = [];
+        searchRows = [];
         await _db.batch((batch) {
           batch
             ..insertAll(_db.catalogAreas, areas)
-            ..insertAll(_db.catalogRouteIndex, index);
+            ..insertAll(_db.catalogRouteIndex, index)
+            ..insertAll(_db.catalogSearchEntries, search);
         });
       }
 
@@ -139,6 +149,7 @@ class DriftCatalogStore {
             ),
           );
         }
+        searchRows.addAll(_searchRowsForArea(area));
 
         final areaMap = entry as Map<String, Object?>;
         final summaryMap = Map<String, Object?>.from(areaMap)
@@ -164,6 +175,70 @@ class DriftCatalogStore {
     });
   }
 
+  /// One search-index row per sector, rock and route of [area]. Names are
+  /// normalized here so queries can be a plain SQL LIKE.
+  List<CatalogSearchEntriesCompanion> _searchRowsForArea(ClimbingArea area) {
+    final rows = <CatalogSearchEntriesCompanion>[];
+    CatalogSearchEntriesCompanion entry({
+      required CatalogSearchResultType type,
+      required String id,
+      required String name,
+      required String sectorId,
+      String? sectorName,
+      String? gradeValue,
+      String? gradeSystem,
+    }) {
+      return CatalogSearchEntriesCompanion.insert(
+        entityType: type.name,
+        entityId: id,
+        name: name,
+        normalizedName: normalizeSearchText(name),
+        areaId: area.id,
+        areaName: area.name,
+        sectorId: sectorId,
+        sectorName: Value(sectorName),
+        gradeValue: Value(gradeValue),
+        gradeSystem: Value(gradeSystem),
+      );
+    }
+
+    for (final sector in area.sectors) {
+      rows.add(
+        entry(
+          type: CatalogSearchResultType.sector,
+          id: sector.id,
+          name: sector.name,
+          sectorId: sector.id,
+        ),
+      );
+      for (final rock in sector.rocks) {
+        rows.add(
+          entry(
+            type: CatalogSearchResultType.rock,
+            id: rock.id,
+            name: rock.name,
+            sectorId: sector.id,
+            sectorName: sector.name,
+          ),
+        );
+      }
+      for (final route in sector.allRoutes) {
+        rows.add(
+          entry(
+            type: CatalogSearchResultType.route,
+            id: route.id,
+            name: route.name,
+            sectorId: sector.id,
+            sectorName: sector.name,
+            gradeValue: route.grade.value,
+            gradeSystem: route.grade.system.name,
+          ),
+        );
+      }
+    }
+    return rows;
+  }
+
   Future<String?> _readMeta(String key) async {
     final row = await (_db.select(
       _db.catalogMeta,
@@ -173,5 +248,7 @@ class DriftCatalogStore {
 
   Future<void> _writeMeta(String key, String value) => _db
       .into(_db.catalogMeta)
-      .insertOnConflictUpdate(CatalogMetaCompanion.insert(key: key, value: value));
+      .insertOnConflictUpdate(
+        CatalogMetaCompanion.insert(key: key, value: value),
+      );
 }

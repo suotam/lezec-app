@@ -13,7 +13,14 @@ areas, sectors, rocks and routes using bundled demo data.
 - Discover screen with featured areas, recently viewed areas, personal
   stats (projects / favorites) and active restriction highlights.
 - Searchable and filterable area list (name, region, description; climbing
-  type and rock type filters, diacritics-insensitive search).
+  type, rock type and region filters, diacritics-insensitive search).
+- Catalog-wide search: one query matches areas, sectors, rocks and
+  individual routes (~104k routes searched via a SQL index, grouped
+  results with direct navigation).
+- Map of areas (OpenStreetMap): list/map toggle on the Areas tab,
+  markers follow the active search and filters, tapping a marker shows
+  the area card; area details include a static mini-map with parking
+  spots. Map tiles are the one online part of the app.
 - Area detail: description, access, parking, restrictions, sector list and
   external map navigation for the area and each parking location.
 - Sector detail: rocks/towers with their routes plus routes assigned
@@ -50,6 +57,21 @@ flutter gen-l10n
 flutter run          # uses the connected device/emulator
 flutter run -d <id>  # pick a specific device from `flutter devices`
 ```
+
+### Map tiles
+
+Without configuration the map uses OpenStreetMap tiles. For the Czech
+tourist map (recommended), get a free API key at
+<https://developer.mapy.com> and pass it at build time:
+
+```bash
+flutter run --dart-define=MAPY_API_KEY=<your-key>
+flutter build apk --dart-define=MAPY_API_KEY=<your-key>
+```
+
+The app then uses the Mapy.com "outdoor" tile set (hiking trails,
+terrain). Before a public release, review the Mapy.com API terms
+(attribution incl. logo placement).
 
 The code is cross-platform; `flutter run` on an iOS simulator works the
 same way.
