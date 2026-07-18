@@ -104,6 +104,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterRockType => 'Rock type';
 
   @override
+  String get filterRegion => 'Region';
+
+  @override
+  String get areasSortRouteCount => 'Route count';
+
+  @override
+  String get areasSortDistance => 'Nearest';
+
+  @override
+  String get locationUnavailable =>
+      'Could not determine your location. Check location permissions and services.';
+
+  @override
   String sectorsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

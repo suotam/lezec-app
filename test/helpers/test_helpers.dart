@@ -177,21 +177,25 @@ Widget wrapScreen(Widget home, List<Override> overrides) {
 ClimbingArea buildArea({
   String id = 'area-test',
   String name = 'Testová oblast',
+  String regionId = 'region-test',
   String regionName = 'Testový region',
   String summary = 'Souhrn.',
   String description = 'Popis.',
   Set<ClimbingType> climbingTypes = const {ClimbingType.sport},
   RockType rockType = RockType.limestone,
+  GeoPoint location = const GeoPoint(latitude: 50, longitude: 15),
+  int? routeCount,
 }) {
   return ClimbingArea(
     id: id,
-    regionId: 'region-test',
+    regionId: regionId,
     regionName: regionName,
     name: name,
     summary: summary,
     description: description,
     climbingTypes: climbingTypes,
     rockType: rockType,
-    location: const GeoPoint(latitude: 50, longitude: 15),
+    location: location,
+    routeCount: routeCount,
   );
 }

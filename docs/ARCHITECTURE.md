@@ -23,7 +23,9 @@ lib/
 │   ├── errors/                   # DemoDataFormatException
 │   ├── localization/             # ARB files + generated AppLocalizations
 │   ├── theme/                    # AppTheme (M3 light/dark), CruxColors ext.
-│   └── utilities/                # ExternalNavigationService, newUniqueId
+│   └── utilities/                # ExternalNavigationService, newUniqueId,
+│                                 # LocationService (geolocator behind an
+│                                 # interface; tests use fakes)
 ├── features/
 │   ├── discover/presentation/    # dashboard screen
 │   ├── climbing_areas/

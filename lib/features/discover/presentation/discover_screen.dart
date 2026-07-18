@@ -28,8 +28,11 @@ class DiscoverScreen extends ConsumerWidget {
     final recent =
         ref.watch(recentlyViewedAreasProvider).value ?? const <ClimbingArea>[];
     final userState = ref.watch(userRouteStateProvider).value;
+    // A handful of teasers, not all ~hundreds of restricted areas in the
+    // full catalog; the full picture lives on the area detail screens.
     final areasWithRestrictions = areas
         .where((area) => area.hasRestrictions)
+        .take(4)
         .toList();
 
     return Scaffold(

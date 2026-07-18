@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/database/database_provider.dart';
+import '../../../core/utilities/location_service.dart';
 import '../../climbing_routes/domain/climbing_type.dart';
 import '../data/demo_catalog_data_source.dart';
 import '../data/drift_catalog_store.dart';
@@ -9,6 +10,7 @@ import '../data/drift_recently_viewed_repository.dart';
 import '../domain/area_filter.dart';
 import '../domain/climbing_area.dart';
 import '../domain/climbing_area_repository.dart';
+import '../domain/climbing_region.dart';
 import '../domain/climbing_sector.dart';
 import '../domain/recently_viewed_areas_repository.dart';
 import '../domain/rock_type.dart';
@@ -35,6 +37,10 @@ final climbingAreaRepositoryProvider = Provider<ClimbingAreaRepository>(
 
 final areasProvider = FutureProvider<List<ClimbingArea>>(
   (ref) => ref.watch(climbingAreaRepositoryProvider).getAreas(),
+);
+
+final regionsProvider = FutureProvider<List<ClimbingRegion>>(
+  (ref) => ref.watch(climbingAreaRepositoryProvider).getRegions(),
 );
 
 final areaByIdProvider = FutureProvider.family<ClimbingArea?, String>(
@@ -68,6 +74,25 @@ class AreaFilterController extends Notifier<AreaFilter> {
 
   void toggleRockType(RockType type) {
     state = state.copyWith(rockTypes: _toggled(state.rockTypes, type));
+  }
+
+  void toggleRegion(String regionId) {
+    state = state.copyWith(regionIds: _toggled(state.regionIds, regionId));
+  }
+
+  void setSort(AreaSort sort) {
+    assert(sort != AreaSort.distance, 'use sortByDistance()');
+    state = state.copyWith(sort: sort);
+  }
+
+  /// Switches to distance sorting; returns false (and keeps the current
+  /// sort) when no position is available.
+  Future<bool> sortByDistance() async {
+    final origin =
+        await ref.read(locationServiceProvider).getCurrentPosition();
+    if (origin == null) return false;
+    state = state.copyWith(sort: AreaSort.distance, origin: origin);
+    return true;
   }
 
   void clear() => state = const AreaFilter();

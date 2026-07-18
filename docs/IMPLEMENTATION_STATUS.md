@@ -113,7 +113,18 @@ catalog)._
   migration (user data untouched).
 - Discover data notice updated: offline copy of the ČHS database,
   verify current conditions at the source.
-- App tests: 66 passing, importer tests: 26 passing, both analyzers
+
+**Area discovery at country scale (roadmap §5 subset)**
+- Region filter chips on the areas screen (16 regions from the catalog).
+- Sorting: name (diacritics-insensitive, the default), route count,
+  and nearest-first by distance from the device position (haversine on
+  `GeoPoint`; pure `sortAreas()` function).
+- `LocationService` abstraction over geolocator (permission flow,
+  graceful null on denial — the UI keeps the current sort and explains);
+  location permissions declared for Android and iOS.
+- Discover restriction teasers capped at 4 (was: every restricted area
+  in the catalog).
+- App tests: 76 passing, importer tests: 26 passing, both analyzers
   clean.
 
 ## Intentionally deferred
@@ -161,23 +172,23 @@ complex grade conversion.
 
 ## Recommended next stage
 
-1. Complete the crawl once the ČHS server recovers (re-run `fetch --all`
-   on the existing snapshot, rebuild as version 4, reship the asset) and
-   verify the app on a real Android device (first-launch import time,
-   list scrolling, APK size).
-2. Area discovery at country scale: the areas screen now lists 951
-   areas — add region grouping/filtering and distance-based sorting
-   (roadmap §5) so the list stays navigable.
+1. Verify the app on a real Android device: first-launch import time,
+   list scrolling with 951 areas, the location-permission flow for
+   distance sorting, APK size.
+2. Complete the crawl once the ČHS server recovers (re-run `fetch --all`
+   on the existing snapshot, rebuild as version 4, reship the asset).
 3. Diary polish: date-range/area filters or a simple performance chart
    (roadmap Etapa 2 extras), plus an ascent edit flow.
 4. Importer follow-ups from the review report: restriction texts
    ("Podmínky lezení") via per-route fetches, extended grade-system
    mapping for the labels the report flags.
+5. Optional discovery polish: show the distance on area cards when
+   sorted by distance.
 
 Suggested prompt for the next iteration:
 
-> Continue the Crux CZ Flutter app. Make the 951-area catalog navigable:
-> region grouping/filter on the areas screen and distance sorting per
-> docs/PRODUCT_ROADMAP.md §5. Verify full-catalog behavior on a device.
-> Do not add backend communication. Follow docs/ARCHITECTURE.md and keep
-> repository boundaries unchanged.
+> Continue the Crux CZ Flutter app with fixes from the physical-device
+> test round, then per docs/IMPLEMENTATION_STATUS.md: catalog v4 once
+> the ČHS server recovers, diary polish (ascent editing, date/area
+> filters). Do not add backend communication. Follow
+> docs/ARCHITECTURE.md and keep repository boundaries unchanged.

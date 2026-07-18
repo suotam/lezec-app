@@ -105,6 +105,19 @@ class AppLocalizationsCs extends AppLocalizations {
   String get filterRockType => 'Typ skály';
 
   @override
+  String get filterRegion => 'Region';
+
+  @override
+  String get areasSortRouteCount => 'Počet cest';
+
+  @override
+  String get areasSortDistance => 'Nejbližší';
+
+  @override
+  String get locationUnavailable =>
+      'Polohu se nepodařilo zjistit. Zkontrolujte oprávnění k poloze a zapnuté polohové služby.';
+
+  @override
   String sectorsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

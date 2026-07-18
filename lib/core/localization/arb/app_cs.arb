@@ -35,6 +35,10 @@
   "areasEmptyBody": "Zkuste upravit hledaný výraz nebo zrušit filtry.",
   "filterClimbingType": "Typ lezení",
   "filterRockType": "Typ skály",
+  "filterRegion": "Region",
+  "areasSortRouteCount": "Počet cest",
+  "areasSortDistance": "Nejbližší",
+  "locationUnavailable": "Polohu se nepodařilo zjistit. Zkontrolujte oprávnění k poloze a zapnuté polohové služby.",
   "sectorsCount": "{count, plural, one{1 sektor} few{{count} sektory} other{{count} sektorů}}",
   "@sectorsCount": {
     "placeholders": {

@@ -9,6 +9,8 @@ import '../../../shared/extensions/domain_labels.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/empty_state_view.dart';
 import '../../climbing_routes/domain/climbing_type.dart';
+import '../domain/area_filter.dart';
+import '../domain/climbing_region.dart';
 import '../domain/rock_type.dart';
 import 'climbing_areas_providers.dart';
 import 'widgets/area_card.dart';
@@ -49,6 +51,8 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
     final filter = ref.watch(areaFilterProvider);
     final controller = ref.read(areaFilterProvider.notifier);
     final areas = ref.watch(filteredAreasProvider);
+    final regions =
+        ref.watch(regionsProvider).value ?? const <ClimbingRegion>[];
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.areasTitle)),
@@ -95,6 +99,17 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
             labelOf: (type) => type.label(l10n),
             onToggle: controller.toggleRockType,
           ),
+          if (regions.length > 1)
+            _FilterChipRow<ClimbingRegion>(
+              label: l10n.filterRegion,
+              values: regions,
+              selected: {
+                for (final region in regions)
+                  if (filter.regionIds.contains(region.id)) region,
+              },
+              labelOf: (region) => region.name,
+              onToggle: (region) => controller.toggleRegion(region.id),
+            ),
           const SizedBox(height: AppSpacing.xs),
           Expanded(
             child: AsyncValueView(
@@ -127,14 +142,21 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
                       const SizedBox(height: AppSpacing.md),
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return Text(
-                        l10n.areasResultsCount(areas.length),
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              l10n.areasResultsCount(areas.length),
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
                             ),
+                          ),
+                          _SortMenuButton(sort: filter.sort),
+                        ],
                       );
                     }
                     final area = areas[index - 1];
@@ -147,6 +169,59 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
               },
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Compact sort selector shown next to the result count. Distance sorting
+/// asks for the device position first and stays on the current sort when
+/// it is unavailable.
+class _SortMenuButton extends ConsumerWidget {
+  const _SortMenuButton({required this.sort});
+
+  final AreaSort sort;
+
+  String _label(BuildContext context, AreaSort value) {
+    final l10n = context.l10n;
+    return switch (value) {
+      AreaSort.name => l10n.sortByName,
+      AreaSort.routeCount => l10n.areasSortRouteCount,
+      AreaSort.distance => l10n.areasSortDistance,
+    };
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return PopupMenuButton<AreaSort>(
+      initialValue: sort,
+      onSelected: (selected) async {
+        final controller = ref.read(areaFilterProvider.notifier);
+        if (selected != AreaSort.distance) {
+          controller.setSort(selected);
+          return;
+        }
+        final messenger = ScaffoldMessenger.of(context);
+        final message = context.l10n.locationUnavailable;
+        if (!await controller.sortByDistance()) {
+          messenger.showSnackBar(SnackBar(content: Text(message)));
+        }
+      },
+      itemBuilder: (context) => [
+        for (final value in AreaSort.values)
+          CheckedPopupMenuItem(
+            value: value,
+            checked: value == sort,
+            child: Text(_label(context, value)),
+          ),
+      ],
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.sort, size: 18),
+          const SizedBox(width: AppSpacing.xs),
+          Text(_label(context, sort)),
         ],
       ),
     );

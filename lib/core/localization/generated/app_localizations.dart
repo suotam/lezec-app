@@ -266,6 +266,30 @@ abstract class AppLocalizations {
   /// **'Typ skály'**
   String get filterRockType;
 
+  /// No description provided for @filterRegion.
+  ///
+  /// In cs, this message translates to:
+  /// **'Region'**
+  String get filterRegion;
+
+  /// No description provided for @areasSortRouteCount.
+  ///
+  /// In cs, this message translates to:
+  /// **'Počet cest'**
+  String get areasSortRouteCount;
+
+  /// No description provided for @areasSortDistance.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nejbližší'**
+  String get areasSortDistance;
+
+  /// No description provided for @locationUnavailable.
+  ///
+  /// In cs, this message translates to:
+  /// **'Polohu se nepodařilo zjistit. Zkontrolujte oprávnění k poloze a zapnuté polohové služby.'**
+  String get locationUnavailable;
+
   /// No description provided for @sectorsCount.
   ///
   /// In cs, this message translates to:
