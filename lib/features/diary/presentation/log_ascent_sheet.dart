@@ -9,14 +9,20 @@ import '../../climbing_routes/domain/route_context.dart';
 import '../domain/ascent.dart';
 import 'diary_providers.dart';
 
-/// Bottom sheet for logging an ascent of [routeContext]'s route.
+/// Bottom sheet for logging an ascent of [routeContext]'s route, or —
+/// when [initial] is set — for editing an existing diary entry.
 ///
 /// Pops with `true` after the ascent was written to the diary, so the
 /// caller can show a confirmation.
 class LogAscentSheet extends ConsumerStatefulWidget {
-  const LogAscentSheet({super.key, required this.routeContext});
+  const LogAscentSheet({super.key, this.routeContext, this.initial})
+      : assert(
+          (routeContext == null) != (initial == null),
+          'pass either routeContext (log) or initial (edit)',
+        );
 
-  final RouteContext routeContext;
+  final RouteContext? routeContext;
+  final Ascent? initial;
 
   static Future<bool?> show(BuildContext context, RouteContext routeContext) {
     return showModalBottomSheet<bool>(
@@ -27,14 +33,25 @@ class LogAscentSheet extends ConsumerStatefulWidget {
     );
   }
 
+  static Future<bool?> showEdit(BuildContext context, Ascent ascent) {
+    return showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) => LogAscentSheet(initial: ascent),
+    );
+  }
+
   @override
   ConsumerState<LogAscentSheet> createState() => _LogAscentSheetState();
 }
 
 class _LogAscentSheetState extends ConsumerState<LogAscentSheet> {
-  AscentStyle _style = AscentStyle.redpoint;
-  DateTime _date = DateTime.now();
-  final _noteController = TextEditingController();
+  late AscentStyle _style =
+      widget.initial?.style ?? AscentStyle.redpoint;
+  late DateTime _date = widget.initial?.date ?? DateTime.now();
+  late final _noteController =
+      TextEditingController(text: widget.initial?.note ?? '');
   bool _saving = false;
 
   @override
@@ -55,14 +72,24 @@ class _LogAscentSheetState extends ConsumerState<LogAscentSheet> {
 
   Future<void> _save() async {
     setState(() => _saving = true);
-    await ref
-        .read(diaryProvider.notifier)
-        .logAscent(
-          routeContext: widget.routeContext,
+    final notifier = ref.read(diaryProvider.notifier);
+    if (widget.initial case final initial?) {
+      final trimmedNote = _noteController.text.trim();
+      await notifier.updateAscent(
+        initial.copyWith(
           style: _style,
           date: _date,
-          note: _noteController.text,
-        );
+          note: trimmedNote.isEmpty ? null : trimmedNote,
+        ),
+      );
+    } else {
+      await notifier.logAscent(
+        routeContext: widget.routeContext!,
+        style: _style,
+        date: _date,
+        note: _noteController.text,
+      );
+    }
     if (mounted) Navigator.of(context).pop(true);
   }
 
@@ -70,7 +97,11 @@ class _LogAscentSheetState extends ConsumerState<LogAscentSheet> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final route = widget.routeContext.route;
+    final editing = widget.initial != null;
+    final routeName =
+        widget.initial?.routeName ?? widget.routeContext!.route.name;
+    final gradeValue =
+        widget.initial?.grade.value ?? widget.routeContext!.route.grade.value;
 
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
@@ -86,10 +117,13 @@ class _LogAscentSheetState extends ConsumerState<LogAscentSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(l10n.logAscentTitle, style: theme.textTheme.titleLarge),
+              Text(
+                editing ? l10n.editAscentTitle : l10n.logAscentTitle,
+                style: theme.textTheme.titleLarge,
+              ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                '${route.name} · ${route.grade.value}',
+                '$routeName · $gradeValue',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

@@ -125,6 +125,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(isAbove(tester, 'Testový lom', 'Testové věže'), isTrue);
+    expect(find.textContaining(' km'), findsNWidgets(2),
+        reason: 'cards show the distance when sorted by proximity');
   });
 
   testWidgets('unavailable location keeps sort and explains why', (

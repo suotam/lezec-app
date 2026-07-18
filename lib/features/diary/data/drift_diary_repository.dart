@@ -22,10 +22,15 @@ class DriftDiaryRepository implements DiaryRepository {
   }
 
   @override
-  Future<void> addAscent(domain.Ascent ascent) => _db
-      .into(_db.ascents)
-      .insert(
-        AscentsCompanion.insert(
+  Future<void> addAscent(domain.Ascent ascent) =>
+      _db.into(_db.ascents).insert(_toCompanion(ascent));
+
+  @override
+  Future<void> updateAscent(domain.Ascent ascent) =>
+      _db.into(_db.ascents).insertOnConflictUpdate(_toCompanion(ascent));
+
+  AscentsCompanion _toCompanion(domain.Ascent ascent) =>
+      AscentsCompanion.insert(
           id: ascent.id,
           routeId: ascent.routeId,
           routeName: ascent.routeName,
@@ -38,8 +43,7 @@ class DriftDiaryRepository implements DiaryRepository {
           climbedOn: ascent.date,
           note: Value(ascent.note),
           createdAtMicros: ascent.createdAt.microsecondsSinceEpoch,
-        ),
-      );
+        );
 
   @override
   Future<void> deleteAscent(String id) =>

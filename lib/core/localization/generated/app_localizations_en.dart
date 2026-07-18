@@ -337,6 +337,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ascentDeletedMessage => 'The entry was deleted.';
 
   @override
+  String get ascentEditAction => 'Edit entry';
+
+  @override
+  String get editAscentTitle => 'Edit ascent';
+
+  @override
+  String get ascentUpdatedMessage => 'The entry was updated.';
+
+  @override
+  String get diaryAllAreas => 'All areas';
+
+  @override
+  String areaDistanceKm(int km) {
+    return '$km km';
+  }
+
+  @override
   String get routeMyAscentsTitle => 'My ascents';
 
   @override

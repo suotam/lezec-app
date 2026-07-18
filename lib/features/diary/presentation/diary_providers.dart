@@ -53,6 +53,11 @@ class DiaryNotifier extends AsyncNotifier<List<Ascent>> {
     state = AsyncData(await _repository.getAscents());
   }
 
+  Future<void> updateAscent(Ascent ascent) async {
+    await _repository.updateAscent(ascent);
+    state = AsyncData(await _repository.getAscents());
+  }
+
   Future<void> deleteAscent(String id) async {
     await _repository.deleteAscent(id);
     state = AsyncData(await _repository.getAscents());
@@ -88,7 +93,11 @@ class DiaryFilterController extends Notifier<DiaryFilter> {
   @override
   DiaryFilter build() => const DiaryFilter();
 
-  void toggleStyle(AscentStyle style) => state = state.toggled(style);
+  void toggleStyle(AscentStyle style) => state = state.toggledStyle(style);
+
+  void toggleYear(int year) => state = state.toggledYear(year);
+
+  void setArea(String? areaId) => state = state.withArea(areaId);
 
   void clear() => state = const DiaryFilter();
 }

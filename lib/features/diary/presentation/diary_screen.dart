@@ -13,6 +13,7 @@ import '../../../shared/widgets/grade_badge.dart';
 import '../domain/ascent.dart';
 import '../domain/diary_stats.dart';
 import 'diary_providers.dart';
+import 'log_ascent_sheet.dart';
 
 /// Chronological list of logged ascents with basic statistics and a
 /// style filter.
@@ -50,6 +51,8 @@ class DiaryScreen extends ConsumerWidget {
               _StatsCard(stats: stats),
               const SizedBox(height: AppSpacing.md),
               _StyleFilterChips(stats: stats, filter: filter),
+              const SizedBox(height: AppSpacing.sm),
+              _YearAndAreaFilters(filter: filter),
               const SizedBox(height: AppSpacing.md),
               if (entries.isEmpty)
                 EmptyStateView(
@@ -149,6 +152,62 @@ class _StatItem extends StatelessWidget {
   }
 }
 
+/// Year chips (climb years present in the diary) and an area dropdown.
+class _YearAndAreaFilters extends ConsumerWidget {
+  const _YearAndAreaFilters({required this.filter});
+
+  final DiaryFilter filter;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final ascents = ref.watch(diaryProvider).value ?? const <Ascent>[];
+    final years = diaryYears(ascents);
+    final areas = diaryAreas(ascents);
+    final controller = ref.read(diaryFilterProvider.notifier);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (years.length > 1)
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.xs,
+            children: [
+              for (final year in years)
+                FilterChip(
+                  label: Text('$year'),
+                  selected: filter.years.contains(year),
+                  onSelected: (_) => controller.toggleYear(year),
+                ),
+            ],
+          ),
+        if (areas.length > 1) ...[
+          const SizedBox(height: AppSpacing.sm),
+          DropdownMenu<String?>(
+            initialSelection: filter.areaId,
+            requestFocusOnTap: false,
+            leadingIcon: const Icon(Icons.terrain_outlined),
+            textStyle: Theme.of(context).textTheme.bodyMedium,
+            onSelected: controller.setArea,
+            dropdownMenuEntries: [
+              DropdownMenuEntry<String?>(
+                value: null,
+                label: l10n.diaryAllAreas,
+              ),
+              for (final area in areas)
+                DropdownMenuEntry<String?>(
+                  value: area.areaId,
+                  label: '${area.areaName} (${area.count})',
+                ),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+}
+
 /// One chip per style that occurs in the diary (with its count); tapping
 /// filters the list, multiple styles combine.
 class _StyleFilterChips extends ConsumerWidget {
@@ -219,6 +278,17 @@ class _AscentCard extends ConsumerWidget {
         isThreeLine: true,
         trailing: PopupMenuButton<void>(
           itemBuilder: (context) => [
+            PopupMenuItem<void>(
+              onTap: () async {
+                final messenger = ScaffoldMessenger.of(context);
+                final message = l10n.ascentUpdatedMessage;
+                final updated = await LogAscentSheet.showEdit(context, ascent);
+                if (updated == true) {
+                  messenger.showSnackBar(SnackBar(content: Text(message)));
+                }
+              },
+              child: Text(l10n.ascentEditAction),
+            ),
             PopupMenuItem<void>(
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);

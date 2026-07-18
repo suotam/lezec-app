@@ -49,4 +49,28 @@ class Ascent {
 
   final DateTime createdAt;
   final String? note;
+
+  static const _noteUnset = Object();
+
+  /// Copy with the user-editable fields changed; identity, route context
+  /// and [createdAt] stay fixed. Pass `note: null` to clear the note.
+  Ascent copyWith({
+    AscentStyle? style,
+    DateTime? date,
+    Object? note = _noteUnset,
+  }) {
+    return Ascent(
+      id: id,
+      routeId: routeId,
+      routeName: routeName,
+      grade: grade,
+      areaId: areaId,
+      areaName: areaName,
+      sectorName: sectorName,
+      style: style ?? this.style,
+      date: date ?? this.date,
+      createdAt: createdAt,
+      note: identical(note, _noteUnset) ? this.note : note as String?,
+    );
+  }
 }

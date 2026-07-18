@@ -124,7 +124,15 @@ catalog)._
   location permissions declared for Android and iOS.
 - Discover restriction teasers capped at 4 (was: every restricted area
   in the catalog).
-- App tests: 76 passing, importer tests: 26 passing, both analyzers
+- Area cards show the distance when the list is sorted by proximity.
+
+**Diary polish (Etapa 2 extras)**
+- Ascent editing: `Ascent.copyWith`, `DiaryRepository.updateAscent`,
+  edit action in the entry menu reusing the log sheet with prefilled
+  values.
+- Diary filters extended: climb-year chips and an area dropdown (with
+  counts) on top of the style chips; all combine.
+- App tests: 82 passing, importer tests: 26 passing, both analyzers
   clean.
 
 ## Intentionally deferred
@@ -177,18 +185,16 @@ complex grade conversion.
    distance sorting, APK size.
 2. Complete the crawl once the ČHS server recovers (re-run `fetch --all`
    on the existing snapshot, rebuild as version 4, reship the asset).
-3. Diary polish: date-range/area filters or a simple performance chart
-   (roadmap Etapa 2 extras), plus an ascent edit flow.
-4. Importer follow-ups from the review report: restriction texts
+3. Importer follow-ups from the review report: restriction texts
    ("Podmínky lezení") via per-route fetches, extended grade-system
    mapping for the labels the report flags.
-5. Optional discovery polish: show the distance on area cards when
-   sorted by distance.
+4. Optional diary polish: a simple performance chart (ascents per grade
+   over time).
 
 Suggested prompt for the next iteration:
 
 > Continue the Crux CZ Flutter app with fixes from the physical-device
 > test round, then per docs/IMPLEMENTATION_STATUS.md: catalog v4 once
-> the ČHS server recovers, diary polish (ascent editing, date/area
-> filters). Do not add backend communication. Follow
-> docs/ARCHITECTURE.md and keep repository boundaries unchanged.
+> the ČHS server recovers, importer follow-ups (restriction texts).
+> Do not add backend communication. Follow docs/ARCHITECTURE.md and
+> keep repository boundaries unchanged.

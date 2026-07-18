@@ -674,6 +674,36 @@ abstract class AppLocalizations {
   /// **'Záznam byl smazán.'**
   String get ascentDeletedMessage;
 
+  /// No description provided for @ascentEditAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Upravit záznam'**
+  String get ascentEditAction;
+
+  /// No description provided for @editAscentTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Úprava přelezu'**
+  String get editAscentTitle;
+
+  /// No description provided for @ascentUpdatedMessage.
+  ///
+  /// In cs, this message translates to:
+  /// **'Záznam byl upraven.'**
+  String get ascentUpdatedMessage;
+
+  /// No description provided for @diaryAllAreas.
+  ///
+  /// In cs, this message translates to:
+  /// **'Všechny oblasti'**
+  String get diaryAllAreas;
+
+  /// No description provided for @areaDistanceKm.
+  ///
+  /// In cs, this message translates to:
+  /// **'{km} km'**
+  String areaDistanceKm(int km);
+
   /// No description provided for @routeMyAscentsTitle.
   ///
   /// In cs, this message translates to:

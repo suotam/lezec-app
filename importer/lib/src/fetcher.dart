@@ -32,11 +32,17 @@ class ChsFetcher {
     http.Client Function()? clientFactory,
     this.delay = const Duration(seconds: 2),
     this.maxAttempts = 3,
+    this.requestTimeout = const Duration(seconds: 30),
     void Function(String message)? log,
   })  : _clientFactory = clientFactory ?? http.Client.new,
         _log = log ?? print {
     _client = _clientFactory();
   }
+
+  /// Per-request deadline. Completion passes over a snapshot with known
+  /// server-side-broken pages use a short timeout so each dead page costs
+  /// seconds, not minutes.
+  final Duration requestTimeout;
 
   /// Pause between requests. The ČHS site is a volunteer-run resource;
   /// keep this at seconds, not milliseconds.
@@ -73,7 +79,7 @@ class ChsFetcher {
                 'Connection': 'close',
               },
             )
-            .timeout(const Duration(seconds: 30));
+            .timeout(requestTimeout);
         if (response.statusCode == 200) {
           return utf8.decode(response.bodyBytes);
         }

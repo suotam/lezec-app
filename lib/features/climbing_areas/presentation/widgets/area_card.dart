@@ -14,11 +14,15 @@ class AreaCard extends StatelessWidget {
     required this.area,
     required this.onTap,
     this.compact = false,
+    this.distanceKm,
   });
 
   final ClimbingArea area;
   final VoidCallback onTap;
   final bool compact;
+
+  /// Distance from the user, shown when the list is sorted by proximity.
+  final double? distanceKm;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,10 @@ class AreaCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                area.regionName,
+                distanceKm == null
+                    ? area.regionName
+                    : '${area.regionName} · '
+                        '${l10n.areaDistanceKm(distanceKm!.round())}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

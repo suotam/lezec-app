@@ -7,5 +7,8 @@ abstract interface class DiaryRepository {
 
   Future<void> addAscent(Ascent ascent);
 
+  /// Replaces the stored ascent with the same [Ascent.id].
+  Future<void> updateAscent(Ascent ascent);
+
   Future<void> deleteAscent(String id);
 }

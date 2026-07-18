@@ -41,23 +41,66 @@ class DiaryStats {
   final Map<AscentStyle, int> byStyle;
 }
 
-/// Which ascents the diary list shows. An empty style set means "all".
+/// Which ascents the diary list shows. Empty sets/null mean "all".
 @immutable
 class DiaryFilter {
-  const DiaryFilter({this.styles = const {}});
+  const DiaryFilter({
+    this.styles = const {},
+    this.years = const {},
+    this.areaId,
+  });
 
   final Set<AscentStyle> styles;
+  final Set<int> years;
+  final String? areaId;
 
-  bool get isActive => styles.isNotEmpty;
+  bool get isActive => styles.isNotEmpty || years.isNotEmpty || areaId != null;
 
   bool matches(Ascent ascent) =>
-      styles.isEmpty || styles.contains(ascent.style);
+      (styles.isEmpty || styles.contains(ascent.style)) &&
+      (years.isEmpty || years.contains(ascent.date.year)) &&
+      (areaId == null || ascent.areaId == areaId);
 
-  DiaryFilter toggled(AscentStyle style) {
-    final result = {...styles};
-    if (!result.remove(style)) result.add(style);
-    return DiaryFilter(styles: result);
+  DiaryFilter toggledStyle(AscentStyle style) =>
+      DiaryFilter(styles: _toggled(styles, style), years: years, areaId: areaId);
+
+  DiaryFilter toggledYear(int year) =>
+      DiaryFilter(styles: styles, years: _toggled(years, year), areaId: areaId);
+
+  /// Null selects all areas again.
+  DiaryFilter withArea(String? areaId) =>
+      DiaryFilter(styles: styles, years: years, areaId: areaId);
+
+  static Set<T> _toggled<T>(Set<T> set, T value) {
+    final result = {...set};
+    if (!result.remove(value)) result.add(value);
+    return result;
   }
+}
+
+/// One area option for the diary's area filter dropdown.
+typedef DiaryAreaOption = ({String areaId, String areaName, int count});
+
+/// Distinct climb years in [ascents], newest first.
+List<int> diaryYears(List<Ascent> ascents) {
+  final years = {for (final ascent in ascents) ascent.date.year}.toList()
+    ..sort((a, b) => b.compareTo(a));
+  return years;
+}
+
+/// Distinct areas in [ascents] with entry counts, alphabetical.
+List<DiaryAreaOption> diaryAreas(List<Ascent> ascents) {
+  final names = <String, String>{};
+  final counts = <String, int>{};
+  for (final ascent in ascents) {
+    names[ascent.areaId] = ascent.areaName;
+    counts.update(ascent.areaId, (c) => c + 1, ifAbsent: () => 1);
+  }
+  final options = [
+    for (final id in names.keys)
+      (areaId: id, areaName: names[id]!, count: counts[id]!),
+  ]..sort((a, b) => a.areaName.compareTo(b.areaName));
+  return options;
 }
 
 List<Ascent> filterAscents(List<Ascent> ascents, DiaryFilter filter) =>

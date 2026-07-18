@@ -92,6 +92,18 @@ void main() {
     ]);
   });
 
+  test('updateAscent replaces the stored entry', () async {
+    await repository.addAscent(buildAscent(id: 'a1', note: 'původní'));
+
+    await repository.updateAscent(
+      buildAscent(id: 'a1', style: AscentStyle.topRope, note: null),
+    );
+
+    final ascent = (await repository.getAscents()).single;
+    expect(ascent.style, AscentStyle.topRope);
+    expect(ascent.note, isNull);
+  });
+
   test('deletes an entry', () async {
     await repository.addAscent(buildAscent(id: 'a1'));
     await repository.addAscent(buildAscent(id: 'a2'));

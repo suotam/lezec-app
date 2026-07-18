@@ -138,6 +138,18 @@
   "ascentLoggedMessage": "Přelez byl uložen do deníku.",
   "ascentDeleteAction": "Smazat záznam",
   "ascentDeletedMessage": "Záznam byl smazán.",
+  "ascentEditAction": "Upravit záznam",
+  "editAscentTitle": "Úprava přelezu",
+  "ascentUpdatedMessage": "Záznam byl upraven.",
+  "diaryAllAreas": "Všechny oblasti",
+  "areaDistanceKm": "{km} km",
+  "@areaDistanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
   "routeMyAscentsTitle": "Moje přelezy",
   "routeClimbedLabel": "Přelezeno",
   "diaryStatsTotalLabel": "Celkem",

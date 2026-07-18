@@ -103,6 +103,18 @@
   "ascentLoggedMessage": "The ascent was saved to your diary.",
   "ascentDeleteAction": "Delete entry",
   "ascentDeletedMessage": "The entry was deleted.",
+  "ascentEditAction": "Edit entry",
+  "editAscentTitle": "Edit ascent",
+  "ascentUpdatedMessage": "The entry was updated.",
+  "diaryAllAreas": "All areas",
+  "areaDistanceKm": "{km} km",
+  "@areaDistanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
   "routeMyAscentsTitle": "My ascents",
   "routeClimbedLabel": "Climbed",
   "diaryStatsTotalLabel": "Total",

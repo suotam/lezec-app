@@ -147,6 +147,82 @@ void main() {
         reason: 'toggling a chip twice must reset to all entries');
   });
 
+  testWidgets('editing an entry changes style and note', (tester) async {
+    final db = createTestDatabase();
+    await DriftDiaryRepository(db).addAscent(
+      buildAscent(id: 'a1', style: AscentStyle.flash),
+    );
+
+    await tester.pumpWidget(
+      wrapScreen(const DiaryScreen(), await testOverrides(database: db)),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(PopupMenuButton<void>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Upravit záznam'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Úprava přelezu'), findsOneWidget);
+    await tester.tap(find.widgetWithText(ChoiceChip, 'TR'));
+    await tester.enterText(find.byType(TextField), 'Upraveno.');
+    await tester.ensureVisible(find.text('Uložit přelez'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Uložit přelez'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Záznam byl upraven.'), findsOneWidget);
+    // Entry subtitle now starts with the TR style and the climb date.
+    expect(find.textContaining('TR · 10.'), findsOneWidget);
+    expect(find.text('Upraveno.'), findsOneWidget);
+  });
+
+  testWidgets('year chips and area dropdown narrow the list', (tester) async {
+    final db = createTestDatabase();
+    final repository = DriftDiaryRepository(db);
+    await repository.addAscent(
+      buildAscent(id: 'a1', date: DateTime(2025, 6, 1)),
+    );
+    await repository.addAscent(
+      Ascent(
+        id: 'a2',
+        routeId: 'route-spara',
+        routeName: 'Testová spára',
+        grade: const RouteGrade(
+          system: GradingSystem.czechSandstone,
+          value: 'VIIb',
+        ),
+        areaId: 'area-piskovce',
+        areaName: 'Testové věže',
+        sectorName: 'Věže',
+        style: AscentStyle.onsight,
+        date: DateTime(2026, 7, 1),
+        createdAt: DateTime(2026, 7, 1, 18),
+      ),
+    );
+
+    await tester.pumpWidget(
+      wrapScreen(const DiaryScreen(), await testOverrides(database: db)),
+    );
+    await tester.pumpAndSettle();
+
+    // Year chip narrows to the 2025 flash in Testový lom.
+    await tester.tap(find.widgetWithText(FilterChip, '2025'));
+    await tester.pumpAndSettle();
+    expect(find.text('Testová hrana'), findsOneWidget);
+    expect(find.text('Testová spára'), findsNothing);
+    await tester.tap(find.widgetWithText(FilterChip, '2025'));
+    await tester.pumpAndSettle();
+
+    // Area dropdown narrows to the sandstone area entry.
+    await tester.tap(find.byType(DropdownMenu<String?>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Testové věže (1)').last);
+    await tester.pumpAndSettle();
+    expect(find.text('Testová spára'), findsOneWidget);
+    expect(find.text('Testová hrana'), findsNothing);
+  });
+
   testWidgets('climbed route gets a check mark in the sector route list',
       (tester) async {
     final db = createTestDatabase();

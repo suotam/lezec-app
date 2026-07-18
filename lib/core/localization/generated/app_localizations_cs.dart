@@ -342,6 +342,23 @@ class AppLocalizationsCs extends AppLocalizations {
   String get ascentDeletedMessage => 'Záznam byl smazán.';
 
   @override
+  String get ascentEditAction => 'Upravit záznam';
+
+  @override
+  String get editAscentTitle => 'Úprava přelezu';
+
+  @override
+  String get ascentUpdatedMessage => 'Záznam byl upraven.';
+
+  @override
+  String get diaryAllAreas => 'Všechny oblasti';
+
+  @override
+  String areaDistanceKm(int km) {
+    return '$km km';
+  }
+
+  @override
   String get routeMyAscentsTitle => 'Moje přelezy';
 
   @override

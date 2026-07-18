@@ -160,8 +160,12 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
                       );
                     }
                     final area = areas[index - 1];
+                    final origin = filter.sort == AreaSort.distance
+                        ? filter.origin
+                        : null;
                     return AreaCard(
                       area: area,
+                      distanceKm: origin?.distanceInKmTo(area.location),
                       onTap: () => context.go(AppRoutes.area(area.id)),
                     );
                   },

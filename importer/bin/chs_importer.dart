@@ -19,6 +19,16 @@ Future<void> main(List<String> arguments) async {
           defaultsTo: '2000',
           help: 'Pause between requests (be polite: >= 1000)',
         )
+        ..addOption(
+          'timeout-s',
+          defaultsTo: '30',
+          help: 'Per-request deadline in seconds',
+        )
+        ..addOption(
+          'max-attempts',
+          defaultsTo: '3',
+          help: 'Attempts per page before giving up',
+        )
         ..addFlag('force', help: 'Refetch pages already in the snapshot'),
     )
     ..addCommand(
@@ -89,7 +99,11 @@ Future<void> _fetch(ArgResults args) async {
   final force = args['force'] as bool;
 
   final snapshot = await Snapshot.open(args['snapshot'] as String);
-  final fetcher = ChsFetcher(delay: Duration(milliseconds: delayMs));
+  final fetcher = ChsFetcher(
+    delay: Duration(milliseconds: delayMs),
+    requestTimeout: Duration(seconds: int.parse(args['timeout-s'] as String)),
+    maxAttempts: int.parse(args['max-attempts'] as String),
+  );
 
   // One failed page must not kill an hours-long crawl: log, skip and let
   // a re-run of the same command retry just the missing pages.
