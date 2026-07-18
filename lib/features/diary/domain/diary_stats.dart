@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../climbing_routes/domain/route_grade.dart';
 import 'ascent.dart';
 
 /// Aggregated diary numbers shown above the ascent list. Pure derivation
@@ -110,3 +111,18 @@ List<Ascent> filterAscents(List<Ascent> ascents, DiaryFilter filter) => [
   for (final ascent in ascents)
     if (filter.matches(ascent)) ascent,
 ];
+
+/// One bar of the grade histogram.
+typedef GradeCount = ({RouteGrade grade, int count});
+
+/// Ascent counts per grade, easiest first. Grades from different grading
+/// systems are grouped by system (a RouteGrade never compares across
+/// systems), so mixed diaries render as consecutive per-system blocks.
+List<GradeCount> gradeHistogram(List<Ascent> ascents) {
+  final counts = <RouteGrade, int>{};
+  for (final ascent in ascents) {
+    counts.update(ascent.grade, (count) => count + 1, ifAbsent: () => 1);
+  }
+  final grades = counts.keys.toList()..sort();
+  return [for (final grade in grades) (grade: grade, count: counts[grade]!)];
+}

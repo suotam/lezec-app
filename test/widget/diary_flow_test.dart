@@ -6,6 +6,7 @@ import 'package:lezec_app/features/climbing_routes/presentation/route_detail_scr
 import 'package:lezec_app/features/diary/data/drift_diary_repository.dart';
 import 'package:lezec_app/features/diary/domain/ascent.dart';
 import 'package:lezec_app/features/diary/presentation/diary_screen.dart';
+import 'package:lezec_app/features/diary/presentation/widgets/grade_histogram_card.dart';
 
 import '../helpers/test_helpers.dart';
 
@@ -68,6 +69,16 @@ void main() {
     expect(find.text('Testová hrana'), findsOneWidget);
     expect(find.textContaining('OS'), findsWidgets);
     expect(find.text('Krásné podmínky.'), findsOneWidget);
+
+    // The grade histogram shows one bar for the logged route's grade.
+    expect(find.text('Přelezy podle obtížnosti'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(GradeHistogramCard),
+        matching: find.text('6b+'),
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('deleting the only entry shows the empty state', (tester) async {
@@ -114,11 +125,13 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Stats card: 2 total, 1 this year, 2 distinct routes.
+    // Stats card: 2 total, 1 this year, 2 distinct routes — plus the
+    // grade histogram's "2" for the shared 6b+ bar.
     expect(find.text('Celkem'), findsOneWidget);
     expect(find.text('Letos'), findsOneWidget);
-    expect(find.text('2'), findsNWidgets(2));
+    expect(find.text('2'), findsNWidgets(3));
     expect(find.text('1'), findsOneWidget);
+    expect(find.text('Přelezy podle obtížnosti'), findsOneWidget);
 
     // Style chips carry counts; tapping one narrows the list.
     await tester.tap(find.text('OS · 1'));

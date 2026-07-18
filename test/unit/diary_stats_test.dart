@@ -8,12 +8,13 @@ Ascent ascent({
   String routeId = 'route-1',
   AscentStyle style = AscentStyle.redpoint,
   DateTime? date,
+  RouteGrade grade = const RouteGrade(system: GradingSystem.uiaa, value: 'VI'),
 }) {
   return Ascent(
     id: id,
     routeId: routeId,
     routeName: 'Cesta',
-    grade: const RouteGrade(system: GradingSystem.uiaa, value: 'VI'),
+    grade: grade,
     areaId: 'area-1',
     areaName: 'Oblast',
     sectorName: 'Sektor',
@@ -144,6 +145,37 @@ void main() {
 
       expect(updated.copyWith(note: null).note, isNull);
       expect(updated.copyWith().note, 'nová poznámka');
+    });
+  });
+
+  group('gradeHistogram', () {
+    const g6a = RouteGrade(system: GradingSystem.french, value: '6a');
+    const g7a = RouteGrade(system: GradingSystem.french, value: '7a');
+    const gVii = RouteGrade(system: GradingSystem.uiaa, value: 'VII');
+
+    test('counts ascents per grade, easiest first', () {
+      final bars = gradeHistogram([
+        ascent(id: 'a1', grade: g7a),
+        ascent(id: 'a2', grade: g6a),
+        ascent(id: 'a3', grade: g6a),
+      ]);
+
+      expect(bars, [(grade: g6a, count: 2), (grade: g7a, count: 1)]);
+    });
+
+    test('groups mixed grading systems into consecutive blocks', () {
+      final bars = gradeHistogram([
+        ascent(id: 'a1', grade: g6a),
+        ascent(id: 'a2', grade: gVii),
+        ascent(id: 'a3', grade: g7a),
+      ]);
+
+      // Same-system grades stay adjacent and ordered within the block.
+      expect(bars.map((b) => b.grade), [gVii, g6a, g7a]);
+    });
+
+    test('is empty for no ascents', () {
+      expect(gradeHistogram(const []), isEmpty);
     });
   });
 }

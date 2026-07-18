@@ -388,6 +388,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get routeClimbedLabel => 'Přelezeno';
 
   @override
+  String get diaryGradeChartTitle => 'Přelezy podle obtížnosti';
+
+  @override
   String get diaryStatsTotalLabel => 'Celkem';
 
   @override

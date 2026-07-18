@@ -124,6 +124,7 @@
   },
   "routeMyAscentsTitle": "My ascents",
   "routeClimbedLabel": "Climbed",
+  "diaryGradeChartTitle": "Ascents by grade",
   "diaryStatsTotalLabel": "Total",
   "diaryStatsThisYearLabel": "This year",
   "diaryStatsRoutesLabel": "Distinct routes",

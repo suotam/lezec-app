@@ -166,6 +166,7 @@
   },
   "routeMyAscentsTitle": "Moje přelezy",
   "routeClimbedLabel": "Přelezeno",
+  "diaryGradeChartTitle": "Přelezy podle obtížnosti",
   "diaryStatsTotalLabel": "Celkem",
   "diaryStatsThisYearLabel": "Letos",
   "diaryStatsRoutesLabel": "Různých cest",

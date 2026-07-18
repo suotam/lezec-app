@@ -383,6 +383,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get routeClimbedLabel => 'Climbed';
 
   @override
+  String get diaryGradeChartTitle => 'Ascents by grade';
+
+  @override
   String get diaryStatsTotalLabel => 'Total';
 
   @override

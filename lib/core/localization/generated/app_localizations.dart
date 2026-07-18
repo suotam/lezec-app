@@ -758,6 +758,12 @@ abstract class AppLocalizations {
   /// **'Přelezeno'**
   String get routeClimbedLabel;
 
+  /// No description provided for @diaryGradeChartTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Přelezy podle obtížnosti'**
+  String get diaryGradeChartTitle;
+
   /// No description provided for @diaryStatsTotalLabel.
   ///
   /// In cs, this message translates to:

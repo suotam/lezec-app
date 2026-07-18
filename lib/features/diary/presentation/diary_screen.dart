@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router/app_router.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/localization/l10n.dart';
+import 'widgets/grade_histogram_card.dart';
 import '../../../shared/extensions/date_formatting.dart';
 import '../../../shared/extensions/domain_labels.dart';
 import '../../../shared/widgets/async_value_view.dart';
@@ -66,6 +67,8 @@ class DiaryScreen extends ConsumerWidget {
                   ),
                 )
               else ...[
+                GradeHistogramCard(ascents: entries),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   l10n.diaryAscentsCount(entries.length),
                   style: Theme.of(context).textTheme.titleMedium,
