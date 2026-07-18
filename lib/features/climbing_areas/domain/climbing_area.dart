@@ -26,6 +26,8 @@ class ClimbingArea {
     this.access,
     this.restrictions = const [],
     this.sectors = const [],
+    this._sectorCount,
+    this._routeCount,
   });
 
   final String id;
@@ -44,13 +46,18 @@ class ClimbingArea {
   final List<ClimbingRestriction> restrictions;
   final List<ClimbingSector> sectors;
 
-  int get sectorCount => sectors.length;
+  /// Counts stored by summary projections, whose [sectors] list is empty
+  /// so area lists don't parse whole sector trees.
+  final int? _sectorCount;
+  final int? _routeCount;
+
+  int get sectorCount => _sectorCount ?? sectors.length;
 
   List<ClimbingRoute> get allRoutes => [
     for (final sector in sectors) ...sector.allRoutes,
   ];
 
-  int get routeCount => allRoutes.length;
+  int get routeCount => _routeCount ?? allRoutes.length;
 
   bool get hasRestrictions => restrictions.isNotEmpty;
 

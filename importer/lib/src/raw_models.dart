@@ -92,6 +92,7 @@ class RawChsCesta {
     required this.id,
     required this.name,
     this.gradeText,
+    this.lengthMeters,
     this.iconFlags = const {},
     this.description,
     this.firstAscent,
@@ -102,6 +103,9 @@ class RawChsCesta {
 
   /// The grade exactly as listed, e.g. `V`, `VIIc`, `6b+`.
   final String? gradeText;
+
+  /// Route length when the list row carries a trailing `<n>m` token.
+  final int? lengthMeters;
 
   final IconFlags iconFlags;
   final String? description;

@@ -107,9 +107,10 @@ RawChsSektor parseSektorPage(
     final text = _cleanText(p.text);
     if (text.isEmpty || text.startsWith('Online zdroj')) continue;
     if (text.startsWith('Přístup')) {
-      accessText = _cleanText(
+      final stripped = _cleanText(
         text.replaceFirst(RegExp(r'^Přístup\s*:?\s*'), ''),
       );
+      if (stripped.isNotEmpty) accessText = stripped;
     } else {
       paragraphs.add(text);
     }
@@ -179,9 +180,11 @@ RawChsSkala parseSkalaPage(
     final cestaId = _idFromHref(anchor?.attributes['href'], 'cesta');
     if (anchor == null || cestaId == null) continue;
 
-    // `.info-roads` reads like ", V" or ", ***, III"; the grade is the
-    // last comma-separated token once the star-rating span is removed.
+    // `.info-roads` reads like ", V", ", ***, III" or ", 8/8+, 9m".
+    // After removing the star-rating span, a trailing "<n>m" token is the
+    // route length and the last remaining token is the grade.
     String? gradeText;
+    int? lengthMeters;
     final infoRoads = item.querySelector('.info-roads');
     if (infoRoads != null) {
       infoRoads.querySelectorAll('.stars').forEach((e) => e.remove());
@@ -190,6 +193,13 @@ RawChsSkala parseSkalaPage(
           .map(_cleanText)
           .where((t) => t.isNotEmpty)
           .toList();
+      final lengthMatch = tokens.isEmpty
+          ? null
+          : RegExp(r'^(\d+)\s*m$').firstMatch(tokens.last);
+      if (lengthMatch != null) {
+        lengthMeters = int.parse(lengthMatch.group(1)!);
+        tokens.removeLast();
+      }
       if (tokens.isNotEmpty) gradeText = tokens.last;
     }
 
@@ -202,11 +212,15 @@ RawChsSkala parseSkalaPage(
               _cleanText(li.text),
     ];
 
+    // Route names containing quotes break the title attribute (the HTML
+    // parser sees an empty title), so fall back to the anchor text.
+    final titleName = _cleanText(anchor.attributes['title'] ?? '');
     routes.add(
       RawChsCesta(
         id: cestaId,
-        name: _cleanText(anchor.attributes['title'] ?? anchor.text),
+        name: titleName.isNotEmpty ? titleName : _cleanText(anchor.text),
         gradeText: gradeText,
+        lengthMeters: lengthMeters,
         iconFlags: _parseIconFlags(item.querySelector('.info-icons')),
         description: detailItems.isNotEmpty ? detailItems.first : null,
         firstAscent: detailItems.length > 1 ? detailItems[1] : null,

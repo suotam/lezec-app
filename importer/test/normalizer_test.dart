@@ -118,6 +118,25 @@ void main() {
     expect(unknown.warnings.join(), contains('unknown grade system'));
   });
 
+  test('exports route length and falls back for an empty name', () {
+    final result = normalizeCatalog(
+      sektory: [buildSektor()],
+      skaly: [
+        buildSkala(
+          routes: const [
+            RawChsCesta(id: 1, name: '', gradeText: 'VI', lengthMeters: 12),
+          ],
+        ),
+      ],
+      version: 1,
+    );
+    final route = _firstRoute(result.catalog);
+    expect(route['lengthMeters'], 12);
+    expect(route['name'], '(bez názvu)');
+    expect(result.warnings.join(), contains('missing name'));
+    expect(validateCatalog(result.catalog).isValid, isTrue);
+  });
+
   test('missing grade is exported as "?" with a warning', () {
     final result = normalizeCatalog(
       sektory: [buildSektor()],

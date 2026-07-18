@@ -151,21 +151,33 @@ keys are deleted afterwards, so it is a no-op on later launches.
 
 ### Catalog store
 
-`DriftCatalogStore` imports the bundled catalog JSON into the database:
-regions as columns, each area as **one JSON document row** (its whole
-sector/rock/route subtree), plus a `route id → area id` index table and a
-metadata table with the imported format version. Deliberately
-document-oriented rather than fully relational: the parser remains the
-single mapping layer, and full relational normalization is deferred until
-something needs cross-catalog queries (e.g. global route search).
+`DriftCatalogStore` imports the bundled catalog (a gzipped JSON asset;
+gzip is detected by magic bytes so tests can feed plain JSON) into the
+database: regions as columns, each area as **one JSON document row**
+(its whole sector/rock/route subtree) plus a **summary document** (the
+same area without its `sectors` tree, with precomputed
+`sectorCount`/`routeCount`), a `route id → area id` index table and a
+metadata table. Deliberately document-oriented rather than fully
+relational: the parser remains the single mapping layer, and full
+relational normalization is deferred until something needs cross-catalog
+queries (e.g. global route search).
 
-Reads go through `DriftClimbingAreaRepository` /
-`DriftClimbingRouteRepository`, which call `ensureSeeded()` first. Opening
-an area or a route parses only that area's document; only the areas list
-screen still materializes all areas (its repository interface returns full
-models). The store reimports only when the asset's `version` differs from
-the imported one, so a shipped catalog update reaches devices on the next
-launch. The exchange format is specified in `docs/CATALOG_FORMAT.md`.
+The import is incremental — areas are validated, sliced and
+batch-inserted one at a time, so the full domain model is never
+materialized at once (the full-country catalog is ~31 MB of JSON with
+100k+ routes; seeding takes ~1.5 s on desktop). Reads go through
+`DriftClimbingAreaRepository` / `DriftClimbingRouteRepository`, which
+call `ensureSeeded()` first. `getAreas()` parses only the summary
+documents (~80 ms for 951 areas); area/route detail parses a single full
+document.
+
+Reseed triggers, cheapest first: if the asset's byte length matches the
+recorded fingerprint, nothing is decoded at all (~2 ms start-up cost);
+otherwise the document's `version` decides whether to reimport. Schema
+changes to catalog tables are migrated destructively (drop + recreate +
+clear meta) because the catalog is fully re-seedable; user tables are
+never touched. The exchange format is specified in
+`docs/CATALOG_FORMAT.md`.
 
 ## How a backend fits in later
 

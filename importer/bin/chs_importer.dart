@@ -202,10 +202,10 @@ Future<void> _build(ArgResults args) async {
     dropEmptyAreas: args['drop-empty-areas'] as bool,
   );
 
+  // Compact output — a full-database catalog is tens of MB, indentation
+  // would add another ~20 %.
   final outFile = File(args['out'] as String)..parent.createSync(recursive: true);
-  await outFile.writeAsString(
-    const JsonEncoder.withIndent('  ').convert(result.catalog),
-  );
+  await outFile.writeAsString(json.encode(result.catalog));
   final reportFile = File('${outFile.path}.report.txt');
   await reportFile.writeAsString(buildReport(result));
 

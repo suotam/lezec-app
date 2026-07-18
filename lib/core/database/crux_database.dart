@@ -44,11 +44,15 @@ class CatalogRegions extends Table {
 
 /// One area per row with its whole subtree (sectors, rocks, routes) stored
 /// as the original catalog JSON document. Detail screens parse a single
-/// area instead of the whole catalog.
+/// area instead of the whole catalog. [summaryDocument] is the same area
+/// without its `sectors` tree plus precomputed counts — the areas list
+/// parses only these, which keeps cold starts fast with a full-country
+/// catalog.
 class CatalogAreas extends Table {
   TextColumn get id => text()();
   TextColumn get regionId => text()();
   TextColumn get document => text()();
+  TextColumn get summaryDocument => text()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -101,5 +105,25 @@ class CruxDatabase extends _$CruxDatabase {
   CruxDatabase(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            // The catalog is fully re-seedable from the bundled asset, so
+            // schema changes to catalog tables just drop and recreate
+            // them (user tables are never touched). Clearing the meta
+            // rows makes the store reimport on the next read.
+            await m.deleteTable(catalogRouteIndex.actualTableName);
+            await m.deleteTable(catalogAreas.actualTableName);
+            await m.deleteTable(catalogRegions.actualTableName);
+            await m.deleteTable(catalogMeta.actualTableName);
+            await m.createTable(catalogMeta);
+            await m.createTable(catalogRegions);
+            await m.createTable(catalogAreas);
+            await m.createTable(catalogRouteIndex);
+          }
+        },
+      );
 }

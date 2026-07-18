@@ -2,7 +2,6 @@
 library;
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -30,12 +29,14 @@ class FetchException implements Exception {
 
 class ChsFetcher {
   ChsFetcher({
-    http.Client? client,
+    http.Client Function()? clientFactory,
     this.delay = const Duration(seconds: 2),
     this.maxAttempts = 3,
     void Function(String message)? log,
-  })  : _client = client ?? http.Client(),
-        _log = log ?? print;
+  })  : _clientFactory = clientFactory ?? http.Client.new,
+        _log = log ?? print {
+    _client = _clientFactory();
+  }
 
   /// Pause between requests. The ČHS site is a volunteer-run resource;
   /// keep this at seconds, not milliseconds.
@@ -46,7 +47,8 @@ class ChsFetcher {
   static const _manifestFlushInterval = 25;
 
   final int maxAttempts;
-  final http.Client _client;
+  final http.Client Function() _clientFactory;
+  late http.Client _client;
   final void Function(String message) _log;
   DateTime? _lastRequest;
   int _storedSinceFlush = 0;
@@ -60,7 +62,17 @@ class ChsFetcher {
       await _throttle();
       try {
         final response = await _client
-            .get(Uri.parse(url), headers: {'User-Agent': _userAgent})
+            .get(
+              Uri.parse(url),
+              headers: {
+                'User-Agent': _userAgent,
+                // One connection per request. At a multi-second crawl
+                // pace keep-alive saves nothing, and a connection gone
+                // stale during a no-network phase (parsing already
+                // fetched pages) used to poison every later request.
+                'Connection': 'close',
+              },
+            )
             .timeout(const Duration(seconds: 30));
         if (response.statusCode == 200) {
           return utf8.decode(response.bodyBytes);
@@ -70,11 +82,16 @@ class ChsFetcher {
           continue;
         }
         throw FetchException('HTTP ${response.statusCode} for $url');
-      } on IOException catch (e) {
+      } on Exception catch (e) {
+        if (e is FetchException) rethrow;
+        // Timeout or socket error: the client's pooled connection may be
+        // dead — replace the whole client before retrying.
+        _client.close();
+        _client = _clientFactory();
         if (attempt >= maxAttempts) {
           throw FetchException('$url failed after $attempt attempts: $e');
         }
-        _log('  $e — retrying $url');
+        _log('  $e — retrying $url with a fresh connection');
       }
     }
   }

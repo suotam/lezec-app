@@ -19,7 +19,7 @@
   "discoverFavorites": "Favorite routes",
   "discoverBrowseAllAreas": "Browse all areas",
   "discoverDataSourceTitle": "Data source",
-  "discoverDataSourceBody": "The data comes from the ČHS rock database (horosvaz.cz) and covers only a small sample of areas for now. Verify route and restriction details directly in the ČHS database. Full data will be added in a later stage.",
+  "discoverDataSourceBody": "The data comes from the ČHS rock database (horosvaz.cz). It is an offline copy taken during development — always verify current conditions, restrictions and climbing rules directly in the ČHS database.",
   "discoverRestrictionsTitle": "Current restrictions",
   "areasTitle": "Areas",
   "areasSearchHint": "Search by name, region or description",

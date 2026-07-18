@@ -90,6 +90,13 @@ ClimbingArea parseCatalogArea(
   return _parseArea(_asMap(document, context), context, regionNamesById);
 }
 
+/// Parses one entry of the catalog's `regions` list. Used by the catalog
+/// store's incremental import, which never materializes the whole catalog
+/// at once.
+ClimbingRegion parseCatalogRegion(Object? document, String context) {
+  return _parseRegion(_asMap(document, context), context);
+}
+
 ClimbingRegion _parseRegion(Map<String, Object?> map, String context) {
   return ClimbingRegion(
     id: _string(map, 'id', context),
@@ -146,6 +153,10 @@ ClimbingArea _parseArea(
       for (final (i, entry) in _mapList(map, 'sectors').indexed)
         _parseSector(entry, '$context.sectors[$i]'),
     ],
+    // Present only in summary documents (area without its sector tree),
+    // which the catalog store derives at import time for fast lists.
+    sectorCount: _optInt(map, 'sectorCount', context),
+    routeCount: _optInt(map, 'routeCount', context),
   );
 }
 

@@ -63,18 +63,19 @@ flutter test      # unit + widget tests
 
 ## How catalog data works
 
-The whole catalog lives in a single JSON asset:
+The whole catalog lives in a single gzipped JSON asset:
 
 ```
-assets/demo_data/climbing_catalog.json
+assets/demo_data/climbing_catalog.json.gz
 ```
 
-Since catalog version 2 it contains a real sample imported from the ČHS
-rock database (Bohuňovské skály, Vápenka Jimramov and Želiv — 107
-routes), produced by the importer below. To refresh or extend it, run
-the importer, review its report and copy the output over the asset with
-a bumped `version` — the app reimports the catalog into its local
-database on the next launch.
+Since catalog version 3 it contains the full ČHS rock database — 16
+regions, 951 areas and ~104,000 routes (5 MB gzipped), produced by the
+importer below. On first launch the app imports it into its local
+SQLite database (~1.5 s on desktop); later starts skip the import
+entirely unless the asset changes. To refresh the data, run the
+importer, review its report and replace the asset with a bumped
+`version`.
 
 The asset is parsed defensively in the data layer
 (`lib/features/climbing_areas/data/demo_catalog_parser.dart`). A malformed
@@ -102,8 +103,9 @@ scraping code.
 
 ## Current limitations
 
-- Only a small real-data sample (3 areas) — no backend, no
-  synchronization.
+- Offline snapshot of the ČHS database (~96 % of skály; the rest failed
+  on a server outage and will be refetched) — no backend, no
+  synchronization, data ages until the next import.
 - Community and Profile tabs are "coming soon" placeholders.
 - No photos on ascents, no diary calendar view.
 - No comments, maps or weather.

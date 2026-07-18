@@ -1001,8 +1001,24 @@ class $CatalogAreasTable extends CatalogAreas
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _summaryDocumentMeta = const VerificationMeta(
+    'summaryDocument',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, regionId, document];
+  late final GeneratedColumn<String> summaryDocument = GeneratedColumn<String>(
+    'summary_document',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    regionId,
+    document,
+    summaryDocument,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1036,6 +1052,17 @@ class $CatalogAreasTable extends CatalogAreas
     } else if (isInserting) {
       context.missing(_documentMeta);
     }
+    if (data.containsKey('summary_document')) {
+      context.handle(
+        _summaryDocumentMeta,
+        summaryDocument.isAcceptableOrUnknown(
+          data['summary_document']!,
+          _summaryDocumentMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_summaryDocumentMeta);
+    }
     return context;
   }
 
@@ -1057,6 +1084,10 @@ class $CatalogAreasTable extends CatalogAreas
         DriftSqlType.string,
         data['${effectivePrefix}document'],
       )!,
+      summaryDocument: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary_document'],
+      )!,
     );
   }
 
@@ -1070,10 +1101,12 @@ class CatalogArea extends DataClass implements Insertable<CatalogArea> {
   final String id;
   final String regionId;
   final String document;
+  final String summaryDocument;
   const CatalogArea({
     required this.id,
     required this.regionId,
     required this.document,
+    required this.summaryDocument,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1081,6 +1114,7 @@ class CatalogArea extends DataClass implements Insertable<CatalogArea> {
     map['id'] = Variable<String>(id);
     map['region_id'] = Variable<String>(regionId);
     map['document'] = Variable<String>(document);
+    map['summary_document'] = Variable<String>(summaryDocument);
     return map;
   }
 
@@ -1089,6 +1123,7 @@ class CatalogArea extends DataClass implements Insertable<CatalogArea> {
       id: Value(id),
       regionId: Value(regionId),
       document: Value(document),
+      summaryDocument: Value(summaryDocument),
     );
   }
 
@@ -1101,6 +1136,7 @@ class CatalogArea extends DataClass implements Insertable<CatalogArea> {
       id: serializer.fromJson<String>(json['id']),
       regionId: serializer.fromJson<String>(json['regionId']),
       document: serializer.fromJson<String>(json['document']),
+      summaryDocument: serializer.fromJson<String>(json['summaryDocument']),
     );
   }
   @override
@@ -1110,20 +1146,29 @@ class CatalogArea extends DataClass implements Insertable<CatalogArea> {
       'id': serializer.toJson<String>(id),
       'regionId': serializer.toJson<String>(regionId),
       'document': serializer.toJson<String>(document),
+      'summaryDocument': serializer.toJson<String>(summaryDocument),
     };
   }
 
-  CatalogArea copyWith({String? id, String? regionId, String? document}) =>
-      CatalogArea(
-        id: id ?? this.id,
-        regionId: regionId ?? this.regionId,
-        document: document ?? this.document,
-      );
+  CatalogArea copyWith({
+    String? id,
+    String? regionId,
+    String? document,
+    String? summaryDocument,
+  }) => CatalogArea(
+    id: id ?? this.id,
+    regionId: regionId ?? this.regionId,
+    document: document ?? this.document,
+    summaryDocument: summaryDocument ?? this.summaryDocument,
+  );
   CatalogArea copyWithCompanion(CatalogAreasCompanion data) {
     return CatalogArea(
       id: data.id.present ? data.id.value : this.id,
       regionId: data.regionId.present ? data.regionId.value : this.regionId,
       document: data.document.present ? data.document.value : this.document,
+      summaryDocument: data.summaryDocument.present
+          ? data.summaryDocument.value
+          : this.summaryDocument,
     );
   }
 
@@ -1132,51 +1177,59 @@ class CatalogArea extends DataClass implements Insertable<CatalogArea> {
     return (StringBuffer('CatalogArea(')
           ..write('id: $id, ')
           ..write('regionId: $regionId, ')
-          ..write('document: $document')
+          ..write('document: $document, ')
+          ..write('summaryDocument: $summaryDocument')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, regionId, document);
+  int get hashCode => Object.hash(id, regionId, document, summaryDocument);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CatalogArea &&
           other.id == this.id &&
           other.regionId == this.regionId &&
-          other.document == this.document);
+          other.document == this.document &&
+          other.summaryDocument == this.summaryDocument);
 }
 
 class CatalogAreasCompanion extends UpdateCompanion<CatalogArea> {
   final Value<String> id;
   final Value<String> regionId;
   final Value<String> document;
+  final Value<String> summaryDocument;
   final Value<int> rowid;
   const CatalogAreasCompanion({
     this.id = const Value.absent(),
     this.regionId = const Value.absent(),
     this.document = const Value.absent(),
+    this.summaryDocument = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CatalogAreasCompanion.insert({
     required String id,
     required String regionId,
     required String document,
+    required String summaryDocument,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        regionId = Value(regionId),
-       document = Value(document);
+       document = Value(document),
+       summaryDocument = Value(summaryDocument);
   static Insertable<CatalogArea> custom({
     Expression<String>? id,
     Expression<String>? regionId,
     Expression<String>? document,
+    Expression<String>? summaryDocument,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (regionId != null) 'region_id': regionId,
       if (document != null) 'document': document,
+      if (summaryDocument != null) 'summary_document': summaryDocument,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1185,12 +1238,14 @@ class CatalogAreasCompanion extends UpdateCompanion<CatalogArea> {
     Value<String>? id,
     Value<String>? regionId,
     Value<String>? document,
+    Value<String>? summaryDocument,
     Value<int>? rowid,
   }) {
     return CatalogAreasCompanion(
       id: id ?? this.id,
       regionId: regionId ?? this.regionId,
       document: document ?? this.document,
+      summaryDocument: summaryDocument ?? this.summaryDocument,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1207,6 +1262,9 @@ class CatalogAreasCompanion extends UpdateCompanion<CatalogArea> {
     if (document.present) {
       map['document'] = Variable<String>(document.value);
     }
+    if (summaryDocument.present) {
+      map['summary_document'] = Variable<String>(summaryDocument.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1219,6 +1277,7 @@ class CatalogAreasCompanion extends UpdateCompanion<CatalogArea> {
           ..write('id: $id, ')
           ..write('regionId: $regionId, ')
           ..write('document: $document, ')
+          ..write('summaryDocument: $summaryDocument, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2806,6 +2865,7 @@ typedef $$CatalogAreasTableCreateCompanionBuilder =
       required String id,
       required String regionId,
       required String document,
+      required String summaryDocument,
       Value<int> rowid,
     });
 typedef $$CatalogAreasTableUpdateCompanionBuilder =
@@ -2813,6 +2873,7 @@ typedef $$CatalogAreasTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> regionId,
       Value<String> document,
+      Value<String> summaryDocument,
       Value<int> rowid,
     });
 
@@ -2837,6 +2898,11 @@ class $$CatalogAreasTableFilterComposer
 
   ColumnFilters<String> get document => $composableBuilder(
     column: $table.document,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summaryDocument => $composableBuilder(
+    column: $table.summaryDocument,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2864,6 +2930,11 @@ class $$CatalogAreasTableOrderingComposer
     column: $table.document,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get summaryDocument => $composableBuilder(
+    column: $table.summaryDocument,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CatalogAreasTableAnnotationComposer
@@ -2883,6 +2954,11 @@ class $$CatalogAreasTableAnnotationComposer
 
   GeneratedColumn<String> get document =>
       $composableBuilder(column: $table.document, builder: (column) => column);
+
+  GeneratedColumn<String> get summaryDocument => $composableBuilder(
+    column: $table.summaryDocument,
+    builder: (column) => column,
+  );
 }
 
 class $$CatalogAreasTableTableManager
@@ -2919,11 +2995,13 @@ class $$CatalogAreasTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> regionId = const Value.absent(),
                 Value<String> document = const Value.absent(),
+                Value<String> summaryDocument = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CatalogAreasCompanion(
                 id: id,
                 regionId: regionId,
                 document: document,
+                summaryDocument: summaryDocument,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2931,11 +3009,13 @@ class $$CatalogAreasTableTableManager
                 required String id,
                 required String regionId,
                 required String document,
+                required String summaryDocument,
                 Value<int> rowid = const Value.absent(),
               }) => CatalogAreasCompanion.insert(
                 id: id,
                 regionId: regionId,
                 document: document,
+                summaryDocument: summaryDocument,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

@@ -68,7 +68,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get discoverDataSourceBody =>
-      'Data pocházejí z Databáze skal ČHS (horosvaz.cz) a zatím jde jen o malý vzorek oblastí. Údaje o cestách a omezeních si ověřujte přímo v databázi ČHS. Kompletní data budou doplněna v další fázi.';
+      'Data pocházejí z Databáze skal ČHS (horosvaz.cz). Jde o offline kopii pořízenou při vývoji aplikace — aktuální stav, omezení a podmínky lezení si vždy ověřujte přímo v databázi ČHS.';
 
   @override
   String get discoverRestrictionsTitle => 'Aktuální omezení';

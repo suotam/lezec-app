@@ -68,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discoverDataSourceBody =>
-      'The data comes from the ČHS rock database (horosvaz.cz) and covers only a small sample of areas for now. Verify route and restriction details directly in the ČHS database. Full data will be added in a later stage.';
+      'The data comes from the ČHS rock database (horosvaz.cz). It is an offline copy taken during development — always verify current conditions, restrictions and climbing rules directly in the ČHS database.';
 
   @override
   String get discoverRestrictionsTitle => 'Current restrictions';

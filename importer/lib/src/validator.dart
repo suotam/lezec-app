@@ -103,6 +103,13 @@ ValidationResult validateCatalog(Map<String, Object?> catalog) {
     }
     _checkGeoPoint(area['location'], '$context.location', errors);
 
+    final access = area['access'];
+    if (access != null &&
+        (access is! Map<String, Object?> ||
+            _nonEmptyString(access['description']) == null)) {
+      errors.add('$context.access.description must be a non-empty string');
+    }
+
     final restrictions = area['restrictions'];
     if (restrictions is List) {
       for (final (j, restriction) in restrictions.indexed) {

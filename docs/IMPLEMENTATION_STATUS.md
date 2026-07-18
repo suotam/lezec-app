@@ -1,7 +1,7 @@
 # Implementation status
 
-_Last updated: 2026-07-15 (Stage 0–2 + ČHS importer CLI + real data
-sample)._
+_Last updated: 2026-07-18 (Stage 0–2 + ČHS importer CLI + full-database
+catalog)._
 
 ## Completed
 
@@ -88,17 +88,33 @@ sample)._
 - Routes with at least one logged ascent show a "climbed" check mark in
   sector route lists (`climbedRouteIdsProvider`).
 
-**Real data sample (bundled catalog v2)**
-- `assets/demo_data/climbing_catalog.json` now contains a real imported
-  sample from the ČHS database: oblasti Skály u Poličky, Okolí
-  Jimramova and Pelhřimovsko → 3 areas (Bohuňovské skály, Vápenka
-  Jimramov, Želiv), 107 routes, catalog version 2, built with
-  `--drop-empty-areas` (Senožaty had no routes). Import report reviewed:
-  0 validation errors.
-- Discover data notice replaced by a ČHS attribution
-  (`discoverDataSourceTitle/Body`); the unused demo badge string was
-  removed.
-- App tests: 66 passing, `flutter analyze` clean.
+**Full-database catalog (bundled catalog v3)**
+- The whole ČHS database was crawled (19,400 pages: all 145 oblasti,
+  1,105+ sektory, 17,138 of 17,791 skal — 96.3 %; the rest failed on a
+  server outage/block near the end and can be fetched later by
+  re-running `fetch --all` on the same snapshot).
+- `assets/demo_data/climbing_catalog.json.gz` now ships **16 regions,
+  951 areas and 104,217 routes** (catalog version 3, 31 MB JSON → 5 MB
+  gzip, built with `--drop-empty-areas`). Import report reviewed: 0
+  validation errors, ~1,300 review notes (empty skály, missing grades on
+  projects, unmapped rock types).
+- Importer hardening from full-data findings: route names with quotes
+  (broken `title` attributes), trailing `<n>m` length tokens parsed into
+  `lengthMeters`, empty access texts dropped, empty route names exported
+  as "(bez názvu)", validator checks `access.description`, compact JSON
+  output, crash-tolerant crawling with fresh-connection retries and
+  batched manifest writes.
+- App scale work: per-area **summary documents** (no sector tree,
+  precomputed counts) power `getAreas()`; the import is incremental with
+  batch inserts; an asset byte-length fingerprint skips all decoding on
+  unchanged starts; the catalog asset is gzipped. Measured on desktop:
+  seed 1.5 s (one-time), areas list 80 ms, area/route detail 1–2 ms,
+  warm start 2 ms. Database schema v2 with destructive catalog-table
+  migration (user data untouched).
+- Discover data notice updated: offline copy of the ČHS database,
+  verify current conditions at the source.
+- App tests: 66 passing, importer tests: 26 passing, both analyzers
+  clean.
 
 ## Intentionally deferred
 
@@ -111,14 +127,19 @@ complex grade conversion.
 
 ## Known limitations
 
-- Catalog is a small real sample (3 areas, 107 routes); list
-  virtualization with thousands of routes is untested. The areas list
-  still parses all area documents (the repository interface returns
-  full models); switch to summary projections when full data volumes
-  arrive.
-- Imported areas have no parking coordinates and often no route lengths
-  (not available on ČHS list pages), so those route-detail rows are
-  simply absent.
+- ~650 of 17,791 ČHS skály (3.7 %) are missing: the ČHS server stopped
+  responding near the end of the crawl (site-wide, even for browsers).
+  Re-run `fetch --all` on the existing snapshot in a few days, rebuild
+  with version 4 and reship the asset.
+- On-device timings are extrapolated from desktop measurements; verify
+  the first-launch import (~1.5 s desktop) and list scrolling on a real
+  phone.
+- Imported areas have no parking coordinates and route lengths exist
+  only where ČHS lists them, so those route-detail rows are simply
+  absent.
+- The gzip asset decodes via `dart:io`, so a web build of the catalog
+  pipeline would need a different codec path (mobile/desktop only,
+  matching the roadmap).
 - Grade sorting uses a per-system heuristic ordinal (not a conversion
   table).
 - UI language is pinned to Czech; no language switcher yet.
@@ -140,24 +161,23 @@ complex grade conversion.
 
 ## Recommended next stage
 
-**Stage 4 start — offline-ready data at scale + importer hardening:**
-
-1. Scale the catalog: import one or two full regions with the importer,
-   check list performance with thousands of routes, and introduce
-   area-summary projections in `ClimbingAreaRepository` if the areas
-   list gets slow (interface change confined to data + presentation
-   providers).
-2. Importer hardening driven by the review report: per-route page
-   fetches for lengths and restriction texts ("Podmínky lezení"),
-   extended grade-system mapping.
+1. Complete the crawl once the ČHS server recovers (re-run `fetch --all`
+   on the existing snapshot, rebuild as version 4, reship the asset) and
+   verify the app on a real Android device (first-launch import time,
+   list scrolling, APK size).
+2. Area discovery at country scale: the areas screen now lists 951
+   areas — add region grouping/filtering and distance-based sorting
+   (roadmap §5) so the list stays navigable.
 3. Diary polish: date-range/area filters or a simple performance chart
    (roadmap Etapa 2 extras), plus an ascent edit flow.
+4. Importer follow-ups from the review report: restriction texts
+   ("Podmínky lezení") via per-route fetches, extended grade-system
+   mapping for the labels the report flags.
 
 Suggested prompt for the next iteration:
 
-> Continue the Crux CZ Flutter app. Import one or two full regions with
-> importer/ (review the report, bump the catalog version), verify list
-> performance with thousands of routes and add area-summary projections
-> if needed. Harden the importer where the report shows gaps (route
-> lengths, restriction texts). Do not add backend communication. Follow
-> docs/ARCHITECTURE.md and keep repository boundaries unchanged.
+> Continue the Crux CZ Flutter app. Make the 951-area catalog navigable:
+> region grouping/filter on the areas screen and distance sorting per
+> docs/PRODUCT_ROADMAP.md §5. Verify full-catalog behavior on a device.
+> Do not add backend communication. Follow docs/ARCHITECTURE.md and keep
+> repository boundaries unchanged.

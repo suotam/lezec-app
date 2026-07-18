@@ -34,16 +34,22 @@ void main() {
     );
   }
 
-  test('seeds the catalog and reads regions and areas', () async {
+  test('seeds the catalog and reads regions and area summaries', () async {
     final repos = buildRepositories();
 
     final regions = await repos.areas.getRegions();
     expect(regions.map((r) => r.id), ['region-a', 'region-b']);
 
+    // getAreas returns summary projections: counts without sector trees.
     final areas = await repos.areas.getAreas();
     expect(areas.map((a) => a.name), ['Testové věže', 'Testový lom']);
     expect(areas.first.regionName, 'Testový region A');
-    expect(areas.first.sectors.single.rocks.single.routes, hasLength(1));
+    expect(areas.first.sectors, isEmpty);
+    expect(areas.first.sectorCount, 1);
+    expect(areas.first.routeCount, 1);
+    expect(areas.last.routeCount, 2);
+    expect(areas.first.restrictions, isNotEmpty,
+        reason: 'restrictions must survive in the summary projection');
   });
 
   test('getAreaById parses a single stored document', () async {

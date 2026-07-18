@@ -11,13 +11,17 @@ import '../helpers/test_helpers.dart';
 void main() {
   group('parseDemoCatalog', () {
     test('parses the bundled catalog asset', () {
-      final raw = File(
-        'assets/demo_data/climbing_catalog.json',
-      ).readAsStringSync();
+      final raw = utf8.decode(
+        gzip.decode(
+          File(
+            'assets/demo_data/climbing_catalog.json.gz',
+          ).readAsBytesSync(),
+        ),
+      );
 
       final catalog = parseDemoCatalog(raw);
 
-      expect(catalog.version, greaterThanOrEqualTo(2));
+      expect(catalog.version, greaterThanOrEqualTo(3));
       expect(catalog.regions, isNotEmpty);
       expect(catalog.areas, isNotEmpty);
       // Every area must resolve its region and contain routes.

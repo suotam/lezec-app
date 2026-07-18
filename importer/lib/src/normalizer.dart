@@ -166,7 +166,7 @@ Map<String, Object?> _area(
 }
 
 Map<String, Object?>? _access(String? text) =>
-    text == null ? null : {'description': text};
+    text == null || text.trim().isEmpty ? null : {'description': text};
 
 Map<String, Object?> _sector(
   RawChsSkala skala,
@@ -209,10 +209,17 @@ Map<String, Object?> _route(
     gradeText = '?';
   }
 
+  var name = cesta.name;
+  if (name.isEmpty) {
+    warnings.add('cesta-${cesta.id}: missing name — exported as "(bez názvu)"');
+    name = '(bez názvu)';
+  }
+
   return {
     'id': 'chs-cesta-${cesta.id}',
-    'name': cesta.name,
+    'name': name,
     'grade': {'system': system, 'value': gradeText},
+    'lengthMeters': ?cesta.lengthMeters,
     'type': _routeType(cesta.iconFlags, system),
     'description': ?cesta.description,
     'protection': ?_protection(cesta.iconFlags),

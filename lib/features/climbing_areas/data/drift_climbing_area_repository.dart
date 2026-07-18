@@ -24,12 +24,22 @@ class DriftClimbingAreaRepository implements ClimbingAreaRepository {
     ];
   }
 
+  /// Returns summary projections: full area metadata and counts, but an
+  /// empty [ClimbingArea.sectors] list. Detail screens load the full
+  /// document via [getAreaById].
   @override
   Future<List<ClimbingArea>> getAreas() async {
     await _store.ensureSeeded();
     final regionNames = await _regionNamesById();
     final rows = await _db.select(_db.catalogAreas).get();
-    return [for (final row in rows) _parseRow(row, regionNames)];
+    return [
+      for (final row in rows)
+        parseCatalogArea(
+          json.decode(row.summaryDocument),
+          'areas[${row.id}]',
+          regionNames,
+        ),
+    ];
   }
 
   @override

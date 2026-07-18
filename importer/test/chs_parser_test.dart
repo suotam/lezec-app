@@ -96,7 +96,9 @@ void main() {
       final pilir = skala.routes.first;
       expect(pilir.id, 70001);
       expect(pilir.name, 'Zkušební pilíř');
-      expect(pilir.gradeText, 'VI');
+      expect(pilir.gradeText, 'VI',
+          reason: 'trailing length token must not be read as the grade');
+      expect(pilir.lengthMeters, 12);
       expect(pilir.iconFlags.keys, containsAll(['sportovni', 'zajis_nyty']));
       expect(pilir.iconFlags.containsKey('zajis_vklinenec'), isFalse);
       expect(pilir.description, contains('Středem pilíře'));
@@ -104,6 +106,7 @@ void main() {
 
       final spara = skala.routes.last;
       expect(spara.gradeText, 'III', reason: 'stars must not leak into grade');
+      expect(spara.lengthMeters, isNull);
       expect(spara.iconFlags.keys, contains('tradicni_lezeni'));
       expect(spara.firstAscent, 'Autoři neznámí');
     });
