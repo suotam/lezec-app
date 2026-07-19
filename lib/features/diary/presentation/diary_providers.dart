@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/database/database_provider.dart';
 import '../../../core/utilities/unique_id.dart';
 import '../../climbing_routes/domain/route_context.dart';
+import '../../sync/presentation/sync_providers.dart';
 import '../data/drift_diary_repository.dart';
 import '../domain/ascent.dart';
 import '../domain/diary_repository.dart';
@@ -48,17 +49,23 @@ class DiaryNotifier extends AsyncNotifier<List<Ascent>> {
         note: (trimmedNote == null || trimmedNote.isEmpty) ? null : trimmedNote,
       ),
     );
-    state = AsyncData(await _repository.getAscents());
+    await _refreshAndSync();
   }
 
   Future<void> updateAscent(Ascent ascent) async {
     await _repository.updateAscent(ascent);
-    state = AsyncData(await _repository.getAscents());
+    await _refreshAndSync();
   }
 
   Future<void> deleteAscent(String id) async {
     await _repository.deleteAscent(id);
+    await _refreshAndSync();
+  }
+
+  Future<void> _refreshAndSync() async {
     state = AsyncData(await _repository.getAscents());
+    // No-op when signed out; debounced round-trip when signed in.
+    ref.read(syncControllerProvider.notifier).requestSync();
   }
 }
 

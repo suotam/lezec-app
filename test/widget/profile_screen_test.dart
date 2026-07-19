@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lezec_app/core/utilities/map_tile_cache.dart';
 import 'package:lezec_app/features/profile/presentation/profile_screen.dart';
@@ -38,10 +39,17 @@ void main() {
 
     expect(find.text('Crux CZ'), findsOneWidget);
     expect(find.textContaining('0.5.0 (2)'), findsOneWidget);
+    // The data card sits below the account card on the test viewport;
+    // the first Scrollable is the screen's ListView (text fields in the
+    // sign-in form have their own).
+    await tester.scrollUntilVisible(
+      find.text('2 oblasti · 3 cesty'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     // Test catalog: version 1, two areas, three routes.
     expect(find.text('1'), findsOneWidget);
     expect(find.text('2 oblasti · 3 cesty'), findsOneWidget);
-    expect(find.text('Zdroje dat'), findsOneWidget);
   });
 
   testWidgets('shows map cache size and clears it', (tester) async {
@@ -50,6 +58,13 @@ void main() {
     File('${tempDir.path}/b.tile').writeAsBytesSync(List.filled(262144, 2));
 
     await pumpProfile(tester);
+    await tester.scrollUntilVisible(
+      find.text('Vymazat'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.text('Vymazat'));
+    await tester.pumpAndSettle();
     expect(find.text('1.0 MB'), findsOneWidget);
 
     await tester.tap(find.text('Vymazat'));

@@ -180,14 +180,26 @@ catalog)._
   map cache size with a clear action, and data-source attributions
   (ČHS, OpenStreetMap/Mapy.com).
 
+**Backend: accounts + sync (Etapa 5/6 core)**
+- Supabase (Postgres + RLS) per `docs/BACKEND.md`; schema in
+  `supabase/migrations/00001_init.sql`, keep-alive GitHub Action.
+- Email+password accounts on the Profile tab (sign in / sign up / sign
+  out); the app is fully functional without an account.
+- Offline-first sync of the diary, favorites/projects and recently
+  viewed areas: local schema v4 adds `updated_at` + soft-delete
+  tombstones; pure last-write-wins merge (`mergeByKey`), `SyncService`
+  pull→merge→push; runs on login/app start, debounced after local
+  mutations, and manually. Verified by a two-device simulation test
+  suite over a fake backend (112 tests total).
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
-pretend it does): authentication, backend/API, Firebase/Supabase,
-synchronization, diary calendar view, photos on ascents, comments/
-social/community features, issue reporting, roles, payments/QR
-donations, push notifications, weather, map tiles / offline maps,
-complex grade conversion.
+pretend it does): catalog updates over the air (Storage), Google/Apple
+sign-in, password reset UI, account deletion, diary calendar view,
+photos on ascents, comments/social/community features, issue
+reporting, roles, payments/QR donations, push notifications, weather,
+offline map packages, complex grade conversion.
 
 ## Known limitations
 

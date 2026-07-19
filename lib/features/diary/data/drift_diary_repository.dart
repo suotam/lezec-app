@@ -14,6 +14,7 @@ class DriftDiaryRepository implements DiaryRepository {
   @override
   Future<List<domain.Ascent>> getAscents() async {
     final query = _db.select(_db.ascents)
+      ..where((t) => t.deletedAtMicros.isNull())
       ..orderBy([
         (t) => OrderingTerm.desc(t.climbedOn),
         (t) => OrderingTerm.desc(t.createdAtMicros),
@@ -43,11 +44,21 @@ class DriftDiaryRepository implements DiaryRepository {
         climbedOn: ascent.date,
         note: Value(ascent.note),
         createdAtMicros: ascent.createdAt.microsecondsSinceEpoch,
+        updatedAtMicros: Value(DateTime.now().toUtc().microsecondsSinceEpoch),
       );
 
+  /// Soft delete: the tombstone stays so sync propagates the removal to
+  /// other devices; [getAscents] filters it out.
   @override
-  Future<void> deleteAscent(String id) =>
-      (_db.delete(_db.ascents)..where((t) => t.id.equals(id))).go();
+  Future<void> deleteAscent(String id) {
+    final now = DateTime.now().toUtc().microsecondsSinceEpoch;
+    return (_db.update(_db.ascents)..where((t) => t.id.equals(id))).write(
+      AscentsCompanion(
+        deletedAtMicros: Value(now),
+        updatedAtMicros: Value(now),
+      ),
+    );
+  }
 
   domain.Ascent _toDomain(AscentRow row) => domain.Ascent(
     id: row.id,

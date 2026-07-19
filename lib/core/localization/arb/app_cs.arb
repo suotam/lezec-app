@@ -184,6 +184,33 @@
   "comingSoonBody": "Tato část aplikace bude dostupná v některé z dalších fází vývoje.",
   "diaryDescription": "Záznamy výstupů, statistiky a přehled vašich projektů na jednom místě.",
   "communityDescription": "Komentáře, novinky ze skal a sdílení s ostatními lezci.",
+  "profileAccountTitle": "Účet a synchronizace",
+  "authInfoBody": "Účet slouží jen k záloze a synchronizaci deníku, oblíbených a projektů mezi zařízeními. Bez něj aplikace plně funguje.",
+  "authEmailLabel": "E-mail",
+  "authPasswordLabel": "Heslo",
+  "authSignIn": "Přihlásit se",
+  "authSignUp": "Vytvořit účet",
+  "authSignOut": "Odhlásit se",
+  "authConfirmEmail": "Účet vytvořen. Potvrďte registraci v e-mailu a poté se přihlaste.",
+  "authFailed": "Nepodařilo se: {message}",
+  "@authFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSyncNow": "Synchronizovat",
+  "profileSyncedAt": "Synchronizováno v {time}",
+  "@profileSyncedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSyncNever": "Zatím nesynchronizováno",
+  "profileSyncFailed": "Synchronizace se nepodařila — zkontrolujte připojení.",
   "profileVersionLabel": "Verze",
   "profileDataTitle": "Data katalogu",
   "profileCatalogVersionLabel": "Verze katalogu",

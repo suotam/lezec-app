@@ -441,6 +441,51 @@ class AppLocalizationsEn extends AppLocalizations {
       'Comments, crag news and sharing with other climbers.';
 
   @override
+  String get profileAccountTitle => 'Account & sync';
+
+  @override
+  String get authInfoBody =>
+      'An account only backs up and syncs your diary, favorites and projects across devices. The app is fully functional without one.';
+
+  @override
+  String get authEmailLabel => 'Email';
+
+  @override
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get authSignUp => 'Create account';
+
+  @override
+  String get authSignOut => 'Sign out';
+
+  @override
+  String get authConfirmEmail =>
+      'Account created. Confirm the registration in your email, then sign in.';
+
+  @override
+  String authFailed(String message) {
+    return 'Failed: $message';
+  }
+
+  @override
+  String get profileSyncNow => 'Sync now';
+
+  @override
+  String profileSyncedAt(String time) {
+    return 'Synced at $time';
+  }
+
+  @override
+  String get profileSyncNever => 'Not synced yet';
+
+  @override
+  String get profileSyncFailed => 'Sync failed — check your connection.';
+
+  @override
   String get profileVersionLabel => 'Version';
 
   @override

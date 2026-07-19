@@ -22,6 +22,14 @@ move to a self-hosted server would not touch the presentation layer.
    updates and data updates decouple.
 4. **Auth provider**: Dashboard → *Authentication* → *Providers* →
    enable **Email** (Google/Apple sign-in can come later).
+   **Recommended:** turn off *Confirm email* (in the Email provider
+   settings) — with it on, every tester must click a confirmation link
+   that redirects to the project's Site URL (localhost by default),
+   which is confusing. The app handles both modes, but sign-up without
+   confirmation is one step instead of three.
+   _Note: a leftover unconfirmed smoke-test user
+   (`crux.smoke.test.2026@gmail.com`) can be deleted in
+   Authentication → Users._
 5. **Keys**: Dashboard → *Project Settings* → *API*:
    - **Project URL** (`https://<ref>.supabase.co`)
    - **anon public** key
@@ -35,20 +43,28 @@ move to a self-hosted server would not touch the presentation layer.
    3 days so the free-tier project never pauses (verify once via
    *Actions* → *Supabase keep-alive* → *Run workflow*).
 
-## App integration design (implemented next)
+## App integration (implemented)
 
-- The app receives the URL and anon key at build time
-  (`--dart-define=SUPABASE_URL=… --dart-define=SUPABASE_ANON_KEY=…`),
-  same pattern as `MAPY_API_KEY`.
-- **Offline-first stays.** Local Drift remains the source of truth;
-  a sync engine pushes local changes (per-row `updated_at`, soft
-  deletes) and pulls remote ones, last-write-wins per row. Everything
-  keeps working with no account or no connection.
-- Sync-enabled repositories wrap the existing Drift implementations
-  behind the unchanged domain interfaces (`DiaryRepository`,
-  `UserRouteStateRepository`, `RecentlyViewedAreasRepository`).
-- Login (Etapa 6) uses Supabase Auth via `supabase_flutter`; the
-  Profile tab gains sign-in/out and sync status.
-- Catalog updates: the app compares the bundled catalog version with
-  `catalog/latest` in Storage and downloads a newer one into the local
-  database — no app release needed for data updates.
+- The publishable key and URL are baked into
+  `lib/core/backend/supabase_config.dart` (safe: RLS protects data) and
+  overridable via `--dart-define=SUPABASE_URL=…`/`SUPABASE_ANON_KEY=…`.
+- **Offline-first stays.** Local Drift remains the source of truth
+  (schema v4 added `updated_at` and soft-delete tombstones to user
+  tables). `SyncService` pulls, merges with last-write-wins per row
+  (pure `mergeByKey`, unit-tested with a two-device simulation) and
+  pushes what is newer locally. Everything works with no account or no
+  connection.
+- Sign in/out lives on the Profile tab (email + password); sync runs on
+  login/app start, debounced after every local mutation, and manually
+  via the "Synchronizovat" button.
+- Server `updated_at` triggers bump timestamps on update; a push is
+  followed by one harmless self-echo on the next pull (documented in
+  `SupabaseSyncBackend`).
+
+## Not yet implemented
+
+- Catalog updates from Storage (`catalog/latest` version check +
+  download into the local database) — next backend step; removes the
+  need for app releases on data updates.
+- Google/Apple sign-in, password reset UI, account deletion.
+- Photos, comments and community features (Etapa 7).

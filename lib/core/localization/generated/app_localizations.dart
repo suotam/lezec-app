@@ -866,6 +866,84 @@ abstract class AppLocalizations {
   /// **'Komentáře, novinky ze skal a sdílení s ostatními lezci.'**
   String get communityDescription;
 
+  /// No description provided for @profileAccountTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet a synchronizace'**
+  String get profileAccountTitle;
+
+  /// No description provided for @authInfoBody.
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet slouží jen k záloze a synchronizaci deníku, oblíbených a projektů mezi zařízeními. Bez něj aplikace plně funguje.'**
+  String get authInfoBody;
+
+  /// No description provided for @authEmailLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'E-mail'**
+  String get authEmailLabel;
+
+  /// No description provided for @authPasswordLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Heslo'**
+  String get authPasswordLabel;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In cs, this message translates to:
+  /// **'Přihlásit se'**
+  String get authSignIn;
+
+  /// No description provided for @authSignUp.
+  ///
+  /// In cs, this message translates to:
+  /// **'Vytvořit účet'**
+  String get authSignUp;
+
+  /// No description provided for @authSignOut.
+  ///
+  /// In cs, this message translates to:
+  /// **'Odhlásit se'**
+  String get authSignOut;
+
+  /// No description provided for @authConfirmEmail.
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet vytvořen. Potvrďte registraci v e-mailu a poté se přihlaste.'**
+  String get authConfirmEmail;
+
+  /// No description provided for @authFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se: {message}'**
+  String authFailed(String message);
+
+  /// No description provided for @profileSyncNow.
+  ///
+  /// In cs, this message translates to:
+  /// **'Synchronizovat'**
+  String get profileSyncNow;
+
+  /// No description provided for @profileSyncedAt.
+  ///
+  /// In cs, this message translates to:
+  /// **'Synchronizováno v {time}'**
+  String profileSyncedAt(String time);
+
+  /// No description provided for @profileSyncNever.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zatím nesynchronizováno'**
+  String get profileSyncNever;
+
+  /// No description provided for @profileSyncFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Synchronizace se nepodařila — zkontrolujte připojení.'**
+  String get profileSyncFailed;
+
   /// No description provided for @profileVersionLabel.
   ///
   /// In cs, this message translates to:

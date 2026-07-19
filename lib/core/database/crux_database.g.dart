@@ -50,8 +50,25 @@ class $UserRouteFlagsTable extends UserRouteFlags
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _updatedAtMicrosMeta = const VerificationMeta(
+    'updatedAtMicros',
+  );
   @override
-  List<GeneratedColumn> get $columns => [routeId, isFavorite, isProject];
+  late final GeneratedColumn<int> updatedAtMicros = GeneratedColumn<int>(
+    'updated_at_micros',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    routeId,
+    isFavorite,
+    isProject,
+    updatedAtMicros,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -84,6 +101,15 @@ class $UserRouteFlagsTable extends UserRouteFlags
         isProject.isAcceptableOrUnknown(data['is_project']!, _isProjectMeta),
       );
     }
+    if (data.containsKey('updated_at_micros')) {
+      context.handle(
+        _updatedAtMicrosMeta,
+        updatedAtMicros.isAcceptableOrUnknown(
+          data['updated_at_micros']!,
+          _updatedAtMicrosMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -105,6 +131,10 @@ class $UserRouteFlagsTable extends UserRouteFlags
         DriftSqlType.bool,
         data['${effectivePrefix}is_project'],
       )!,
+      updatedAtMicros: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at_micros'],
+      )!,
     );
   }
 
@@ -118,10 +148,12 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
   final String routeId;
   final bool isFavorite;
   final bool isProject;
+  final int updatedAtMicros;
   const UserRouteFlag({
     required this.routeId,
     required this.isFavorite,
     required this.isProject,
+    required this.updatedAtMicros,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -129,6 +161,7 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
     map['route_id'] = Variable<String>(routeId);
     map['is_favorite'] = Variable<bool>(isFavorite);
     map['is_project'] = Variable<bool>(isProject);
+    map['updated_at_micros'] = Variable<int>(updatedAtMicros);
     return map;
   }
 
@@ -137,6 +170,7 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
       routeId: Value(routeId),
       isFavorite: Value(isFavorite),
       isProject: Value(isProject),
+      updatedAtMicros: Value(updatedAtMicros),
     );
   }
 
@@ -149,6 +183,7 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
       routeId: serializer.fromJson<String>(json['routeId']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
       isProject: serializer.fromJson<bool>(json['isProject']),
+      updatedAtMicros: serializer.fromJson<int>(json['updatedAtMicros']),
     );
   }
   @override
@@ -158,6 +193,7 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
       'routeId': serializer.toJson<String>(routeId),
       'isFavorite': serializer.toJson<bool>(isFavorite),
       'isProject': serializer.toJson<bool>(isProject),
+      'updatedAtMicros': serializer.toJson<int>(updatedAtMicros),
     };
   }
 
@@ -165,10 +201,12 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
     String? routeId,
     bool? isFavorite,
     bool? isProject,
+    int? updatedAtMicros,
   }) => UserRouteFlag(
     routeId: routeId ?? this.routeId,
     isFavorite: isFavorite ?? this.isFavorite,
     isProject: isProject ?? this.isProject,
+    updatedAtMicros: updatedAtMicros ?? this.updatedAtMicros,
   );
   UserRouteFlag copyWithCompanion(UserRouteFlagsCompanion data) {
     return UserRouteFlag(
@@ -177,6 +215,9 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
           ? data.isFavorite.value
           : this.isFavorite,
       isProject: data.isProject.present ? data.isProject.value : this.isProject,
+      updatedAtMicros: data.updatedAtMicros.present
+          ? data.updatedAtMicros.value
+          : this.updatedAtMicros,
     );
   }
 
@@ -185,49 +226,57 @@ class UserRouteFlag extends DataClass implements Insertable<UserRouteFlag> {
     return (StringBuffer('UserRouteFlag(')
           ..write('routeId: $routeId, ')
           ..write('isFavorite: $isFavorite, ')
-          ..write('isProject: $isProject')
+          ..write('isProject: $isProject, ')
+          ..write('updatedAtMicros: $updatedAtMicros')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(routeId, isFavorite, isProject);
+  int get hashCode =>
+      Object.hash(routeId, isFavorite, isProject, updatedAtMicros);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is UserRouteFlag &&
           other.routeId == this.routeId &&
           other.isFavorite == this.isFavorite &&
-          other.isProject == this.isProject);
+          other.isProject == this.isProject &&
+          other.updatedAtMicros == this.updatedAtMicros);
 }
 
 class UserRouteFlagsCompanion extends UpdateCompanion<UserRouteFlag> {
   final Value<String> routeId;
   final Value<bool> isFavorite;
   final Value<bool> isProject;
+  final Value<int> updatedAtMicros;
   final Value<int> rowid;
   const UserRouteFlagsCompanion({
     this.routeId = const Value.absent(),
     this.isFavorite = const Value.absent(),
     this.isProject = const Value.absent(),
+    this.updatedAtMicros = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UserRouteFlagsCompanion.insert({
     required String routeId,
     this.isFavorite = const Value.absent(),
     this.isProject = const Value.absent(),
+    this.updatedAtMicros = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : routeId = Value(routeId);
   static Insertable<UserRouteFlag> custom({
     Expression<String>? routeId,
     Expression<bool>? isFavorite,
     Expression<bool>? isProject,
+    Expression<int>? updatedAtMicros,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (routeId != null) 'route_id': routeId,
       if (isFavorite != null) 'is_favorite': isFavorite,
       if (isProject != null) 'is_project': isProject,
+      if (updatedAtMicros != null) 'updated_at_micros': updatedAtMicros,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -236,12 +285,14 @@ class UserRouteFlagsCompanion extends UpdateCompanion<UserRouteFlag> {
     Value<String>? routeId,
     Value<bool>? isFavorite,
     Value<bool>? isProject,
+    Value<int>? updatedAtMicros,
     Value<int>? rowid,
   }) {
     return UserRouteFlagsCompanion(
       routeId: routeId ?? this.routeId,
       isFavorite: isFavorite ?? this.isFavorite,
       isProject: isProject ?? this.isProject,
+      updatedAtMicros: updatedAtMicros ?? this.updatedAtMicros,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -258,6 +309,9 @@ class UserRouteFlagsCompanion extends UpdateCompanion<UserRouteFlag> {
     if (isProject.present) {
       map['is_project'] = Variable<bool>(isProject.value);
     }
+    if (updatedAtMicros.present) {
+      map['updated_at_micros'] = Variable<int>(updatedAtMicros.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -270,6 +324,7 @@ class UserRouteFlagsCompanion extends UpdateCompanion<UserRouteFlag> {
           ..write('routeId: $routeId, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('isProject: $isProject, ')
+          ..write('updatedAtMicros: $updatedAtMicros, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2268,6 +2323,29 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _updatedAtMicrosMeta = const VerificationMeta(
+    'updatedAtMicros',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAtMicros = GeneratedColumn<int>(
+    'updated_at_micros',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _deletedAtMicrosMeta = const VerificationMeta(
+    'deletedAtMicros',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAtMicros = GeneratedColumn<int>(
+    'deleted_at_micros',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2282,6 +2360,8 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
     climbedOn,
     note,
     createdAtMicros,
+    updatedAtMicros,
+    deletedAtMicros,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2392,6 +2472,24 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
     } else if (isInserting) {
       context.missing(_createdAtMicrosMeta);
     }
+    if (data.containsKey('updated_at_micros')) {
+      context.handle(
+        _updatedAtMicrosMeta,
+        updatedAtMicros.isAcceptableOrUnknown(
+          data['updated_at_micros']!,
+          _updatedAtMicrosMeta,
+        ),
+      );
+    }
+    if (data.containsKey('deleted_at_micros')) {
+      context.handle(
+        _deletedAtMicrosMeta,
+        deletedAtMicros.isAcceptableOrUnknown(
+          data['deleted_at_micros']!,
+          _deletedAtMicrosMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2449,6 +2547,14 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
         DriftSqlType.int,
         data['${effectivePrefix}created_at_micros'],
       )!,
+      updatedAtMicros: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at_micros'],
+      )!,
+      deletedAtMicros: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at_micros'],
+      ),
     );
   }
 
@@ -2471,6 +2577,13 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   final DateTime climbedOn;
   final String? note;
   final int createdAtMicros;
+
+  /// Last local modification; drives last-write-wins sync.
+  final int updatedAtMicros;
+
+  /// Soft-delete tombstone so deletions propagate to other devices.
+  /// Diary reads filter these out.
+  final int? deletedAtMicros;
   const AscentRow({
     required this.id,
     required this.routeId,
@@ -2484,6 +2597,8 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     required this.climbedOn,
     this.note,
     required this.createdAtMicros,
+    required this.updatedAtMicros,
+    this.deletedAtMicros,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2502,6 +2617,10 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
       map['note'] = Variable<String>(note);
     }
     map['created_at_micros'] = Variable<int>(createdAtMicros);
+    map['updated_at_micros'] = Variable<int>(updatedAtMicros);
+    if (!nullToAbsent || deletedAtMicros != null) {
+      map['deleted_at_micros'] = Variable<int>(deletedAtMicros);
+    }
     return map;
   }
 
@@ -2519,6 +2638,10 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
       climbedOn: Value(climbedOn),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
       createdAtMicros: Value(createdAtMicros),
+      updatedAtMicros: Value(updatedAtMicros),
+      deletedAtMicros: deletedAtMicros == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAtMicros),
     );
   }
 
@@ -2540,6 +2663,8 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
       climbedOn: serializer.fromJson<DateTime>(json['climbedOn']),
       note: serializer.fromJson<String?>(json['note']),
       createdAtMicros: serializer.fromJson<int>(json['createdAtMicros']),
+      updatedAtMicros: serializer.fromJson<int>(json['updatedAtMicros']),
+      deletedAtMicros: serializer.fromJson<int?>(json['deletedAtMicros']),
     );
   }
   @override
@@ -2558,6 +2683,8 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
       'climbedOn': serializer.toJson<DateTime>(climbedOn),
       'note': serializer.toJson<String?>(note),
       'createdAtMicros': serializer.toJson<int>(createdAtMicros),
+      'updatedAtMicros': serializer.toJson<int>(updatedAtMicros),
+      'deletedAtMicros': serializer.toJson<int?>(deletedAtMicros),
     };
   }
 
@@ -2574,6 +2701,8 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     DateTime? climbedOn,
     Value<String?> note = const Value.absent(),
     int? createdAtMicros,
+    int? updatedAtMicros,
+    Value<int?> deletedAtMicros = const Value.absent(),
   }) => AscentRow(
     id: id ?? this.id,
     routeId: routeId ?? this.routeId,
@@ -2587,6 +2716,10 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     climbedOn: climbedOn ?? this.climbedOn,
     note: note.present ? note.value : this.note,
     createdAtMicros: createdAtMicros ?? this.createdAtMicros,
+    updatedAtMicros: updatedAtMicros ?? this.updatedAtMicros,
+    deletedAtMicros: deletedAtMicros.present
+        ? deletedAtMicros.value
+        : this.deletedAtMicros,
   );
   AscentRow copyWithCompanion(AscentsCompanion data) {
     return AscentRow(
@@ -2610,6 +2743,12 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
       createdAtMicros: data.createdAtMicros.present
           ? data.createdAtMicros.value
           : this.createdAtMicros,
+      updatedAtMicros: data.updatedAtMicros.present
+          ? data.updatedAtMicros.value
+          : this.updatedAtMicros,
+      deletedAtMicros: data.deletedAtMicros.present
+          ? data.deletedAtMicros.value
+          : this.deletedAtMicros,
     );
   }
 
@@ -2627,7 +2766,9 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
           ..write('style: $style, ')
           ..write('climbedOn: $climbedOn, ')
           ..write('note: $note, ')
-          ..write('createdAtMicros: $createdAtMicros')
+          ..write('createdAtMicros: $createdAtMicros, ')
+          ..write('updatedAtMicros: $updatedAtMicros, ')
+          ..write('deletedAtMicros: $deletedAtMicros')
           ..write(')'))
         .toString();
   }
@@ -2646,6 +2787,8 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     climbedOn,
     note,
     createdAtMicros,
+    updatedAtMicros,
+    deletedAtMicros,
   );
   @override
   bool operator ==(Object other) =>
@@ -2662,7 +2805,9 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
           other.style == this.style &&
           other.climbedOn == this.climbedOn &&
           other.note == this.note &&
-          other.createdAtMicros == this.createdAtMicros);
+          other.createdAtMicros == this.createdAtMicros &&
+          other.updatedAtMicros == this.updatedAtMicros &&
+          other.deletedAtMicros == this.deletedAtMicros);
 }
 
 class AscentsCompanion extends UpdateCompanion<AscentRow> {
@@ -2678,6 +2823,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
   final Value<DateTime> climbedOn;
   final Value<String?> note;
   final Value<int> createdAtMicros;
+  final Value<int> updatedAtMicros;
+  final Value<int?> deletedAtMicros;
   final Value<int> rowid;
   const AscentsCompanion({
     this.id = const Value.absent(),
@@ -2692,6 +2839,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
     this.climbedOn = const Value.absent(),
     this.note = const Value.absent(),
     this.createdAtMicros = const Value.absent(),
+    this.updatedAtMicros = const Value.absent(),
+    this.deletedAtMicros = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   AscentsCompanion.insert({
@@ -2707,6 +2856,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
     required DateTime climbedOn,
     this.note = const Value.absent(),
     required int createdAtMicros,
+    this.updatedAtMicros = const Value.absent(),
+    this.deletedAtMicros = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        routeId = Value(routeId),
@@ -2732,6 +2883,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
     Expression<DateTime>? climbedOn,
     Expression<String>? note,
     Expression<int>? createdAtMicros,
+    Expression<int>? updatedAtMicros,
+    Expression<int>? deletedAtMicros,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2747,6 +2900,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
       if (climbedOn != null) 'climbed_on': climbedOn,
       if (note != null) 'note': note,
       if (createdAtMicros != null) 'created_at_micros': createdAtMicros,
+      if (updatedAtMicros != null) 'updated_at_micros': updatedAtMicros,
+      if (deletedAtMicros != null) 'deleted_at_micros': deletedAtMicros,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2764,6 +2919,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
     Value<DateTime>? climbedOn,
     Value<String?>? note,
     Value<int>? createdAtMicros,
+    Value<int>? updatedAtMicros,
+    Value<int?>? deletedAtMicros,
     Value<int>? rowid,
   }) {
     return AscentsCompanion(
@@ -2779,6 +2936,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
       climbedOn: climbedOn ?? this.climbedOn,
       note: note ?? this.note,
       createdAtMicros: createdAtMicros ?? this.createdAtMicros,
+      updatedAtMicros: updatedAtMicros ?? this.updatedAtMicros,
+      deletedAtMicros: deletedAtMicros ?? this.deletedAtMicros,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2822,6 +2981,12 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
     if (createdAtMicros.present) {
       map['created_at_micros'] = Variable<int>(createdAtMicros.value);
     }
+    if (updatedAtMicros.present) {
+      map['updated_at_micros'] = Variable<int>(updatedAtMicros.value);
+    }
+    if (deletedAtMicros.present) {
+      map['deleted_at_micros'] = Variable<int>(deletedAtMicros.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2843,6 +3008,8 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
           ..write('climbedOn: $climbedOn, ')
           ..write('note: $note, ')
           ..write('createdAtMicros: $createdAtMicros, ')
+          ..write('updatedAtMicros: $updatedAtMicros, ')
+          ..write('deletedAtMicros: $deletedAtMicros, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2885,6 +3052,7 @@ typedef $$UserRouteFlagsTableCreateCompanionBuilder =
       required String routeId,
       Value<bool> isFavorite,
       Value<bool> isProject,
+      Value<int> updatedAtMicros,
       Value<int> rowid,
     });
 typedef $$UserRouteFlagsTableUpdateCompanionBuilder =
@@ -2892,6 +3060,7 @@ typedef $$UserRouteFlagsTableUpdateCompanionBuilder =
       Value<String> routeId,
       Value<bool> isFavorite,
       Value<bool> isProject,
+      Value<int> updatedAtMicros,
       Value<int> rowid,
     });
 
@@ -2916,6 +3085,11 @@ class $$UserRouteFlagsTableFilterComposer
 
   ColumnFilters<bool> get isProject => $composableBuilder(
     column: $table.isProject,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2943,6 +3117,11 @@ class $$UserRouteFlagsTableOrderingComposer
     column: $table.isProject,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$UserRouteFlagsTableAnnotationComposer
@@ -2964,6 +3143,11 @@ class $$UserRouteFlagsTableAnnotationComposer
 
   GeneratedColumn<bool> get isProject =>
       $composableBuilder(column: $table.isProject, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => column,
+  );
 }
 
 class $$UserRouteFlagsTableTableManager
@@ -3002,11 +3186,13 @@ class $$UserRouteFlagsTableTableManager
                 Value<String> routeId = const Value.absent(),
                 Value<bool> isFavorite = const Value.absent(),
                 Value<bool> isProject = const Value.absent(),
+                Value<int> updatedAtMicros = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UserRouteFlagsCompanion(
                 routeId: routeId,
                 isFavorite: isFavorite,
                 isProject: isProject,
+                updatedAtMicros: updatedAtMicros,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3014,11 +3200,13 @@ class $$UserRouteFlagsTableTableManager
                 required String routeId,
                 Value<bool> isFavorite = const Value.absent(),
                 Value<bool> isProject = const Value.absent(),
+                Value<int> updatedAtMicros = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UserRouteFlagsCompanion.insert(
                 routeId: routeId,
                 isFavorite: isFavorite,
                 isProject: isProject,
+                updatedAtMicros: updatedAtMicros,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -4174,6 +4362,8 @@ typedef $$AscentsTableCreateCompanionBuilder =
       required DateTime climbedOn,
       Value<String?> note,
       required int createdAtMicros,
+      Value<int> updatedAtMicros,
+      Value<int?> deletedAtMicros,
       Value<int> rowid,
     });
 typedef $$AscentsTableUpdateCompanionBuilder =
@@ -4190,6 +4380,8 @@ typedef $$AscentsTableUpdateCompanionBuilder =
       Value<DateTime> climbedOn,
       Value<String?> note,
       Value<int> createdAtMicros,
+      Value<int> updatedAtMicros,
+      Value<int?> deletedAtMicros,
       Value<int> rowid,
     });
 
@@ -4259,6 +4451,16 @@ class $$AscentsTableFilterComposer
 
   ColumnFilters<int> get createdAtMicros => $composableBuilder(
     column: $table.createdAtMicros,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAtMicros => $composableBuilder(
+    column: $table.deletedAtMicros,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -4331,6 +4533,16 @@ class $$AscentsTableOrderingComposer
     column: $table.createdAtMicros,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAtMicros => $composableBuilder(
+    column: $table.deletedAtMicros,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$AscentsTableAnnotationComposer
@@ -4385,6 +4597,16 @@ class $$AscentsTableAnnotationComposer
     column: $table.createdAtMicros,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get deletedAtMicros => $composableBuilder(
+    column: $table.deletedAtMicros,
+    builder: (column) => column,
+  );
 }
 
 class $$AscentsTableTableManager
@@ -4427,6 +4649,8 @@ class $$AscentsTableTableManager
                 Value<DateTime> climbedOn = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<int> createdAtMicros = const Value.absent(),
+                Value<int> updatedAtMicros = const Value.absent(),
+                Value<int?> deletedAtMicros = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AscentsCompanion(
                 id: id,
@@ -4441,6 +4665,8 @@ class $$AscentsTableTableManager
                 climbedOn: climbedOn,
                 note: note,
                 createdAtMicros: createdAtMicros,
+                updatedAtMicros: updatedAtMicros,
+                deletedAtMicros: deletedAtMicros,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -4457,6 +4683,8 @@ class $$AscentsTableTableManager
                 required DateTime climbedOn,
                 Value<String?> note = const Value.absent(),
                 required int createdAtMicros,
+                Value<int> updatedAtMicros = const Value.absent(),
+                Value<int?> deletedAtMicros = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AscentsCompanion.insert(
                 id: id,
@@ -4471,6 +4699,8 @@ class $$AscentsTableTableManager
                 climbedOn: climbedOn,
                 note: note,
                 createdAtMicros: createdAtMicros,
+                updatedAtMicros: updatedAtMicros,
+                deletedAtMicros: deletedAtMicros,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

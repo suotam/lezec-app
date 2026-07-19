@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/localization/l10n.dart';
 import '../core/theme/app_theme.dart';
+import '../features/auth/domain/auth_repository.dart';
+import '../features/auth/presentation/auth_providers.dart';
+import '../features/sync/presentation/sync_providers.dart';
 import 'router/app_router.dart';
 
 class CruxApp extends ConsumerWidget {
@@ -11,6 +14,13 @@ class CruxApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Sync whenever a signed-out state turns signed-in — covers both a
+    // fresh login and the restored session on app start.
+    ref.listen<AsyncValue<AppUser?>>(currentUserProvider, (previous, next) {
+      if (previous?.value == null && next.value != null) {
+        ref.read(syncControllerProvider.notifier).syncNow();
+      }
+    });
     return MaterialApp.router(
       routerConfig: ref.watch(appRouterProvider),
       onGenerateTitle: (context) => context.l10n.appTitle,

@@ -2,12 +2,13 @@ import 'package:drift/drift.dart';
 
 part 'crux_database.g.dart';
 
-/// Per-route personal flags. A row exists only while at least one flag is
-/// set; clearing both flags deletes the row.
+/// Per-route personal flags. Rows with both flags false are kept as
+/// last-write-wins tombstones for sync.
 class UserRouteFlags extends Table {
   TextColumn get routeId => text()();
   BoolColumn get isFavorite => boolean().withDefault(const Constant(false))();
   BoolColumn get isProject => boolean().withDefault(const Constant(false))();
+  IntColumn get updatedAtMicros => integer().withDefault(const Constant(0))();
 
   @override
   Set<Column> get primaryKey => {routeId};
@@ -116,6 +117,13 @@ class Ascents extends Table {
   TextColumn get note => text().nullable()();
   IntColumn get createdAtMicros => integer()();
 
+  /// Last local modification; drives last-write-wins sync.
+  IntColumn get updatedAtMicros => integer().withDefault(const Constant(0))();
+
+  /// Soft-delete tombstone so deletions propagate to other devices.
+  /// Diary reads filter these out.
+  IntColumn get deletedAtMicros => integer().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -136,7 +144,7 @@ class CruxDatabase extends _$CruxDatabase {
   CruxDatabase(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -156,6 +164,16 @@ class CruxDatabase extends _$CruxDatabase {
           await m.deleteTable(table.actualTableName);
           await m.createTable(table);
         }
+      }
+      if (from < 4) {
+        // Sync columns for user data; existing rows get their creation
+        // time as the initial updatedAt so first sync pushes them.
+        await m.addColumn(ascents, ascents.updatedAtMicros);
+        await m.addColumn(ascents, ascents.deletedAtMicros);
+        await m.addColumn(userRouteFlags, userRouteFlags.updatedAtMicros);
+        await customStatement(
+          'UPDATE ascents SET updated_at_micros = created_at_micros',
+        );
       }
     },
   );

@@ -5,7 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../core/backend/supabase_config.dart';
 import '../../core/database/crux_database.dart';
 import '../../core/database/database_provider.dart';
 import '../../core/database/legacy_preferences_migration.dart';
@@ -29,6 +31,16 @@ Future<void> bootstrap() async {
     Directory('${(await getApplicationCacheDirectory()).path}/map_tiles'),
   );
 
+  // Backend (accounts + sync). The app is fully functional without it.
+  SupabaseClient? supabaseClient;
+  if (SupabaseConfig.isConfigured) {
+    await Supabase.initialize(
+      url: SupabaseConfig.url,
+      publishableKey: SupabaseConfig.anonKey,
+    );
+    supabaseClient = Supabase.instance.client;
+  }
+
   runApp(
     ProviderScope(
       overrides: [
@@ -37,6 +49,7 @@ Future<void> bootstrap() async {
         mapTileProviderFactoryProvider.overrideWithValue(
           () => DiskCachingTileProvider(tileCache),
         ),
+        supabaseClientProvider.overrideWithValue(supabaseClient),
       ],
       child: const CruxApp(),
     ),

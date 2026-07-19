@@ -4,7 +4,8 @@ import '../../../core/database/crux_database.dart';
 import '../domain/user_route_state_repository.dart';
 
 /// Drift-backed favorites/projects storage. Both flags share one row per
-/// route; a row with neither flag set is removed.
+/// route; rows with neither flag set are kept as sync tombstones so a
+/// removal wins over an older set on another device.
 class DriftUserRouteStateRepository implements UserRouteStateRepository {
   DriftUserRouteStateRepository(this._db);
 
@@ -40,21 +41,18 @@ class DriftUserRouteStateRepository implements UserRouteStateRepository {
       )..where((t) => t.routeId.equals(routeId))).getSingleOrNull();
       final isFavorite = favorite ?? existing?.isFavorite ?? false;
       final isProject = project ?? existing?.isProject ?? false;
-      if (!isFavorite && !isProject) {
-        await (_db.delete(
-          _db.userRouteFlags,
-        )..where((t) => t.routeId.equals(routeId))).go();
-      } else {
-        await _db
-            .into(_db.userRouteFlags)
-            .insertOnConflictUpdate(
-              UserRouteFlagsCompanion.insert(
-                routeId: routeId,
-                isFavorite: Value(isFavorite),
-                isProject: Value(isProject),
+      await _db
+          .into(_db.userRouteFlags)
+          .insertOnConflictUpdate(
+            UserRouteFlagsCompanion.insert(
+              routeId: routeId,
+              isFavorite: Value(isFavorite),
+              isProject: Value(isProject),
+              updatedAtMicros: Value(
+                DateTime.now().toUtc().microsecondsSinceEpoch,
               ),
-            );
-      }
+            ),
+          );
     });
   }
 }

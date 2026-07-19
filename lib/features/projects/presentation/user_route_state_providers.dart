@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/database/database_provider.dart';
+import '../../sync/presentation/sync_providers.dart';
 import '../data/drift_user_route_state_repository.dart';
 import '../domain/user_route_state_repository.dart';
 
@@ -48,6 +49,7 @@ class UserRouteStateNotifier extends AsyncNotifier<UserRouteState> {
         projectIds: current.projectIds,
       ),
     );
+    ref.read(syncControllerProvider.notifier).requestSync();
   }
 
   Future<void> toggleProject(String routeId) async {
@@ -60,6 +62,7 @@ class UserRouteStateNotifier extends AsyncNotifier<UserRouteState> {
         projectIds: await _repository.getProjectRouteIds(),
       ),
     );
+    ref.read(syncControllerProvider.notifier).requestSync();
   }
 }
 

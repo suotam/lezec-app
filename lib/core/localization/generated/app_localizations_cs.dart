@@ -446,6 +446,52 @@ class AppLocalizationsCs extends AppLocalizations {
       'Komentáře, novinky ze skal a sdílení s ostatními lezci.';
 
   @override
+  String get profileAccountTitle => 'Účet a synchronizace';
+
+  @override
+  String get authInfoBody =>
+      'Účet slouží jen k záloze a synchronizaci deníku, oblíbených a projektů mezi zařízeními. Bez něj aplikace plně funguje.';
+
+  @override
+  String get authEmailLabel => 'E-mail';
+
+  @override
+  String get authPasswordLabel => 'Heslo';
+
+  @override
+  String get authSignIn => 'Přihlásit se';
+
+  @override
+  String get authSignUp => 'Vytvořit účet';
+
+  @override
+  String get authSignOut => 'Odhlásit se';
+
+  @override
+  String get authConfirmEmail =>
+      'Účet vytvořen. Potvrďte registraci v e-mailu a poté se přihlaste.';
+
+  @override
+  String authFailed(String message) {
+    return 'Nepodařilo se: $message';
+  }
+
+  @override
+  String get profileSyncNow => 'Synchronizovat';
+
+  @override
+  String profileSyncedAt(String time) {
+    return 'Synchronizováno v $time';
+  }
+
+  @override
+  String get profileSyncNever => 'Zatím nesynchronizováno';
+
+  @override
+  String get profileSyncFailed =>
+      'Synchronizace se nepodařila — zkontrolujte připojení.';
+
+  @override
   String get profileVersionLabel => 'Verze';
 
   @override
