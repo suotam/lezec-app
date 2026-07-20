@@ -920,6 +920,162 @@ abstract class AppLocalizations {
   /// **'Nepodařilo se: {message}'**
   String authFailed(String message);
 
+  /// No description provided for @commentsTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Komentáře'**
+  String get commentsTitle;
+
+  /// No description provided for @commentsEmpty.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zatím žádné komentáře. Buďte první!'**
+  String get commentsEmpty;
+
+  /// No description provided for @commentsLoadFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Komentáře se nepodařilo načíst — jste online?'**
+  String get commentsLoadFailed;
+
+  /// No description provided for @commentsSendFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Akci se nepodařilo provést — zkuste to znovu.'**
+  String get commentsSendFailed;
+
+  /// No description provided for @commentsSignInHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Pro přidání komentáře se přihlaste v záložce Profil.'**
+  String get commentsSignInHint;
+
+  /// No description provided for @commentsComposerHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Napsat komentář…'**
+  String get commentsComposerHint;
+
+  /// No description provided for @commentsSendTooltip.
+  ///
+  /// In cs, this message translates to:
+  /// **'Odeslat komentář'**
+  String get commentsSendTooltip;
+
+  /// No description provided for @commentsDeleteTooltip.
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat komentář'**
+  String get commentsDeleteTooltip;
+
+  /// No description provided for @commentsAnonymous.
+  ///
+  /// In cs, this message translates to:
+  /// **'Lezec'**
+  String get commentsAnonymous;
+
+  /// No description provided for @issueReportAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nahlásit závadu'**
+  String get issueReportAction;
+
+  /// No description provided for @issueReportTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nahlášení závady'**
+  String get issueReportTitle;
+
+  /// No description provided for @issueReportHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Popište závadu (vyklepaný kruh, nebezpečný blok, špatný přístup…)'**
+  String get issueReportHint;
+
+  /// No description provided for @issueReportSignInHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Pro nahlášení závady se přihlaste v záložce Profil.'**
+  String get issueReportSignInHint;
+
+  /// No description provided for @issueReportSent.
+  ///
+  /// In cs, this message translates to:
+  /// **'Děkujeme, závada byla nahlášena.'**
+  String get issueReportSent;
+
+  /// No description provided for @issueReportFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nahlášení se nepodařilo odeslat — zkuste to znovu.'**
+  String get issueReportFailed;
+
+  /// No description provided for @issueReportSubmit.
+  ///
+  /// In cs, this message translates to:
+  /// **'Odeslat'**
+  String get issueReportSubmit;
+
+  /// No description provided for @profileIssuesTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Hlášení závad'**
+  String get profileIssuesTitle;
+
+  /// No description provided for @issueStatusOpen.
+  ///
+  /// In cs, this message translates to:
+  /// **'Otevřené'**
+  String get issueStatusOpen;
+
+  /// No description provided for @issueStatusResolved.
+  ///
+  /// In cs, this message translates to:
+  /// **'Vyřešené'**
+  String get issueStatusResolved;
+
+  /// No description provided for @issueStatusDismissed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zamítnuté'**
+  String get issueStatusDismissed;
+
+  /// No description provided for @issueMarkResolved.
+  ///
+  /// In cs, this message translates to:
+  /// **'Označit jako vyřešené'**
+  String get issueMarkResolved;
+
+  /// No description provided for @issueMarkDismissed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zamítnout'**
+  String get issueMarkDismissed;
+
+  /// No description provided for @profileDisplayNameLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zobrazované jméno'**
+  String get profileDisplayNameLabel;
+
+  /// No description provided for @profileDisplayNameHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Jméno u komentářů'**
+  String get profileDisplayNameHint;
+
+  /// No description provided for @profileDisplayNameSaved.
+  ///
+  /// In cs, this message translates to:
+  /// **'Jméno bylo uloženo.'**
+  String get profileDisplayNameSaved;
+
+  /// No description provided for @commonSave.
+  ///
+  /// In cs, this message translates to:
+  /// **'Uložit'**
+  String get commonSave;
+
   /// No description provided for @authForgotPassword.
   ///
   /// In cs, this message translates to:

@@ -92,8 +92,22 @@ code to the template, e.g.:
 <p>Kód pro obnovu hesla: {{ .Token }}</p>
 ```
 
+## Community and roles (implemented on top of migration 00002)
+
+- **Route comments**: public read (works signed out), writing signed in;
+  the author name comes from the profile's display name (editable on the
+  Profile tab), falling back to the email's local part. Own comments —
+  and, for admins, any comment — can be soft-deleted.
+- **Issue reports**: "Nahlásit závadu" on the area detail (signed-in
+  only); reporters see their reports on the Profile tab, admins and area
+  managers see everything in their scope (RLS decides — the same query
+  returns more rows for them). Admins get resolve/dismiss actions.
+- **Roles**: mirrored client-side from `profiles.role` purely to show or
+  hide privileged UI; enforcement is server-side.
+
 ## Not yet implemented
 
+- Photos on ascents (bucket + policies are ready; client upload/display
+  is the remaining work).
 - Google/Apple sign-in, account deletion.
-- Photos, comments and community features (Etapa 7); issue reporting
-  and roles (Etapa 8).
+- Assigning area managers from the app (SQL/dashboard only for now).

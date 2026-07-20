@@ -477,6 +477,90 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
+  String get commentsTitle => 'Komentáře';
+
+  @override
+  String get commentsEmpty => 'Zatím žádné komentáře. Buďte první!';
+
+  @override
+  String get commentsLoadFailed =>
+      'Komentáře se nepodařilo načíst — jste online?';
+
+  @override
+  String get commentsSendFailed =>
+      'Akci se nepodařilo provést — zkuste to znovu.';
+
+  @override
+  String get commentsSignInHint =>
+      'Pro přidání komentáře se přihlaste v záložce Profil.';
+
+  @override
+  String get commentsComposerHint => 'Napsat komentář…';
+
+  @override
+  String get commentsSendTooltip => 'Odeslat komentář';
+
+  @override
+  String get commentsDeleteTooltip => 'Smazat komentář';
+
+  @override
+  String get commentsAnonymous => 'Lezec';
+
+  @override
+  String get issueReportAction => 'Nahlásit závadu';
+
+  @override
+  String get issueReportTitle => 'Nahlášení závady';
+
+  @override
+  String get issueReportHint =>
+      'Popište závadu (vyklepaný kruh, nebezpečný blok, špatný přístup…)';
+
+  @override
+  String get issueReportSignInHint =>
+      'Pro nahlášení závady se přihlaste v záložce Profil.';
+
+  @override
+  String get issueReportSent => 'Děkujeme, závada byla nahlášena.';
+
+  @override
+  String get issueReportFailed =>
+      'Nahlášení se nepodařilo odeslat — zkuste to znovu.';
+
+  @override
+  String get issueReportSubmit => 'Odeslat';
+
+  @override
+  String get profileIssuesTitle => 'Hlášení závad';
+
+  @override
+  String get issueStatusOpen => 'Otevřené';
+
+  @override
+  String get issueStatusResolved => 'Vyřešené';
+
+  @override
+  String get issueStatusDismissed => 'Zamítnuté';
+
+  @override
+  String get issueMarkResolved => 'Označit jako vyřešené';
+
+  @override
+  String get issueMarkDismissed => 'Zamítnout';
+
+  @override
+  String get profileDisplayNameLabel => 'Zobrazované jméno';
+
+  @override
+  String get profileDisplayNameHint => 'Jméno u komentářů';
+
+  @override
+  String get profileDisplayNameSaved => 'Jméno bylo uloženo.';
+
+  @override
+  String get commonSave => 'Uložit';
+
+  @override
   String get authForgotPassword => 'Zapomenuté heslo?';
 
   @override

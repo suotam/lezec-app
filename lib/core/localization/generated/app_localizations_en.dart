@@ -472,6 +472,89 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get commentsTitle => 'Comments';
+
+  @override
+  String get commentsEmpty => 'No comments yet. Be the first!';
+
+  @override
+  String get commentsLoadFailed =>
+      'Comments could not be loaded — are you online?';
+
+  @override
+  String get commentsSendFailed => 'The action failed — please try again.';
+
+  @override
+  String get commentsSignInHint =>
+      'Sign in on the Profile tab to add a comment.';
+
+  @override
+  String get commentsComposerHint => 'Write a comment…';
+
+  @override
+  String get commentsSendTooltip => 'Send comment';
+
+  @override
+  String get commentsDeleteTooltip => 'Delete comment';
+
+  @override
+  String get commentsAnonymous => 'Climber';
+
+  @override
+  String get issueReportAction => 'Report an issue';
+
+  @override
+  String get issueReportTitle => 'Issue report';
+
+  @override
+  String get issueReportHint =>
+      'Describe the issue (worn bolt, loose block, access problem…)';
+
+  @override
+  String get issueReportSignInHint =>
+      'Sign in on the Profile tab to report an issue.';
+
+  @override
+  String get issueReportSent => 'Thank you, the issue has been reported.';
+
+  @override
+  String get issueReportFailed =>
+      'The report could not be sent — please try again.';
+
+  @override
+  String get issueReportSubmit => 'Send';
+
+  @override
+  String get profileIssuesTitle => 'Issue reports';
+
+  @override
+  String get issueStatusOpen => 'Open';
+
+  @override
+  String get issueStatusResolved => 'Resolved';
+
+  @override
+  String get issueStatusDismissed => 'Dismissed';
+
+  @override
+  String get issueMarkResolved => 'Mark as resolved';
+
+  @override
+  String get issueMarkDismissed => 'Dismiss';
+
+  @override
+  String get profileDisplayNameLabel => 'Display name';
+
+  @override
+  String get profileDisplayNameHint => 'Name shown with comments';
+
+  @override
+  String get profileDisplayNameSaved => 'Name saved.';
+
+  @override
+  String get commonSave => 'Save';
+
+  @override
   String get authForgotPassword => 'Forgot password?';
 
   @override

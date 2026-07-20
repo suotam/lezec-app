@@ -15,6 +15,7 @@ import '../../../shared/widgets/empty_state_view.dart';
 import '../../../shared/widgets/crux_map.dart';
 import '../../../shared/widgets/restriction_widgets.dart';
 import '../../../shared/widgets/section_header.dart';
+import '../../issues/presentation/widgets/report_issue_button.dart';
 import '../domain/climbing_area.dart';
 import '../domain/climbing_restriction.dart';
 import '../domain/climbing_sector.dart';
@@ -130,6 +131,8 @@ class _AreaDetailBody extends StatelessWidget {
             label: Text(l10n.navigateAction),
           ),
         ),
+        const SizedBox(height: AppSpacing.sm),
+        ReportIssueButton(areaId: area.id, areaName: area.name),
         if (area.restrictions.isNotEmpty) ...[
           SectionHeader(title: l10n.areaDetailRestrictionsTitle),
           for (final restriction in area.restrictions) ...[

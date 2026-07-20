@@ -12,7 +12,10 @@ import '../../auth/presentation/auth_providers.dart';
 import '../../climbing_areas/data/catalog_update_service.dart';
 import '../../climbing_areas/data/drift_catalog_store.dart';
 import '../../climbing_areas/presentation/climbing_areas_providers.dart';
+import '../../issues/domain/issue_report.dart';
+import '../../issues/presentation/issues_providers.dart';
 import '../../sync/presentation/sync_providers.dart';
+import 'profile_providers.dart';
 
 final appVersionProvider = FutureProvider<String>((ref) async {
   final info = await PackageInfo.fromPlatform();
@@ -68,6 +71,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
           SectionHeader(title: l10n.profileAccountTitle),
           const _AccountCard(),
+          const _IssueReportsCard(),
           SectionHeader(title: l10n.profileDataTitle),
           Card(
             child: Padding(
@@ -233,6 +237,8 @@ class _SignedInPanel extends ConsumerWidget {
             ),
           ],
         ),
+        const SizedBox(height: AppSpacing.xs),
+        _DisplayNameRow(),
         const SizedBox(height: AppSpacing.sm),
         Text(
           syncLabel,
@@ -572,6 +578,180 @@ class _CatalogUpdateButton extends ConsumerWidget {
             )
           : const Icon(Icons.cloud_download_outlined),
       label: Text(l10n.profileCatalogCheckUpdates),
+    );
+  }
+}
+
+/// Display name shown with the user's comments; editable in place.
+class _DisplayNameRow extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final displayName = ref.watch(ownProfileProvider).value?.displayName ?? '';
+    return InkWell(
+      onTap: () => showDialog<void>(
+        context: context,
+        builder: (_) => _DisplayNameDialog(initialName: displayName),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                '${l10n.profileDisplayNameLabel}: '
+                '${displayName.isEmpty ? '–' : displayName}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Icon(
+              Icons.edit_outlined,
+              size: 16,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DisplayNameDialog extends ConsumerStatefulWidget {
+  const _DisplayNameDialog({required this.initialName});
+
+  final String initialName;
+
+  @override
+  ConsumerState<_DisplayNameDialog> createState() => _DisplayNameDialogState();
+}
+
+class _DisplayNameDialogState extends ConsumerState<_DisplayNameDialog> {
+  late final TextEditingController _name = TextEditingController(
+    text: widget.initialName,
+  );
+  bool _busy = false;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    final repository = ref.read(profileRepositoryProvider);
+    if (repository == null) return;
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final savedText = context.l10n.profileDisplayNameSaved;
+    setState(() => _busy = true);
+    await repository.setDisplayName(_name.text.trim());
+    ref.invalidate(ownProfileProvider);
+    navigator.pop();
+    messenger.showSnackBar(SnackBar(content: Text(savedText)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return AlertDialog(
+      title: Text(l10n.profileDisplayNameLabel),
+      content: TextField(
+        controller: _name,
+        maxLength: 60,
+        decoration: InputDecoration(hintText: l10n.profileDisplayNameHint),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _busy ? null : () => Navigator.of(context).pop(),
+          child: Text(l10n.commonCancel),
+        ),
+        FilledButton(
+          onPressed: _busy ? null : _save,
+          child: Text(l10n.commonSave),
+        ),
+      ],
+    );
+  }
+}
+
+/// The signed-in user's issue reports (admins and area managers see all
+/// reports in their scope, courtesy of RLS).
+class _IssueReportsCard extends ConsumerWidget {
+  const _IssueReportsCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final reports = ref.watch(visibleIssueReportsProvider).value;
+    if (reports == null || reports.isEmpty) return const SizedBox.shrink();
+    final isAdmin = ref.watch(ownProfileProvider).value?.isAdmin ?? false;
+
+    String statusLabel(IssueStatus status) => switch (status) {
+      IssueStatus.open => l10n.issueStatusOpen,
+      IssueStatus.resolved => l10n.issueStatusResolved,
+      IssueStatus.dismissed => l10n.issueStatusDismissed,
+    };
+
+    Future<void> setStatus(IssueReport report, IssueStatus status) async {
+      final repository = ref.read(issueReportsRepositoryProvider);
+      if (repository == null) return;
+      final messenger = ScaffoldMessenger.of(context);
+      final failedText = l10n.issueReportFailed;
+      try {
+        await repository.setStatus(report.id, status);
+        ref.invalidate(visibleIssueReportsProvider);
+      } catch (_) {
+        messenger.showSnackBar(SnackBar(content: Text(failedText)));
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title: l10n.profileIssuesTitle),
+        Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              for (final report in reports)
+                ListTile(
+                  title: Text(
+                    report.areaName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    '${report.description}\n'
+                    '${formatDay(context, report.createdAt)}'
+                    ' · ${statusLabel(report.status)}',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  isThreeLine: true,
+                  trailing: isAdmin && report.status == IssueStatus.open
+                      ? PopupMenuButton<IssueStatus>(
+                          onSelected: (status) => setStatus(report, status),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: IssueStatus.resolved,
+                              child: Text(l10n.issueMarkResolved),
+                            ),
+                            PopupMenuItem(
+                              value: IssueStatus.dismissed,
+                              child: Text(l10n.issueMarkDismissed),
+                            ),
+                          ],
+                        )
+                      : null,
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

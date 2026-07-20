@@ -192,14 +192,35 @@ catalog)._
   mutations, and manually. Verified by a two-device simulation test
   suite over a fake backend (112 tests total).
 
+**Self-serve data: OTA catalog + password reset**
+- Catalog updates over the air from the public Storage bucket
+  (`latest.json` manifest → versioned gzip), checked once per session
+  and manually from the Profile tab; double version guard so older
+  files never overwrite newer data. Catalog v5 (972 areas, 108,329
+  routes — 99.9 % of ČHS skály) published both as the bundled asset
+  and in Storage.
+- In-app password reset via emailed one-time code (no deep links);
+  needs the one-time email-template edit described in
+  `docs/BACKEND.md`.
+
+**Community + roles core (Etapa 7/8 subset, migration 00002)**
+- Route comments on the route detail: public read, signed-in write,
+  soft-delete of own comments (admins: any), author name from the
+  editable profile display name.
+- Issue reporting from the area detail; reports listed on the Profile
+  tab (RLS shows reporters their own, admins/area managers their
+  scope), with admin resolve/dismiss actions.
+- Roles live server-side (`profiles.role`, `area_managers`); the
+  client only mirrors them to show privileged UI.
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
-pretend it does): catalog updates over the air (Storage), Google/Apple
-sign-in, password reset UI, account deletion, diary calendar view,
-photos on ascents, comments/social/community features, issue
-reporting, roles, payments/QR donations, push notifications, weather,
-offline map packages, complex grade conversion.
+pretend it does): photos on ascents (server side ready), Google/Apple
+sign-in, account deletion, assigning managers from the app, diary
+calendar view, social feed/followers, payments/QR donations, push
+notifications, weather, offline map packages, complex grade
+conversion.
 
 ## Known limitations
 
