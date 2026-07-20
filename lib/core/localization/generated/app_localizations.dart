@@ -920,6 +920,54 @@ abstract class AppLocalizations {
   /// **'Nepodařilo se: {message}'**
   String authFailed(String message);
 
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zapomenuté heslo?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authResetTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Obnova hesla'**
+  String get authResetTitle;
+
+  /// No description provided for @authResetSendCode.
+  ///
+  /// In cs, this message translates to:
+  /// **'Poslat kód'**
+  String get authResetSendCode;
+
+  /// No description provided for @authResetCodeSent.
+  ///
+  /// In cs, this message translates to:
+  /// **'Poslali jsme vám e-mail s ověřovacím kódem.'**
+  String get authResetCodeSent;
+
+  /// No description provided for @authResetCodeLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Kód z e-mailu'**
+  String get authResetCodeLabel;
+
+  /// No description provided for @authNewPasswordLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nové heslo'**
+  String get authNewPasswordLabel;
+
+  /// No description provided for @authResetConfirm.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nastavit heslo'**
+  String get authResetConfirm;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zrušit'**
+  String get commonCancel;
+
   /// No description provided for @profileSyncNow.
   ///
   /// In cs, this message translates to:
@@ -967,6 +1015,30 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Importováno'**
   String get profileCatalogImportedLabel;
+
+  /// No description provided for @profileCatalogCheckUpdates.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zkontrolovat aktualizace dat'**
+  String get profileCatalogCheckUpdates;
+
+  /// No description provided for @profileCatalogUpToDate.
+  ///
+  /// In cs, this message translates to:
+  /// **'Data skal jsou aktuální.'**
+  String get profileCatalogUpToDate;
+
+  /// No description provided for @profileCatalogUpdated.
+  ///
+  /// In cs, this message translates to:
+  /// **'Katalog aktualizován (verze {version}).'**
+  String profileCatalogUpdated(int version);
+
+  /// No description provided for @profileCatalogUpdateFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Aktualizaci se nepodařilo stáhnout — zkuste to později.'**
+  String get profileCatalogUpdateFailed;
 
   /// No description provided for @profileMapCacheTitle.
   ///

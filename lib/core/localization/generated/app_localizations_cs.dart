@@ -477,6 +477,30 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
+  String get authForgotPassword => 'Zapomenuté heslo?';
+
+  @override
+  String get authResetTitle => 'Obnova hesla';
+
+  @override
+  String get authResetSendCode => 'Poslat kód';
+
+  @override
+  String get authResetCodeSent => 'Poslali jsme vám e-mail s ověřovacím kódem.';
+
+  @override
+  String get authResetCodeLabel => 'Kód z e-mailu';
+
+  @override
+  String get authNewPasswordLabel => 'Nové heslo';
+
+  @override
+  String get authResetConfirm => 'Nastavit heslo';
+
+  @override
+  String get commonCancel => 'Zrušit';
+
+  @override
   String get profileSyncNow => 'Synchronizovat';
 
   @override
@@ -502,6 +526,21 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get profileCatalogImportedLabel => 'Importováno';
+
+  @override
+  String get profileCatalogCheckUpdates => 'Zkontrolovat aktualizace dat';
+
+  @override
+  String get profileCatalogUpToDate => 'Data skal jsou aktuální.';
+
+  @override
+  String profileCatalogUpdated(int version) {
+    return 'Katalog aktualizován (verze $version).';
+  }
+
+  @override
+  String get profileCatalogUpdateFailed =>
+      'Aktualizaci se nepodařilo stáhnout — zkuste to později.';
 
   @override
   String get profileMapCacheTitle => 'Mapová cache';

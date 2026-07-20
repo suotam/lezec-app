@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/backend/supabase_config.dart';
 import '../../../core/database/database_provider.dart';
 import '../../../core/utilities/location_service.dart';
 import '../../climbing_routes/domain/climbing_type.dart';
+import '../data/catalog_update_service.dart';
 import '../data/demo_catalog_data_source.dart';
 import '../data/drift_catalog_search_repository.dart';
 import '../data/drift_catalog_store.dart';
@@ -144,6 +146,33 @@ final catalogSearchResultsProvider = FutureProvider<CatalogSearchResults>((
   return ref
       .watch(catalogSearchRepositoryProvider)
       .search(query, limitPerType: catalogSearchResultsPerType);
+});
+
+/// Null without a configured backend (e.g. in tests, which override
+/// [supabaseClientProvider] to null).
+final catalogUpdateServiceProvider = Provider<CatalogUpdateService?>((ref) {
+  if (ref.watch(supabaseClientProvider) == null) return null;
+  return CatalogUpdateService(
+    store: ref.watch(driftCatalogStoreProvider),
+    baseUri: Uri.parse(
+      '${SupabaseConfig.url}/storage/v1/object/public/catalog',
+    ),
+  );
+});
+
+/// One catalog update check per session (re-run via invalidate from the
+/// profile screen). Null when no backend is configured; errors surface
+/// as [AsyncError] and are treated as "no update" by the UI.
+final catalogUpdateProvider = FutureProvider<CatalogUpdateResult?>((ref) async {
+  final service = ref.watch(catalogUpdateServiceProvider);
+  if (service == null) return null;
+  final result = await service.checkAndApply();
+  if (result.outcome == CatalogUpdateOutcome.updated) {
+    ref.invalidate(areasProvider);
+    ref.invalidate(regionsProvider);
+    ref.invalidate(areaByIdProvider);
+  }
+  return result;
 });
 
 final recentlyViewedRepositoryProvider =

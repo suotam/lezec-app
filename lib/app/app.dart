@@ -6,6 +6,7 @@ import '../core/localization/l10n.dart';
 import '../core/theme/app_theme.dart';
 import '../features/auth/domain/auth_repository.dart';
 import '../features/auth/presentation/auth_providers.dart';
+import '../features/climbing_areas/presentation/climbing_areas_providers.dart';
 import '../features/sync/presentation/sync_providers.dart';
 import 'router/app_router.dart';
 
@@ -21,6 +22,9 @@ class CruxApp extends ConsumerWidget {
         ref.read(syncControllerProvider.notifier).syncNow();
       }
     });
+    // Kick off the once-per-session catalog update check; failures stay
+    // inside the provider (offline is normal).
+    ref.listen(catalogUpdateProvider, (_, _) {});
     return MaterialApp.router(
       routerConfig: ref.watch(appRouterProvider),
       onGenerateTitle: (context) => context.l10n.appTitle,

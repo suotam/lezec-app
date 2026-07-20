@@ -50,5 +50,16 @@ abstract interface class AuthRepository {
     required String password,
   });
 
+  /// Emails a one-time recovery code to [email].
+  Future<void> requestPasswordReset(String email);
+
+  /// Verifies the emailed [code] and sets [newPassword]; on success the
+  /// user ends up signed in.
+  Future<void> completePasswordReset({
+    required String email,
+    required String code,
+    required String newPassword,
+  });
+
   Future<void> signOut();
 }

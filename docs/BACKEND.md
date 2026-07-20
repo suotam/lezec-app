@@ -61,10 +61,39 @@ move to a self-hosted server would not touch the presentation layer.
   followed by one harmless self-echo on the next pull (documented in
   `SupabaseSyncBackend`).
 
+## Catalog updates over the air (implemented)
+
+The app checks the public `catalog` bucket once per session (and on the
+Profile tab's "Zkontrolovat aktualizace dat" button) and imports a newer
+catalog into its local database. Publishing a new catalog:
+
+1. Build it: `dart run chs_importer build … --out out/catalog-vN.json
+   --version N --drop-empty-areas`, review the report.
+2. `gzip -9 -c out/catalog-vN.json > out/climbing_catalog-vN.json.gz`
+3. Upload to Storage bucket `catalog` (dashboard drag & drop):
+   - `climbing_catalog-vN.json.gz`
+   - `latest.json` with `{"version": N, "object":
+     "climbing_catalog-vN.json.gz"}` (overwrite the old one)
+
+Version checks run both before download and inside the import, so a
+mis-published older file can never overwrite newer local data. Ship the
+same catalog as the bundled asset in the next app release so fresh
+installs start current.
+
+## Password reset (implemented — needs one template edit)
+
+The in-app flow emails a one-time code and verifies it without deep
+links ("Zapomenuté heslo?" on the Profile tab). **One-time setup:** the
+default Supabase "Reset password" email contains only a link. In
+Dashboard → *Authentication* → *Emails* → **Reset password**, add the
+code to the template, e.g.:
+
+```html
+<p>Kód pro obnovu hesla: {{ .Token }}</p>
+```
+
 ## Not yet implemented
 
-- Catalog updates from Storage (`catalog/latest` version check +
-  download into the local database) — next backend step; removes the
-  need for app releases on data updates.
-- Google/Apple sign-in, password reset UI, account deletion.
-- Photos, comments and community features (Etapa 7).
+- Google/Apple sign-in, account deletion.
+- Photos, comments and community features (Etapa 7); issue reporting
+  and roles (Etapa 8).

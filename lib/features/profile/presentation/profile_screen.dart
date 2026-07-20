@@ -9,6 +9,7 @@ import '../../../shared/extensions/date_formatting.dart';
 import '../../../shared/widgets/section_header.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../auth/presentation/auth_providers.dart';
+import '../../climbing_areas/data/catalog_update_service.dart';
 import '../../climbing_areas/data/drift_catalog_store.dart';
 import '../../climbing_areas/presentation/climbing_areas_providers.dart';
 import '../../sync/presentation/sync_providers.dart';
@@ -94,6 +95,10 @@ class ProfileScreen extends ConsumerWidget {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
+                  ],
+                  if (ref.watch(catalogUpdateServiceProvider) != null) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    const _CatalogUpdateButton(),
                   ],
                 ],
               ),
@@ -383,7 +388,190 @@ class _SignInFormState extends ConsumerState<_SignInForm> {
             ),
           ],
         ),
+        TextButton(
+          onPressed: _busy
+              ? null
+              : () => showDialog<void>(
+                  context: context,
+                  builder: (_) =>
+                      _PasswordResetDialog(initialEmail: _email.text.trim()),
+                ),
+          child: Text(l10n.authForgotPassword),
+        ),
       ],
+    );
+  }
+}
+
+/// Two-step in-app password recovery: send a one-time code to the email,
+/// then verify it together with the new password. No deep links needed —
+/// on success the user is signed in.
+class _PasswordResetDialog extends ConsumerStatefulWidget {
+  const _PasswordResetDialog({required this.initialEmail});
+
+  final String initialEmail;
+
+  @override
+  ConsumerState<_PasswordResetDialog> createState() =>
+      _PasswordResetDialogState();
+}
+
+class _PasswordResetDialogState extends ConsumerState<_PasswordResetDialog> {
+  late final TextEditingController _email = TextEditingController(
+    text: widget.initialEmail,
+  );
+  final _code = TextEditingController();
+  final _newPassword = TextEditingController();
+  bool _codeSent = false;
+  bool _busy = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _code.dispose();
+    _newPassword.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final repository = ref.read(authRepositoryProvider);
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      if (!_codeSent) {
+        await repository.requestPasswordReset(_email.text.trim());
+        if (mounted) setState(() => _codeSent = true);
+      } else {
+        await repository.completePasswordReset(
+          email: _email.text.trim(),
+          code: _code.text.trim(),
+          newPassword: _newPassword.text,
+        );
+        if (mounted) Navigator.of(context).pop();
+      }
+    } on AuthFailure catch (failure) {
+      if (mounted) {
+        setState(() => _error = context.l10n.authFailed(failure.message));
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    return AlertDialog(
+      title: Text(l10n.authResetTitle),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            controller: _email,
+            enabled: !_codeSent,
+            keyboardType: TextInputType.emailAddress,
+            autocorrect: false,
+            decoration: InputDecoration(labelText: l10n.authEmailLabel),
+          ),
+          if (_codeSent) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              l10n.authResetCodeSent,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            TextField(
+              controller: _code,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: l10n.authResetCodeLabel),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            TextField(
+              controller: _newPassword,
+              obscureText: true,
+              decoration: InputDecoration(labelText: l10n.authNewPasswordLabel),
+            ),
+          ],
+          if (_error case final error?) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              error,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+            ),
+          ],
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: _busy ? null : () => Navigator.of(context).pop(),
+          child: Text(l10n.commonCancel),
+        ),
+        FilledButton(
+          onPressed: _busy ? null : _submit,
+          child: Text(
+            _codeSent ? l10n.authResetConfirm : l10n.authResetSendCode,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Manually re-runs the once-per-session catalog update check and
+/// reports the outcome in a snackbar.
+class _CatalogUpdateButton extends ConsumerWidget {
+  const _CatalogUpdateButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final check = ref.watch(catalogUpdateProvider);
+    return OutlinedButton.icon(
+      onPressed: check.isLoading
+          ? null
+          : () async {
+              final messenger = ScaffoldMessenger.of(context);
+              final upToDate = l10n.profileCatalogUpToDate;
+              final failed = l10n.profileCatalogUpdateFailed;
+              String updated(int version) =>
+                  l10n.profileCatalogUpdated(version);
+              ref.invalidate(catalogUpdateProvider);
+              try {
+                final result = await ref.read(catalogUpdateProvider.future);
+                if (result == null) return;
+                if (result.outcome == CatalogUpdateOutcome.updated) {
+                  ref.invalidate(catalogInfoProvider);
+                }
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      result.outcome == CatalogUpdateOutcome.updated
+                          ? updated(result.version)
+                          : upToDate,
+                    ),
+                  ),
+                );
+              } catch (_) {
+                messenger.showSnackBar(SnackBar(content: Text(failed)));
+              }
+            },
+      icon: check.isLoading
+          ? const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Icon(Icons.cloud_download_outlined),
+      label: Text(l10n.profileCatalogCheckUpdates),
     );
   }
 }

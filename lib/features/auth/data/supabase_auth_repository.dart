@@ -42,6 +42,24 @@ class SupabaseAuthRepository implements AuthRepository {
   });
 
   @override
+  Future<void> requestPasswordReset(String email) =>
+      _guard(() => _client.auth.resetPasswordForEmail(email));
+
+  @override
+  Future<void> completePasswordReset({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) => _guard(() async {
+    await _client.auth.verifyOTP(
+      type: OtpType.recovery,
+      email: email,
+      token: code,
+    );
+    await _client.auth.updateUser(UserAttributes(password: newPassword));
+  });
+
+  @override
   Future<void> signOut() => _guard(() => _client.auth.signOut());
 
   Future<T> _guard<T>(Future<T> Function() action) async {
@@ -72,6 +90,17 @@ class UnavailableAuthRepository implements AuthRepository {
   Future<SignUpResult> signUp({
     required String email,
     required String password,
+  }) => throw const AuthFailure('Backend is not configured');
+
+  @override
+  Future<void> requestPasswordReset(String email) =>
+      throw const AuthFailure('Backend is not configured');
+
+  @override
+  Future<void> completePasswordReset({
+    required String email,
+    required String code,
+    required String newPassword,
   }) => throw const AuthFailure('Backend is not configured');
 
   @override

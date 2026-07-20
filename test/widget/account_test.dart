@@ -41,6 +41,24 @@ class FakeAuthRepository implements AuthRepository {
   }) async => const SignUpResult(needsEmailConfirmation: true);
 
   @override
+  Future<void> requestPasswordReset(String email) async {
+    resetRequestedFor = email;
+  }
+
+  String? resetRequestedFor;
+
+  @override
+  Future<void> completePasswordReset({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    if (code != '123456') throw const AuthFailure('Invalid code');
+    _user = AppUser(id: 'user-1', email: email);
+    _controller.add(_user);
+  }
+
+  @override
   Future<void> signOut() async {
     _user = null;
     _controller.add(null);
@@ -118,6 +136,42 @@ void main() {
       find.text('Nepodařilo se: Invalid login credentials'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('password reset flow signs the user in', (tester) async {
+    await pumpProfile(tester);
+
+    await tester.enterText(
+      find.widgetWithText(TextField, 'E-mail'),
+      'lezec@example.com',
+    );
+    await tester.tap(find.text('Zapomenuté heslo?'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Obnova hesla'), findsOneWidget);
+    await tester.tap(find.text('Poslat kód'));
+    await tester.pumpAndSettle();
+    expect(auth.resetRequestedFor, 'lezec@example.com');
+    expect(
+      find.text('Poslali jsme vám e-mail s ověřovacím kódem.'),
+      findsOneWidget,
+    );
+
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Kód z e-mailu'),
+      '123456',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Nové heslo'),
+      'noveheslo',
+    );
+    await tester.tap(find.text('Nastavit heslo'));
+    await tester.pumpAndSettle();
+
+    // Dialog closed, user signed in.
+    expect(find.text('Obnova hesla'), findsNothing);
+    expect(find.text('lezec@example.com'), findsOneWidget);
+    expect(find.text('Odhlásit se'), findsOneWidget);
   });
 
   testWidgets('sign-up asking for email confirmation says so', (tester) async {

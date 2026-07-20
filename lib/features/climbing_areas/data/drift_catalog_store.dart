@@ -66,7 +66,38 @@ class DriftCatalogStore {
       return;
     }
 
-    final raw = _dataSource.decodeRawBytes(bytes);
+    final (decoded, version) = _decodeDocument(
+      _dataSource.decodeRawBytes(bytes),
+    );
+    final stored = await currentVersion();
+    if (stored != null && stored >= version) {
+      // Same version re-encoded, or the database already holds a newer
+      // catalog from an over-the-air update. Keep the imported data and
+      // just remember the asset fingerprint for the fast path.
+      await _writeMeta(_fingerprintKey, fingerprint);
+      return;
+    }
+
+    await _import(decoded, version);
+    await _writeMeta(_fingerprintKey, fingerprint);
+  }
+
+  /// Imports a catalog document delivered over the air. Returns false
+  /// (without touching the database) when [raw] is not newer than what
+  /// the database already holds.
+  Future<bool> importOta(String raw) async {
+    final (decoded, version) = _decodeDocument(raw);
+    final stored = await currentVersion();
+    if (stored != null && stored >= version) return false;
+    await _import(decoded, version);
+    return true;
+  }
+
+  /// The catalog version currently held by the database, if any.
+  Future<int?> currentVersion() async =>
+      int.tryParse(await _readMeta(_versionKey) ?? '');
+
+  (Map<String, Object?>, int) _decodeDocument(String raw) {
     final Object? decoded;
     try {
       decoded = json.decode(raw);
@@ -82,15 +113,10 @@ class DriftCatalogStore {
         'root.version must be a positive integer',
       );
     }
+    return (decoded, version);
+  }
 
-    if (await _readMeta(_versionKey) == '$version') {
-      // Asset bytes changed but the content version did not (e.g. a
-      // re-encoded file): keep the imported data, just remember the new
-      // fingerprint for the fast path.
-      await _writeMeta(_fingerprintKey, fingerprint);
-      return;
-    }
-
+  Future<void> _import(Map<String, Object?> decoded, int version) async {
     final regionDocs = decoded['regions'];
     final areaDocs = decoded['areas'];
     if (regionDocs is! List || areaDocs is! List) {
@@ -180,7 +206,6 @@ class DriftCatalogStore {
 
       await _writeMeta(_versionKey, '$version');
       await _writeMeta(_importedAtKey, DateTime.now().toIso8601String());
-      await _writeMeta(_fingerprintKey, fingerprint);
     });
   }
 

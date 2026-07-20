@@ -472,6 +472,31 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authResetTitle => 'Password reset';
+
+  @override
+  String get authResetSendCode => 'Send code';
+
+  @override
+  String get authResetCodeSent =>
+      'We sent you an email with a verification code.';
+
+  @override
+  String get authResetCodeLabel => 'Code from the email';
+
+  @override
+  String get authNewPasswordLabel => 'New password';
+
+  @override
+  String get authResetConfirm => 'Set password';
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
   String get profileSyncNow => 'Sync now';
 
   @override
@@ -496,6 +521,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileCatalogImportedLabel => 'Imported';
+
+  @override
+  String get profileCatalogCheckUpdates => 'Check for data updates';
+
+  @override
+  String get profileCatalogUpToDate => 'The rock data is up to date.';
+
+  @override
+  String profileCatalogUpdated(int version) {
+    return 'Catalog updated (version $version).';
+  }
+
+  @override
+  String get profileCatalogUpdateFailed =>
+      'The update could not be downloaded — try again later.';
 
   @override
   String get profileMapCacheTitle => 'Map cache';

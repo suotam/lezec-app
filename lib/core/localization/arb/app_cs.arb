@@ -200,6 +200,14 @@
       }
     }
   },
+  "authForgotPassword": "Zapomenuté heslo?",
+  "authResetTitle": "Obnova hesla",
+  "authResetSendCode": "Poslat kód",
+  "authResetCodeSent": "Poslali jsme vám e-mail s ověřovacím kódem.",
+  "authResetCodeLabel": "Kód z e-mailu",
+  "authNewPasswordLabel": "Nové heslo",
+  "authResetConfirm": "Nastavit heslo",
+  "commonCancel": "Zrušit",
   "profileSyncNow": "Synchronizovat",
   "profileSyncedAt": "Synchronizováno v {time}",
   "@profileSyncedAt": {
@@ -215,6 +223,17 @@
   "profileDataTitle": "Data katalogu",
   "profileCatalogVersionLabel": "Verze katalogu",
   "profileCatalogImportedLabel": "Importováno",
+  "profileCatalogCheckUpdates": "Zkontrolovat aktualizace dat",
+  "profileCatalogUpToDate": "Data skal jsou aktuální.",
+  "profileCatalogUpdated": "Katalog aktualizován (verze {version}).",
+  "@profileCatalogUpdated": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      }
+    }
+  },
+  "profileCatalogUpdateFailed": "Aktualizaci se nepodařilo stáhnout — zkuste to později.",
   "profileMapCacheTitle": "Mapová cache",
   "profileMapCacheBody": "Zobrazené výřezy map se ukládají pro použití bez signálu.",
   "profileMapCacheClear": "Vymazat",
