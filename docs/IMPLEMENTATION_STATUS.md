@@ -94,7 +94,7 @@ catalog)._
   server outage/block near the end and can be fetched later by
   re-running `fetch --all` on the same snapshot).
 - `assets/demo_data/climbing_catalog.json.gz` now ships **16 regions,
-  951 areas and 105,480 routes** (catalog version 4, 33 MB JSON → 5 MB
+  972 areas and 108,329 routes** (catalog version 5, 34 MB JSON → 5 MB
   gzip, built with `--drop-empty-areas`). Import report reviewed: 0
   validation errors, ~1,300 review notes (empty skály, missing grades on
   projects, unmapped rock types).
@@ -203,11 +203,10 @@ offline map packages, complex grade conversion.
 
 ## Known limitations
 
-- ~440 of 17,791 ČHS skály (2.5 %) are still missing: the ČHS server
-  keeps going down mid-crawl (2026-07-18 it recovered long enough for
-  ~200 more skály, then stalled again — catalog v4 ships those).
-  Re-run `fetch --all` on the existing snapshot when the server is
-  stable, rebuild with a bumped version and reship the asset.
+- ~19 of 17,791 ČHS skály (0.1 %) are still missing (the crawler
+  stalls when the ČHS server drops connections; catalog v5 covers
+  99.9 %). Re-run `fetch --all` on the existing snapshot to pick up
+  the rest eventually.
 - On-device timings are extrapolated from desktop measurements; verify
   the first-launch import (~1.5 s desktop) and list scrolling on a real
   phone.
@@ -266,7 +265,7 @@ contract candidate.
 Smaller follow-ups that can ride along:
 1. Fixes from the tester round (collect via the Profile screen's
    version info).
-2. Finish the crawl when the ČHS server stays up (~440 skály), ship
+2. Finish the crawl when the ČHS server stays up (~19 skály), ship
    catalog v5.
 3. Importer follow-ups: restriction texts ("Podmínky lezení"),
    extended grade-system mapping.

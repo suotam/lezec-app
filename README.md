@@ -110,7 +110,7 @@ assets/demo_data/climbing_catalog.json.gz
 ```
 
 Since catalog version 3 it contains the full ČHS rock database — as of
-version 4: 16 regions, 951 areas and ~105,500 routes (5 MB gzipped),
+version 5: 16 regions, 972 areas and ~108,300 routes (5 MB gzipped),
 produced by the
 importer below. On first launch the app imports it into its local
 SQLite database (~1.5 s on desktop); later starts skip the import
