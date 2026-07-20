@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/localization/l10n.dart';
 import '../../../../core/theme/crux_colors.dart';
+import '../../../../core/utilities/location_service.dart';
 import '../../../../shared/widgets/crux_map.dart';
 import '../../domain/climbing_area.dart';
 import '../../domain/geo_point.dart';
@@ -19,19 +22,44 @@ LatLng _toLatLng(GeoPoint point) => LatLng(point.latitude, point.longitude);
 /// Map of the (filtered) areas. Tapping a marker shows the area's card;
 /// tapping the card hands off to [onAreaTap]. The camera refits whenever
 /// the filtered set changes so search results stay in view.
-class AreasMapView extends StatefulWidget {
+class AreasMapView extends ConsumerStatefulWidget {
   const AreasMapView({super.key, required this.areas, required this.onAreaTap});
 
   final List<ClimbingArea> areas;
   final void Function(ClimbingArea area) onAreaTap;
 
   @override
-  State<AreasMapView> createState() => _AreasMapViewState();
+  ConsumerState<AreasMapView> createState() => _AreasMapViewState();
 }
 
-class _AreasMapViewState extends State<AreasMapView> {
+class _AreasMapViewState extends ConsumerState<AreasMapView> {
   final MapController _controller = MapController();
   ClimbingArea? _selected;
+  GeoPoint? _myPosition;
+  bool _locating = false;
+
+  /// Fetches the position (asking for permission if needed), shows the
+  /// dot and centers the camera on it.
+  Future<void> _showMyLocation() async {
+    if (_locating) return;
+    final messenger = ScaffoldMessenger.of(context);
+    final unavailableText = context.l10n.locationUnavailable;
+    setState(() => _locating = true);
+    try {
+      final position = await ref
+          .read(locationServiceProvider)
+          .getCurrentPosition();
+      if (!mounted) return;
+      if (position == null) {
+        messenger.showSnackBar(SnackBar(content: Text(unavailableText)));
+        return;
+      }
+      setState(() => _myPosition = position);
+      _controller.move(_toLatLng(position), 12);
+    } finally {
+      if (mounted) setState(() => _locating = false);
+    }
+  }
 
   static CameraFit _fitFor(List<ClimbingArea> areas) => CameraFit.coordinates(
     coordinates: [for (final area in areas) _toLatLng(area.location)],
@@ -93,6 +121,27 @@ class _AreasMapViewState extends State<AreasMapView> {
             onTap: (_, _) => setState(() => _selected = null),
           ),
           markers: [
+            // Under the area pins so it never hides them.
+            if (_myPosition case final position?)
+              Marker(
+                key: const ValueKey('myLocationMarker'),
+                point: _toLatLng(position),
+                width: 22,
+                height: 22,
+                child: Semantics(
+                  label: context.l10n.mapMyLocationTooltip,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E88E5),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 3),
+                      boxShadow: const [
+                        BoxShadow(blurRadius: 6, color: Colors.black38),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             for (final area in widget.areas)
               Marker(
                 point: _toLatLng(area.location),
@@ -139,6 +188,22 @@ class _AreasMapViewState extends State<AreasMapView> {
                   ),
                 ),
           ],
+        ),
+        Positioned(
+          top: AppSpacing.md,
+          right: AppSpacing.md,
+          child: FloatingActionButton.small(
+            heroTag: 'areasMapMyLocation',
+            tooltip: context.l10n.mapMyLocationTooltip,
+            onPressed: _locating ? null : _showMyLocation,
+            child: _locating
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.my_location),
+          ),
         ),
         if (selected != null)
           Positioned(

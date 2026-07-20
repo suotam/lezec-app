@@ -24,6 +24,7 @@
   "areasTitle": "Areas",
   "areasSearchHint": "Search areas, sectors, rocks and routes",
   "areasShowMapTooltip": "Show map",
+  "mapMyLocationTooltip": "My location",
   "areasShowListTooltip": "Show list",
   "areaDetailMapTitle": "Map",
   "searchSectorsTitle": "Sectors",

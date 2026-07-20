@@ -24,6 +24,7 @@
   "areasTitle": "Oblasti",
   "areasSearchHint": "Hledat oblasti, sektory, skály i cesty",
   "areasShowMapTooltip": "Zobrazit mapu",
+  "mapMyLocationTooltip": "Moje poloha",
   "areasShowListTooltip": "Zobrazit seznam",
   "areaDetailMapTitle": "Mapa",
   "searchSectorsTitle": "Sektory",

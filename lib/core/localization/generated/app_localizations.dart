@@ -242,6 +242,12 @@ abstract class AppLocalizations {
   /// **'Zobrazit mapu'**
   String get areasShowMapTooltip;
 
+  /// No description provided for @mapMyLocationTooltip.
+  ///
+  /// In cs, this message translates to:
+  /// **'Moje poloha'**
+  String get mapMyLocationTooltip;
+
   /// No description provided for @areasShowListTooltip.
   ///
   /// In cs, this message translates to:

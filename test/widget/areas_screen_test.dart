@@ -250,6 +250,44 @@ void main() {
     expect(find.byIcon(Icons.local_parking), findsNothing);
   });
 
+  testWidgets('my-location button shows the position dot on the map', (
+    tester,
+  ) async {
+    await pumpAreasScreen(
+      tester,
+      extraOverrides: [
+        locationServiceProvider.overrideWithValue(
+          _FakeLocationService(const GeoPoint(latitude: 49.9, longitude: 15.4)),
+        ),
+      ],
+    );
+    await tester.tap(find.byTooltip('Zobrazit mapu'));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('myLocationMarker')), findsNothing);
+    await tester.tap(find.byTooltip('Moje poloha'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('myLocationMarker')), findsOneWidget);
+  });
+
+  testWidgets('unavailable location on the map explains itself', (
+    tester,
+  ) async {
+    await pumpAreasScreen(
+      tester,
+      extraOverrides: [
+        locationServiceProvider.overrideWithValue(_FakeLocationService(null)),
+      ],
+    );
+    await tester.tap(find.byTooltip('Zobrazit mapu'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Moje poloha'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('myLocationMarker')), findsNothing);
+    expect(find.textContaining('Polohu se nepodařilo zjistit'), findsOneWidget);
+  });
+
   testWidgets('selecting an area reveals its parking markers', (tester) async {
     await pumpAreasScreen(tester);
 

@@ -83,6 +83,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get areasShowMapTooltip => 'Show map';
 
   @override
+  String get mapMyLocationTooltip => 'My location';
+
+  @override
   String get areasShowListTooltip => 'Show list';
 
   @override

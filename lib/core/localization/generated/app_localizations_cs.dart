@@ -83,6 +83,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get areasShowMapTooltip => 'Zobrazit mapu';
 
   @override
+  String get mapMyLocationTooltip => 'Moje poloha';
+
+  @override
   String get areasShowListTooltip => 'Zobrazit seznam';
 
   @override
