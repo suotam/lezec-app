@@ -4,6 +4,7 @@ import 'package:lezec_app/core/database/crux_database.dart';
 import 'package:lezec_app/features/climbing_routes/domain/route_grade.dart';
 import 'package:lezec_app/features/diary/data/drift_diary_repository.dart';
 import 'package:lezec_app/features/diary/domain/ascent.dart';
+import 'package:lezec_app/features/diary/domain/trip.dart';
 import 'package:lezec_app/features/projects/data/drift_user_route_state_repository.dart';
 import 'package:lezec_app/features/sync/data/drift_sync_store.dart';
 import 'package:lezec_app/features/sync/data/sync_service.dart';
@@ -13,8 +14,19 @@ import 'package:lezec_app/features/sync/domain/sync_records.dart';
 /// devices.
 class FakeSyncBackend implements SyncBackend {
   final ascents = <String, AscentRecord>{};
+  final trips = <String, TripRecord>{};
   final flags = <String, RouteFlagRecord>{};
   final views = <String, AreaViewRecord>{};
+
+  @override
+  Future<List<TripRecord>> fetchTrips() async => trips.values.toList();
+
+  @override
+  Future<void> upsertTrips(List<TripRecord> records) async {
+    for (final record in records) {
+      trips[record.id] = record;
+    }
+  }
 
   @override
   Future<List<AscentRecord>> fetchAscents() async => ascents.values.toList();
@@ -152,6 +164,52 @@ void main() {
 
     expect(await flagsA.getFavoriteRouteIds(), isEmpty);
     expect(await flagsA.getProjectRouteIds(), {'route-2'});
+  });
+
+  test('trips sync with their ascents and delete as a unit', () async {
+    final diaryA = DriftDiaryRepository(deviceA);
+    final diaryB = DriftDiaryRepository(deviceB);
+    final trip = Trip(
+      id: 'trip-1',
+      areaId: 'area-1',
+      areaName: 'Oblast',
+      date: DateTime(2026, 7, 19),
+      createdAt: DateTime(2026, 7, 19, 20),
+      note: 'Skvělý den',
+    );
+    await diaryA.addTrip(trip);
+    await diaryA.addAscent(ascent('a1'));
+    final linked = Ascent(
+      id: 'a2',
+      tripId: 'trip-1',
+      routeId: 'route-2',
+      routeName: 'Cesta z výjezdu',
+      grade: const RouteGrade(system: GradingSystem.french, value: '6a'),
+      areaId: 'area-1',
+      areaName: 'Oblast',
+      sectorName: 'Sektor',
+      style: AscentStyle.onsight,
+      date: DateTime(2026, 7, 19),
+      createdAt: DateTime(2026, 7, 19, 20, 5),
+    );
+    await diaryA.addAscent(linked);
+
+    await syncA.sync();
+    await syncB.sync();
+
+    expect((await diaryB.getTrips()).single.note, 'Skvělý den');
+    final onB = await diaryB.getAscents();
+    expect(onB, hasLength(2));
+    expect(onB.singleWhere((a) => a.id == 'a2').tripId, 'trip-1');
+
+    // Deleting the trip on B removes it and its ascent everywhere.
+    await Future<void>.delayed(const Duration(milliseconds: 2));
+    await diaryB.deleteTrip('trip-1');
+    await syncB.sync();
+    await syncA.sync();
+
+    expect(await diaryA.getTrips(), isEmpty);
+    expect((await diaryA.getAscents()).map((a) => a.id), ['a1']);
   });
 
   test('sync is idempotent', () async {

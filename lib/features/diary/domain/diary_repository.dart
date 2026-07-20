@@ -1,4 +1,5 @@
 import 'ascent.dart';
+import 'trip.dart';
 
 /// Persists the user's climbing diary.
 abstract interface class DiaryRepository {
@@ -11,4 +12,12 @@ abstract interface class DiaryRepository {
   Future<void> updateAscent(Ascent ascent);
 
   Future<void> deleteAscent(String id);
+
+  /// All trip logs, newest first.
+  Future<List<Trip>> getTrips();
+
+  Future<void> addTrip(Trip trip);
+
+  /// Removes the trip together with the ascents logged under it.
+  Future<void> deleteTrip(String id);
 }

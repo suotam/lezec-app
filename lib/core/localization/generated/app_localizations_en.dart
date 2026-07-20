@@ -472,6 +472,64 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get tripLogTitle => 'Trip log';
+
+  @override
+  String get tripSaveAction => 'Save';
+
+  @override
+  String get tripLogAction => 'Log a trip';
+
+  @override
+  String get tripPickArea => 'Pick an area';
+
+  @override
+  String get tripPickAreaFirst => 'Pick an area first, then tick the routes.';
+
+  @override
+  String get tripNoteLabel => 'Trip notes';
+
+  @override
+  String get tripPhotosTitle => 'Photos';
+
+  @override
+  String get tripPhotosOffline => 'Photos require an internet connection.';
+
+  @override
+  String get tripRoutesTitle => 'Routes climbed';
+
+  @override
+  String get tripRouteFilterHint => 'Filter routes by name';
+
+  @override
+  String tripSaved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Trip saved — $count ascents logged.',
+      one: 'Trip saved — 1 ascent logged.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tripPhotosFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Trip saved, but $count photos failed to upload.',
+      one: 'Trip saved, but 1 photo failed to upload.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripDeleteAction => 'Delete trip';
+
+  @override
+  String get tripDeleted => 'The trip and its ascents were deleted.';
+
+  @override
   String get commentsTitle => 'Comments';
 
   @override

@@ -4,6 +4,7 @@ import '../../../core/database/crux_database.dart';
 import '../../climbing_routes/domain/route_grade.dart';
 import '../domain/ascent.dart' as domain;
 import '../domain/diary_repository.dart';
+import '../domain/trip.dart';
 
 /// Drift-backed climbing diary.
 class DriftDiaryRepository implements DiaryRepository {
@@ -33,6 +34,7 @@ class DriftDiaryRepository implements DiaryRepository {
   AscentsCompanion _toCompanion(domain.Ascent ascent) =>
       AscentsCompanion.insert(
         id: ascent.id,
+        tripId: Value(ascent.tripId),
         routeId: ascent.routeId,
         routeName: ascent.routeName,
         gradeValue: ascent.grade.value,
@@ -62,6 +64,7 @@ class DriftDiaryRepository implements DiaryRepository {
 
   domain.Ascent _toDomain(AscentRow row) => domain.Ascent(
     id: row.id,
+    tripId: row.tripId,
     routeId: row.routeId,
     routeName: row.routeName,
     grade: RouteGrade(
@@ -82,4 +85,63 @@ class DriftDiaryRepository implements DiaryRepository {
   /// the whole diary.
   T _enumOrFirst<T extends Enum>(List<T> values, String name) =>
       values.asNameMap()[name] ?? values.first;
+
+  // --- trips ---------------------------------------------------------
+
+  @override
+  Future<List<Trip>> getTrips() async {
+    final query = _db.select(_db.trips)
+      ..where((t) => t.deletedAtMicros.isNull())
+      ..orderBy([
+        (t) => OrderingTerm.desc(t.tripDate),
+        (t) => OrderingTerm.desc(t.createdAtMicros),
+      ]);
+    return [
+      for (final row in await query.get())
+        Trip(
+          id: row.id,
+          areaId: row.areaId,
+          areaName: row.areaName,
+          date: row.tripDate,
+          createdAt: DateTime.fromMicrosecondsSinceEpoch(row.createdAtMicros),
+          note: row.note,
+        ),
+    ];
+  }
+
+  @override
+  Future<void> addTrip(Trip trip) => _db
+      .into(_db.trips)
+      .insert(
+        TripsCompanion.insert(
+          id: trip.id,
+          areaId: trip.areaId,
+          areaName: trip.areaName,
+          tripDate: trip.date,
+          note: Value(trip.note),
+          createdAtMicros: trip.createdAt.microsecondsSinceEpoch,
+          updatedAtMicros: Value(DateTime.now().toUtc().microsecondsSinceEpoch),
+        ),
+      );
+
+  /// Tombstones the trip and every ascent logged under it, so the whole
+  /// zápis disappears on other devices too.
+  @override
+  Future<void> deleteTrip(String id) async {
+    final now = DateTime.now().toUtc().microsecondsSinceEpoch;
+    await _db.transaction(() async {
+      await (_db.update(_db.trips)..where((t) => t.id.equals(id))).write(
+        TripsCompanion(
+          deletedAtMicros: Value(now),
+          updatedAtMicros: Value(now),
+        ),
+      );
+      await (_db.update(_db.ascents)..where((t) => t.tripId.equals(id))).write(
+        AscentsCompanion(
+          deletedAtMicros: Value(now),
+          updatedAtMicros: Value(now),
+        ),
+      );
+    });
+  }
 }

@@ -2194,6 +2194,528 @@ class CatalogSearchEntriesCompanion
   }
 }
 
+class $TripsTable extends Trips with TableInfo<$TripsTable, TripRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TripsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _areaIdMeta = const VerificationMeta('areaId');
+  @override
+  late final GeneratedColumn<String> areaId = GeneratedColumn<String>(
+    'area_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _areaNameMeta = const VerificationMeta(
+    'areaName',
+  );
+  @override
+  late final GeneratedColumn<String> areaName = GeneratedColumn<String>(
+    'area_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tripDateMeta = const VerificationMeta(
+    'tripDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> tripDate = GeneratedColumn<DateTime>(
+    'trip_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMicrosMeta = const VerificationMeta(
+    'createdAtMicros',
+  );
+  @override
+  late final GeneratedColumn<int> createdAtMicros = GeneratedColumn<int>(
+    'created_at_micros',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMicrosMeta = const VerificationMeta(
+    'updatedAtMicros',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAtMicros = GeneratedColumn<int>(
+    'updated_at_micros',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _deletedAtMicrosMeta = const VerificationMeta(
+    'deletedAtMicros',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAtMicros = GeneratedColumn<int>(
+    'deleted_at_micros',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    areaId,
+    areaName,
+    tripDate,
+    note,
+    createdAtMicros,
+    updatedAtMicros,
+    deletedAtMicros,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'trips';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TripRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('area_id')) {
+      context.handle(
+        _areaIdMeta,
+        areaId.isAcceptableOrUnknown(data['area_id']!, _areaIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_areaIdMeta);
+    }
+    if (data.containsKey('area_name')) {
+      context.handle(
+        _areaNameMeta,
+        areaName.isAcceptableOrUnknown(data['area_name']!, _areaNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_areaNameMeta);
+    }
+    if (data.containsKey('trip_date')) {
+      context.handle(
+        _tripDateMeta,
+        tripDate.isAcceptableOrUnknown(data['trip_date']!, _tripDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tripDateMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('created_at_micros')) {
+      context.handle(
+        _createdAtMicrosMeta,
+        createdAtMicros.isAcceptableOrUnknown(
+          data['created_at_micros']!,
+          _createdAtMicrosMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMicrosMeta);
+    }
+    if (data.containsKey('updated_at_micros')) {
+      context.handle(
+        _updatedAtMicrosMeta,
+        updatedAtMicros.isAcceptableOrUnknown(
+          data['updated_at_micros']!,
+          _updatedAtMicrosMeta,
+        ),
+      );
+    }
+    if (data.containsKey('deleted_at_micros')) {
+      context.handle(
+        _deletedAtMicrosMeta,
+        deletedAtMicros.isAcceptableOrUnknown(
+          data['deleted_at_micros']!,
+          _deletedAtMicrosMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TripRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TripRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      areaId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}area_id'],
+      )!,
+      areaName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}area_name'],
+      )!,
+      tripDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}trip_date'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      createdAtMicros: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_at_micros'],
+      )!,
+      updatedAtMicros: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at_micros'],
+      )!,
+      deletedAtMicros: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at_micros'],
+      ),
+    );
+  }
+
+  @override
+  $TripsTable createAlias(String alias) {
+    return $TripsTable(attachedDatabase, alias);
+  }
+}
+
+class TripRow extends DataClass implements Insertable<TripRow> {
+  final String id;
+  final String areaId;
+  final String areaName;
+  final DateTime tripDate;
+  final String? note;
+  final int createdAtMicros;
+  final int updatedAtMicros;
+  final int? deletedAtMicros;
+  const TripRow({
+    required this.id,
+    required this.areaId,
+    required this.areaName,
+    required this.tripDate,
+    this.note,
+    required this.createdAtMicros,
+    required this.updatedAtMicros,
+    this.deletedAtMicros,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['area_id'] = Variable<String>(areaId);
+    map['area_name'] = Variable<String>(areaName);
+    map['trip_date'] = Variable<DateTime>(tripDate);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['created_at_micros'] = Variable<int>(createdAtMicros);
+    map['updated_at_micros'] = Variable<int>(updatedAtMicros);
+    if (!nullToAbsent || deletedAtMicros != null) {
+      map['deleted_at_micros'] = Variable<int>(deletedAtMicros);
+    }
+    return map;
+  }
+
+  TripsCompanion toCompanion(bool nullToAbsent) {
+    return TripsCompanion(
+      id: Value(id),
+      areaId: Value(areaId),
+      areaName: Value(areaName),
+      tripDate: Value(tripDate),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      createdAtMicros: Value(createdAtMicros),
+      updatedAtMicros: Value(updatedAtMicros),
+      deletedAtMicros: deletedAtMicros == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAtMicros),
+    );
+  }
+
+  factory TripRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TripRow(
+      id: serializer.fromJson<String>(json['id']),
+      areaId: serializer.fromJson<String>(json['areaId']),
+      areaName: serializer.fromJson<String>(json['areaName']),
+      tripDate: serializer.fromJson<DateTime>(json['tripDate']),
+      note: serializer.fromJson<String?>(json['note']),
+      createdAtMicros: serializer.fromJson<int>(json['createdAtMicros']),
+      updatedAtMicros: serializer.fromJson<int>(json['updatedAtMicros']),
+      deletedAtMicros: serializer.fromJson<int?>(json['deletedAtMicros']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'areaId': serializer.toJson<String>(areaId),
+      'areaName': serializer.toJson<String>(areaName),
+      'tripDate': serializer.toJson<DateTime>(tripDate),
+      'note': serializer.toJson<String?>(note),
+      'createdAtMicros': serializer.toJson<int>(createdAtMicros),
+      'updatedAtMicros': serializer.toJson<int>(updatedAtMicros),
+      'deletedAtMicros': serializer.toJson<int?>(deletedAtMicros),
+    };
+  }
+
+  TripRow copyWith({
+    String? id,
+    String? areaId,
+    String? areaName,
+    DateTime? tripDate,
+    Value<String?> note = const Value.absent(),
+    int? createdAtMicros,
+    int? updatedAtMicros,
+    Value<int?> deletedAtMicros = const Value.absent(),
+  }) => TripRow(
+    id: id ?? this.id,
+    areaId: areaId ?? this.areaId,
+    areaName: areaName ?? this.areaName,
+    tripDate: tripDate ?? this.tripDate,
+    note: note.present ? note.value : this.note,
+    createdAtMicros: createdAtMicros ?? this.createdAtMicros,
+    updatedAtMicros: updatedAtMicros ?? this.updatedAtMicros,
+    deletedAtMicros: deletedAtMicros.present
+        ? deletedAtMicros.value
+        : this.deletedAtMicros,
+  );
+  TripRow copyWithCompanion(TripsCompanion data) {
+    return TripRow(
+      id: data.id.present ? data.id.value : this.id,
+      areaId: data.areaId.present ? data.areaId.value : this.areaId,
+      areaName: data.areaName.present ? data.areaName.value : this.areaName,
+      tripDate: data.tripDate.present ? data.tripDate.value : this.tripDate,
+      note: data.note.present ? data.note.value : this.note,
+      createdAtMicros: data.createdAtMicros.present
+          ? data.createdAtMicros.value
+          : this.createdAtMicros,
+      updatedAtMicros: data.updatedAtMicros.present
+          ? data.updatedAtMicros.value
+          : this.updatedAtMicros,
+      deletedAtMicros: data.deletedAtMicros.present
+          ? data.deletedAtMicros.value
+          : this.deletedAtMicros,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TripRow(')
+          ..write('id: $id, ')
+          ..write('areaId: $areaId, ')
+          ..write('areaName: $areaName, ')
+          ..write('tripDate: $tripDate, ')
+          ..write('note: $note, ')
+          ..write('createdAtMicros: $createdAtMicros, ')
+          ..write('updatedAtMicros: $updatedAtMicros, ')
+          ..write('deletedAtMicros: $deletedAtMicros')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    areaId,
+    areaName,
+    tripDate,
+    note,
+    createdAtMicros,
+    updatedAtMicros,
+    deletedAtMicros,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TripRow &&
+          other.id == this.id &&
+          other.areaId == this.areaId &&
+          other.areaName == this.areaName &&
+          other.tripDate == this.tripDate &&
+          other.note == this.note &&
+          other.createdAtMicros == this.createdAtMicros &&
+          other.updatedAtMicros == this.updatedAtMicros &&
+          other.deletedAtMicros == this.deletedAtMicros);
+}
+
+class TripsCompanion extends UpdateCompanion<TripRow> {
+  final Value<String> id;
+  final Value<String> areaId;
+  final Value<String> areaName;
+  final Value<DateTime> tripDate;
+  final Value<String?> note;
+  final Value<int> createdAtMicros;
+  final Value<int> updatedAtMicros;
+  final Value<int?> deletedAtMicros;
+  final Value<int> rowid;
+  const TripsCompanion({
+    this.id = const Value.absent(),
+    this.areaId = const Value.absent(),
+    this.areaName = const Value.absent(),
+    this.tripDate = const Value.absent(),
+    this.note = const Value.absent(),
+    this.createdAtMicros = const Value.absent(),
+    this.updatedAtMicros = const Value.absent(),
+    this.deletedAtMicros = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TripsCompanion.insert({
+    required String id,
+    required String areaId,
+    required String areaName,
+    required DateTime tripDate,
+    this.note = const Value.absent(),
+    required int createdAtMicros,
+    this.updatedAtMicros = const Value.absent(),
+    this.deletedAtMicros = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       areaId = Value(areaId),
+       areaName = Value(areaName),
+       tripDate = Value(tripDate),
+       createdAtMicros = Value(createdAtMicros);
+  static Insertable<TripRow> custom({
+    Expression<String>? id,
+    Expression<String>? areaId,
+    Expression<String>? areaName,
+    Expression<DateTime>? tripDate,
+    Expression<String>? note,
+    Expression<int>? createdAtMicros,
+    Expression<int>? updatedAtMicros,
+    Expression<int>? deletedAtMicros,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (areaId != null) 'area_id': areaId,
+      if (areaName != null) 'area_name': areaName,
+      if (tripDate != null) 'trip_date': tripDate,
+      if (note != null) 'note': note,
+      if (createdAtMicros != null) 'created_at_micros': createdAtMicros,
+      if (updatedAtMicros != null) 'updated_at_micros': updatedAtMicros,
+      if (deletedAtMicros != null) 'deleted_at_micros': deletedAtMicros,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TripsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? areaId,
+    Value<String>? areaName,
+    Value<DateTime>? tripDate,
+    Value<String?>? note,
+    Value<int>? createdAtMicros,
+    Value<int>? updatedAtMicros,
+    Value<int?>? deletedAtMicros,
+    Value<int>? rowid,
+  }) {
+    return TripsCompanion(
+      id: id ?? this.id,
+      areaId: areaId ?? this.areaId,
+      areaName: areaName ?? this.areaName,
+      tripDate: tripDate ?? this.tripDate,
+      note: note ?? this.note,
+      createdAtMicros: createdAtMicros ?? this.createdAtMicros,
+      updatedAtMicros: updatedAtMicros ?? this.updatedAtMicros,
+      deletedAtMicros: deletedAtMicros ?? this.deletedAtMicros,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (areaId.present) {
+      map['area_id'] = Variable<String>(areaId.value);
+    }
+    if (areaName.present) {
+      map['area_name'] = Variable<String>(areaName.value);
+    }
+    if (tripDate.present) {
+      map['trip_date'] = Variable<DateTime>(tripDate.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (createdAtMicros.present) {
+      map['created_at_micros'] = Variable<int>(createdAtMicros.value);
+    }
+    if (updatedAtMicros.present) {
+      map['updated_at_micros'] = Variable<int>(updatedAtMicros.value);
+    }
+    if (deletedAtMicros.present) {
+      map['deleted_at_micros'] = Variable<int>(deletedAtMicros.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TripsCompanion(')
+          ..write('id: $id, ')
+          ..write('areaId: $areaId, ')
+          ..write('areaName: $areaName, ')
+          ..write('tripDate: $tripDate, ')
+          ..write('note: $note, ')
+          ..write('createdAtMicros: $createdAtMicros, ')
+          ..write('updatedAtMicros: $updatedAtMicros, ')
+          ..write('deletedAtMicros: $deletedAtMicros, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -2207,6 +2729,15 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tripIdMeta = const VerificationMeta('tripId');
+  @override
+  late final GeneratedColumn<String> tripId = GeneratedColumn<String>(
+    'trip_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _routeIdMeta = const VerificationMeta(
     'routeId',
@@ -2349,6 +2880,7 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
   @override
   List<GeneratedColumn> get $columns => [
     id,
+    tripId,
     routeId,
     routeName,
     gradeValue,
@@ -2379,6 +2911,12 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
+    }
+    if (data.containsKey('trip_id')) {
+      context.handle(
+        _tripIdMeta,
+        tripId.isAcceptableOrUnknown(data['trip_id']!, _tripIdMeta),
+      );
     }
     if (data.containsKey('route_id')) {
       context.handle(
@@ -2503,6 +3041,10 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
         DriftSqlType.string,
         data['${effectivePrefix}id'],
       )!,
+      tripId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}trip_id'],
+      ),
       routeId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}route_id'],
@@ -2566,6 +3108,9 @@ class $AscentsTable extends Ascents with TableInfo<$AscentsTable, AscentRow> {
 
 class AscentRow extends DataClass implements Insertable<AscentRow> {
   final String id;
+
+  /// Set when the ascent was logged as part of a trip.
+  final String? tripId;
   final String routeId;
   final String routeName;
   final String gradeValue;
@@ -2586,6 +3131,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   final int? deletedAtMicros;
   const AscentRow({
     required this.id,
+    this.tripId,
     required this.routeId,
     required this.routeName,
     required this.gradeValue,
@@ -2604,6 +3150,9 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
+    if (!nullToAbsent || tripId != null) {
+      map['trip_id'] = Variable<String>(tripId);
+    }
     map['route_id'] = Variable<String>(routeId);
     map['route_name'] = Variable<String>(routeName);
     map['grade_value'] = Variable<String>(gradeValue);
@@ -2627,6 +3176,9 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   AscentsCompanion toCompanion(bool nullToAbsent) {
     return AscentsCompanion(
       id: Value(id),
+      tripId: tripId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tripId),
       routeId: Value(routeId),
       routeName: Value(routeName),
       gradeValue: Value(gradeValue),
@@ -2652,6 +3204,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return AscentRow(
       id: serializer.fromJson<String>(json['id']),
+      tripId: serializer.fromJson<String?>(json['tripId']),
       routeId: serializer.fromJson<String>(json['routeId']),
       routeName: serializer.fromJson<String>(json['routeName']),
       gradeValue: serializer.fromJson<String>(json['gradeValue']),
@@ -2672,6 +3225,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
+      'tripId': serializer.toJson<String?>(tripId),
       'routeId': serializer.toJson<String>(routeId),
       'routeName': serializer.toJson<String>(routeName),
       'gradeValue': serializer.toJson<String>(gradeValue),
@@ -2690,6 +3244,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
 
   AscentRow copyWith({
     String? id,
+    Value<String?> tripId = const Value.absent(),
     String? routeId,
     String? routeName,
     String? gradeValue,
@@ -2705,6 +3260,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
     Value<int?> deletedAtMicros = const Value.absent(),
   }) => AscentRow(
     id: id ?? this.id,
+    tripId: tripId.present ? tripId.value : this.tripId,
     routeId: routeId ?? this.routeId,
     routeName: routeName ?? this.routeName,
     gradeValue: gradeValue ?? this.gradeValue,
@@ -2724,6 +3280,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   AscentRow copyWithCompanion(AscentsCompanion data) {
     return AscentRow(
       id: data.id.present ? data.id.value : this.id,
+      tripId: data.tripId.present ? data.tripId.value : this.tripId,
       routeId: data.routeId.present ? data.routeId.value : this.routeId,
       routeName: data.routeName.present ? data.routeName.value : this.routeName,
       gradeValue: data.gradeValue.present
@@ -2756,6 +3313,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   String toString() {
     return (StringBuffer('AscentRow(')
           ..write('id: $id, ')
+          ..write('tripId: $tripId, ')
           ..write('routeId: $routeId, ')
           ..write('routeName: $routeName, ')
           ..write('gradeValue: $gradeValue, ')
@@ -2776,6 +3334,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
   @override
   int get hashCode => Object.hash(
     id,
+    tripId,
     routeId,
     routeName,
     gradeValue,
@@ -2795,6 +3354,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
       identical(this, other) ||
       (other is AscentRow &&
           other.id == this.id &&
+          other.tripId == this.tripId &&
           other.routeId == this.routeId &&
           other.routeName == this.routeName &&
           other.gradeValue == this.gradeValue &&
@@ -2812,6 +3372,7 @@ class AscentRow extends DataClass implements Insertable<AscentRow> {
 
 class AscentsCompanion extends UpdateCompanion<AscentRow> {
   final Value<String> id;
+  final Value<String?> tripId;
   final Value<String> routeId;
   final Value<String> routeName;
   final Value<String> gradeValue;
@@ -2828,6 +3389,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
   final Value<int> rowid;
   const AscentsCompanion({
     this.id = const Value.absent(),
+    this.tripId = const Value.absent(),
     this.routeId = const Value.absent(),
     this.routeName = const Value.absent(),
     this.gradeValue = const Value.absent(),
@@ -2845,6 +3407,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
   });
   AscentsCompanion.insert({
     required String id,
+    this.tripId = const Value.absent(),
     required String routeId,
     required String routeName,
     required String gradeValue,
@@ -2872,6 +3435,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
        createdAtMicros = Value(createdAtMicros);
   static Insertable<AscentRow> custom({
     Expression<String>? id,
+    Expression<String>? tripId,
     Expression<String>? routeId,
     Expression<String>? routeName,
     Expression<String>? gradeValue,
@@ -2889,6 +3453,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (tripId != null) 'trip_id': tripId,
       if (routeId != null) 'route_id': routeId,
       if (routeName != null) 'route_name': routeName,
       if (gradeValue != null) 'grade_value': gradeValue,
@@ -2908,6 +3473,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
 
   AscentsCompanion copyWith({
     Value<String>? id,
+    Value<String?>? tripId,
     Value<String>? routeId,
     Value<String>? routeName,
     Value<String>? gradeValue,
@@ -2925,6 +3491,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
   }) {
     return AscentsCompanion(
       id: id ?? this.id,
+      tripId: tripId ?? this.tripId,
       routeId: routeId ?? this.routeId,
       routeName: routeName ?? this.routeName,
       gradeValue: gradeValue ?? this.gradeValue,
@@ -2947,6 +3514,9 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<String>(id.value);
+    }
+    if (tripId.present) {
+      map['trip_id'] = Variable<String>(tripId.value);
     }
     if (routeId.present) {
       map['route_id'] = Variable<String>(routeId.value);
@@ -2997,6 +3567,7 @@ class AscentsCompanion extends UpdateCompanion<AscentRow> {
   String toString() {
     return (StringBuffer('AscentsCompanion(')
           ..write('id: $id, ')
+          ..write('tripId: $tripId, ')
           ..write('routeId: $routeId, ')
           ..write('routeName: $routeName, ')
           ..write('gradeValue: $gradeValue, ')
@@ -3030,6 +3601,7 @@ abstract class _$CruxDatabase extends GeneratedDatabase {
       $CatalogRouteIndexTable(this);
   late final $CatalogSearchEntriesTable catalogSearchEntries =
       $CatalogSearchEntriesTable(this);
+  late final $TripsTable trips = $TripsTable(this);
   late final $AscentsTable ascents = $AscentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -3043,6 +3615,7 @@ abstract class _$CruxDatabase extends GeneratedDatabase {
     catalogAreas,
     catalogRouteIndex,
     catalogSearchEntries,
+    trips,
     ascents,
   ];
 }
@@ -4348,9 +4921,266 @@ typedef $$CatalogSearchEntriesTableProcessedTableManager =
       CatalogSearchEntry,
       PrefetchHooks Function()
     >;
+typedef $$TripsTableCreateCompanionBuilder =
+    TripsCompanion Function({
+      required String id,
+      required String areaId,
+      required String areaName,
+      required DateTime tripDate,
+      Value<String?> note,
+      required int createdAtMicros,
+      Value<int> updatedAtMicros,
+      Value<int?> deletedAtMicros,
+      Value<int> rowid,
+    });
+typedef $$TripsTableUpdateCompanionBuilder =
+    TripsCompanion Function({
+      Value<String> id,
+      Value<String> areaId,
+      Value<String> areaName,
+      Value<DateTime> tripDate,
+      Value<String?> note,
+      Value<int> createdAtMicros,
+      Value<int> updatedAtMicros,
+      Value<int?> deletedAtMicros,
+      Value<int> rowid,
+    });
+
+class $$TripsTableFilterComposer extends Composer<_$CruxDatabase, $TripsTable> {
+  $$TripsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get areaId => $composableBuilder(
+    column: $table.areaId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get areaName => $composableBuilder(
+    column: $table.areaName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get tripDate => $composableBuilder(
+    column: $table.tripDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get createdAtMicros => $composableBuilder(
+    column: $table.createdAtMicros,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAtMicros => $composableBuilder(
+    column: $table.deletedAtMicros,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$TripsTableOrderingComposer
+    extends Composer<_$CruxDatabase, $TripsTable> {
+  $$TripsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get areaId => $composableBuilder(
+    column: $table.areaId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get areaName => $composableBuilder(
+    column: $table.areaName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get tripDate => $composableBuilder(
+    column: $table.tripDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get createdAtMicros => $composableBuilder(
+    column: $table.createdAtMicros,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAtMicros => $composableBuilder(
+    column: $table.deletedAtMicros,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$TripsTableAnnotationComposer
+    extends Composer<_$CruxDatabase, $TripsTable> {
+  $$TripsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get areaId =>
+      $composableBuilder(column: $table.areaId, builder: (column) => column);
+
+  GeneratedColumn<String> get areaName =>
+      $composableBuilder(column: $table.areaName, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get tripDate =>
+      $composableBuilder(column: $table.tripDate, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<int> get createdAtMicros => $composableBuilder(
+    column: $table.createdAtMicros,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get updatedAtMicros => $composableBuilder(
+    column: $table.updatedAtMicros,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get deletedAtMicros => $composableBuilder(
+    column: $table.deletedAtMicros,
+    builder: (column) => column,
+  );
+}
+
+class $$TripsTableTableManager
+    extends
+        RootTableManager<
+          _$CruxDatabase,
+          $TripsTable,
+          TripRow,
+          $$TripsTableFilterComposer,
+          $$TripsTableOrderingComposer,
+          $$TripsTableAnnotationComposer,
+          $$TripsTableCreateCompanionBuilder,
+          $$TripsTableUpdateCompanionBuilder,
+          (TripRow, BaseReferences<_$CruxDatabase, $TripsTable, TripRow>),
+          TripRow,
+          PrefetchHooks Function()
+        > {
+  $$TripsTableTableManager(_$CruxDatabase db, $TripsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TripsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TripsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TripsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> areaId = const Value.absent(),
+                Value<String> areaName = const Value.absent(),
+                Value<DateTime> tripDate = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<int> createdAtMicros = const Value.absent(),
+                Value<int> updatedAtMicros = const Value.absent(),
+                Value<int?> deletedAtMicros = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TripsCompanion(
+                id: id,
+                areaId: areaId,
+                areaName: areaName,
+                tripDate: tripDate,
+                note: note,
+                createdAtMicros: createdAtMicros,
+                updatedAtMicros: updatedAtMicros,
+                deletedAtMicros: deletedAtMicros,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String areaId,
+                required String areaName,
+                required DateTime tripDate,
+                Value<String?> note = const Value.absent(),
+                required int createdAtMicros,
+                Value<int> updatedAtMicros = const Value.absent(),
+                Value<int?> deletedAtMicros = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TripsCompanion.insert(
+                id: id,
+                areaId: areaId,
+                areaName: areaName,
+                tripDate: tripDate,
+                note: note,
+                createdAtMicros: createdAtMicros,
+                updatedAtMicros: updatedAtMicros,
+                deletedAtMicros: deletedAtMicros,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$TripsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CruxDatabase,
+      $TripsTable,
+      TripRow,
+      $$TripsTableFilterComposer,
+      $$TripsTableOrderingComposer,
+      $$TripsTableAnnotationComposer,
+      $$TripsTableCreateCompanionBuilder,
+      $$TripsTableUpdateCompanionBuilder,
+      (TripRow, BaseReferences<_$CruxDatabase, $TripsTable, TripRow>),
+      TripRow,
+      PrefetchHooks Function()
+    >;
 typedef $$AscentsTableCreateCompanionBuilder =
     AscentsCompanion Function({
       required String id,
+      Value<String?> tripId,
       required String routeId,
       required String routeName,
       required String gradeValue,
@@ -4369,6 +5199,7 @@ typedef $$AscentsTableCreateCompanionBuilder =
 typedef $$AscentsTableUpdateCompanionBuilder =
     AscentsCompanion Function({
       Value<String> id,
+      Value<String?> tripId,
       Value<String> routeId,
       Value<String> routeName,
       Value<String> gradeValue,
@@ -4396,6 +5227,11 @@ class $$AscentsTableFilterComposer
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tripId => $composableBuilder(
+    column: $table.tripId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4479,6 +5315,11 @@ class $$AscentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get tripId => $composableBuilder(
+    column: $table.tripId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get routeId => $composableBuilder(
     column: $table.routeId,
     builder: (column) => ColumnOrderings(column),
@@ -4556,6 +5397,9 @@ class $$AscentsTableAnnotationComposer
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get tripId =>
+      $composableBuilder(column: $table.tripId, builder: (column) => column);
 
   GeneratedColumn<String> get routeId =>
       $composableBuilder(column: $table.routeId, builder: (column) => column);
@@ -4638,6 +5482,7 @@ class $$AscentsTableTableManager
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
+                Value<String?> tripId = const Value.absent(),
                 Value<String> routeId = const Value.absent(),
                 Value<String> routeName = const Value.absent(),
                 Value<String> gradeValue = const Value.absent(),
@@ -4654,6 +5499,7 @@ class $$AscentsTableTableManager
                 Value<int> rowid = const Value.absent(),
               }) => AscentsCompanion(
                 id: id,
+                tripId: tripId,
                 routeId: routeId,
                 routeName: routeName,
                 gradeValue: gradeValue,
@@ -4672,6 +5518,7 @@ class $$AscentsTableTableManager
           createCompanionCallback:
               ({
                 required String id,
+                Value<String?> tripId = const Value.absent(),
                 required String routeId,
                 required String routeName,
                 required String gradeValue,
@@ -4688,6 +5535,7 @@ class $$AscentsTableTableManager
                 Value<int> rowid = const Value.absent(),
               }) => AscentsCompanion.insert(
                 id: id,
+                tripId: tripId,
                 routeId: routeId,
                 routeName: routeName,
                 gradeValue: gradeValue,
@@ -4743,6 +5591,8 @@ class $CruxDatabaseManager {
       $$CatalogRouteIndexTableTableManager(_db, _db.catalogRouteIndex);
   $$CatalogSearchEntriesTableTableManager get catalogSearchEntries =>
       $$CatalogSearchEntriesTableTableManager(_db, _db.catalogSearchEntries);
+  $$TripsTableTableManager get trips =>
+      $$TripsTableTableManager(_db, _db.trips);
   $$AscentsTableTableManager get ascents =>
       $$AscentsTableTableManager(_db, _db.ascents);
 }

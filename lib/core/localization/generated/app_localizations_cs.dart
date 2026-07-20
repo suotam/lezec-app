@@ -477,6 +477,67 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
+  String get tripLogTitle => 'Zápis výjezdu';
+
+  @override
+  String get tripSaveAction => 'Uložit';
+
+  @override
+  String get tripLogAction => 'Zapsat výjezd';
+
+  @override
+  String get tripPickArea => 'Vybrat oblast';
+
+  @override
+  String get tripPickAreaFirst =>
+      'Nejdřív vyberte oblast, pak naklikáte cesty.';
+
+  @override
+  String get tripNoteLabel => 'Popis výjezdu';
+
+  @override
+  String get tripPhotosTitle => 'Fotky';
+
+  @override
+  String get tripPhotosOffline => 'Fotky vyžadují připojení k internetu.';
+
+  @override
+  String get tripRoutesTitle => 'Přelezené cesty';
+
+  @override
+  String get tripRouteFilterHint => 'Filtrovat cesty podle názvu';
+
+  @override
+  String tripSaved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Výjezd uložen — $count přelezů zapsáno.',
+      few: 'Výjezd uložen — $count přelezy zapsány.',
+      one: 'Výjezd uložen — 1 přelez zapsán.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tripPhotosFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Výjezd uložen, ale $count fotek se nepodařilo nahrát.',
+      few: 'Výjezd uložen, ale $count fotky se nepodařilo nahrát.',
+      one: 'Výjezd uložen, ale 1 fotku se nepodařilo nahrát.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripDeleteAction => 'Smazat výjezd';
+
+  @override
+  String get tripDeleted => 'Výjezd byl smazán včetně přelezů.';
+
+  @override
   String get commentsTitle => 'Komentáře';
 
   @override

@@ -213,12 +213,28 @@ catalog)._
 - Roles live server-side (`profiles.role`, `area_managers`); the
   client only mirrors them to show privileged UI.
 
+**Trip logs with photos (bulk ascent logging, migration 00003)**
+- "Zapsat výjezd" in the Diary: area picker (catalog-wide search), date,
+  one style, note, photos from the gallery, and a filterable checklist
+  of the area's routes grouped by sector/rock. Every ticked route is
+  stored as an ordinary ascent linked to the trip — stats, filters,
+  histogram and sync unchanged.
+- Diary timeline interleaves trip cards (area, date, note, photo
+  thumbnails with a zoom viewer, delete menu) with standalone ascents;
+  deleting a trip tombstones it together with its ascents and the
+  removal syncs.
+- Local schema v5 (`trips` table, `ascents.trip_id`), trips ride the
+  same last-write-wins sync; photos live in the private Storage bucket
+  and are the diary's only online-dependent part.
+- Photo picking behind an injectable provider (image_picker in the app,
+  fakes in tests). 125 tests passing.
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
-pretend it does): photos on ascents (server side ready), Google/Apple
-sign-in, account deletion, assigning managers from the app, diary
-calendar view, social feed/followers, payments/QR donations, push
+pretend it does): Google/Apple sign-in, account deletion, assigning
+managers from the app, public photo sharing/moderation, diary calendar
+view, social feed/followers, payments/QR donations, push
 notifications, weather, offline map packages, complex grade
 conversion.
 

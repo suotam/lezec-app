@@ -99,12 +99,33 @@ class CatalogSearchEntries extends Table {
   Set<Column> get primaryKey => {entityType, entityId};
 }
 
+/// Diary trip logs: one day at one area with a note; bulk-logged ascents
+/// reference their trip via [Ascents.tripId]. Photos live remotely
+/// (trip_photos + Storage) — they need a connection anyway.
+@DataClassName('TripRow')
+class Trips extends Table {
+  TextColumn get id => text()();
+  TextColumn get areaId => text()();
+  TextColumn get areaName => text()();
+  DateTimeColumn get tripDate => dateTime()();
+  TextColumn get note => text().nullable()();
+  IntColumn get createdAtMicros => integer()();
+  IntColumn get updatedAtMicros => integer().withDefault(const Constant(0))();
+  IntColumn get deletedAtMicros => integer().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 /// Logged ascents. Route/area display fields are denormalized on purpose:
 /// a diary entry must stay readable even after the catalog is replaced by
 /// a newer import that renames or removes the route.
 @DataClassName('AscentRow')
 class Ascents extends Table {
   TextColumn get id => text()();
+
+  /// Set when the ascent was logged as part of a trip.
+  TextColumn get tripId => text().nullable()();
   TextColumn get routeId => text()();
   TextColumn get routeName => text()();
   TextColumn get gradeValue => text()();
@@ -137,6 +158,7 @@ class Ascents extends Table {
     CatalogAreas,
     CatalogRouteIndex,
     CatalogSearchEntries,
+    Trips,
     Ascents,
   ],
 )
@@ -144,7 +166,7 @@ class CruxDatabase extends _$CruxDatabase {
   CruxDatabase(super.e);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -174,6 +196,10 @@ class CruxDatabase extends _$CruxDatabase {
         await customStatement(
           'UPDATE ascents SET updated_at_micros = created_at_micros',
         );
+      }
+      if (from < 5) {
+        await m.createTable(trips);
+        await m.addColumn(ascents, ascents.tripId);
       }
     },
   );

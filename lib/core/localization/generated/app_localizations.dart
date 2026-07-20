@@ -920,6 +920,90 @@ abstract class AppLocalizations {
   /// **'Nepodařilo se: {message}'**
   String authFailed(String message);
 
+  /// No description provided for @tripLogTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zápis výjezdu'**
+  String get tripLogTitle;
+
+  /// No description provided for @tripSaveAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Uložit'**
+  String get tripSaveAction;
+
+  /// No description provided for @tripLogAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zapsat výjezd'**
+  String get tripLogAction;
+
+  /// No description provided for @tripPickArea.
+  ///
+  /// In cs, this message translates to:
+  /// **'Vybrat oblast'**
+  String get tripPickArea;
+
+  /// No description provided for @tripPickAreaFirst.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nejdřív vyberte oblast, pak naklikáte cesty.'**
+  String get tripPickAreaFirst;
+
+  /// No description provided for @tripNoteLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Popis výjezdu'**
+  String get tripNoteLabel;
+
+  /// No description provided for @tripPhotosTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Fotky'**
+  String get tripPhotosTitle;
+
+  /// No description provided for @tripPhotosOffline.
+  ///
+  /// In cs, this message translates to:
+  /// **'Fotky vyžadují připojení k internetu.'**
+  String get tripPhotosOffline;
+
+  /// No description provided for @tripRoutesTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Přelezené cesty'**
+  String get tripRoutesTitle;
+
+  /// No description provided for @tripRouteFilterHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Filtrovat cesty podle názvu'**
+  String get tripRouteFilterHint;
+
+  /// No description provided for @tripSaved.
+  ///
+  /// In cs, this message translates to:
+  /// **'{count, plural, one{Výjezd uložen — 1 přelez zapsán.} few{Výjezd uložen — {count} přelezy zapsány.} other{Výjezd uložen — {count} přelezů zapsáno.}}'**
+  String tripSaved(int count);
+
+  /// No description provided for @tripPhotosFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'{count, plural, one{Výjezd uložen, ale 1 fotku se nepodařilo nahrát.} few{Výjezd uložen, ale {count} fotky se nepodařilo nahrát.} other{Výjezd uložen, ale {count} fotek se nepodařilo nahrát.}}'**
+  String tripPhotosFailed(int count);
+
+  /// No description provided for @tripDeleteAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat výjezd'**
+  String get tripDeleteAction;
+
+  /// No description provided for @tripDeleted.
+  ///
+  /// In cs, this message translates to:
+  /// **'Výjezd byl smazán včetně přelezů.'**
+  String get tripDeleted;
+
   /// No description provided for @commentsTitle.
   ///
   /// In cs, this message translates to:

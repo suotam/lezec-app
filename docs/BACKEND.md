@@ -105,9 +105,18 @@ code to the template, e.g.:
 - **Roles**: mirrored client-side from `profiles.role` purely to show or
   hide privileged UI; enforcement is server-side.
 
+## Trip logs with photos (migration 00003)
+
+"Zapsat výjezd" in the Diary bulk-logs a day at an area: area + date +
+style + note + photos, then a checklist of the area's routes — each
+ticked route becomes an ordinary `ascents` row linked via `trip_id`, so
+stats, filters and sync keep working unchanged. Trips sync like ascents
+(tombstones incl. their ascents); photos upload to the private `photos`
+bucket (`trip_photos` table) and load on demand — the only online part
+of the diary.
+
 ## Not yet implemented
 
-- Photos on ascents (bucket + policies are ready; client upload/display
-  is the remaining work).
 - Google/Apple sign-in, account deletion.
 - Assigning area managers from the app (SQL/dashboard only for now).
+- Public photo sharing/moderation (photos stay private to their owner).

@@ -200,6 +200,34 @@
       }
     }
   },
+  "tripLogTitle": "Zápis výjezdu",
+  "tripSaveAction": "Uložit",
+  "tripLogAction": "Zapsat výjezd",
+  "tripPickArea": "Vybrat oblast",
+  "tripPickAreaFirst": "Nejdřív vyberte oblast, pak naklikáte cesty.",
+  "tripNoteLabel": "Popis výjezdu",
+  "tripPhotosTitle": "Fotky",
+  "tripPhotosOffline": "Fotky vyžadují připojení k internetu.",
+  "tripRoutesTitle": "Přelezené cesty",
+  "tripRouteFilterHint": "Filtrovat cesty podle názvu",
+  "tripSaved": "{count, plural, one{Výjezd uložen — 1 přelez zapsán.} few{Výjezd uložen — {count} přelezy zapsány.} other{Výjezd uložen — {count} přelezů zapsáno.}}",
+  "@tripSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "tripPhotosFailed": "{count, plural, one{Výjezd uložen, ale 1 fotku se nepodařilo nahrát.} few{Výjezd uložen, ale {count} fotky se nepodařilo nahrát.} other{Výjezd uložen, ale {count} fotek se nepodařilo nahrát.}}",
+  "@tripPhotosFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "tripDeleteAction": "Smazat výjezd",
+  "tripDeleted": "Výjezd byl smazán včetně přelezů.",
   "commentsTitle": "Komentáře",
   "commentsEmpty": "Zatím žádné komentáře. Buďte první!",
   "commentsLoadFailed": "Komentáře se nepodařilo načíst — jste online?",

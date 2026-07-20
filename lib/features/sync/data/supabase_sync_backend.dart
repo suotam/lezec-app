@@ -24,6 +24,7 @@ class SupabaseSyncBackend implements SyncBackend {
       for (final row in rows)
         (
           id: row['id'] as String,
+          tripId: row['trip_id'] as String?,
           routeId: row['route_id'] as String,
           routeName: row['route_name'] as String,
           gradeValue: row['grade_value'] as String,
@@ -50,6 +51,7 @@ class SupabaseSyncBackend implements SyncBackend {
       for (final record in records)
         {
           'id': record.id,
+          'trip_id': record.tripId,
           'route_id': record.routeId,
           'route_name': record.routeName,
           'grade_value': record.gradeValue,
@@ -59,6 +61,44 @@ class SupabaseSyncBackend implements SyncBackend {
           'sector_name': record.sectorName,
           'style': record.style,
           'climbed_on': _date(record.climbedOn),
+          'note': record.note,
+          'created_at': record.createdAt.toIso8601String(),
+          'updated_at': record.updatedAt.toIso8601String(),
+          'deleted_at': record.deletedAt?.toIso8601String(),
+        },
+    ]);
+  }
+
+  @override
+  Future<List<TripRecord>> fetchTrips() async {
+    final rows = await _client.from('trips').select();
+    return [
+      for (final row in rows)
+        (
+          id: row['id'] as String,
+          areaId: row['area_id'] as String,
+          areaName: (row['area_name'] as String?) ?? '',
+          tripDate: DateTime.parse(row['trip_date'] as String),
+          note: row['note'] as String?,
+          createdAt: DateTime.parse(row['created_at'] as String).toUtc(),
+          updatedAt: DateTime.parse(row['updated_at'] as String).toUtc(),
+          deletedAt: row['deleted_at'] == null
+              ? null
+              : DateTime.parse(row['deleted_at'] as String).toUtc(),
+        ),
+    ];
+  }
+
+  @override
+  Future<void> upsertTrips(List<TripRecord> records) async {
+    if (records.isEmpty) return;
+    await _client.from('trips').upsert([
+      for (final record in records)
+        {
+          'id': record.id,
+          'area_id': record.areaId,
+          'area_name': record.areaName,
+          'trip_date': _date(record.tripDate),
           'note': record.note,
           'created_at': record.createdAt.toIso8601String(),
           'updated_at': record.updatedAt.toIso8601String(),

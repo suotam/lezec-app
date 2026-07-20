@@ -5,6 +5,7 @@ library;
 
 typedef AscentRecord = ({
   String id,
+  String? tripId,
   String routeId,
   String routeName,
   String gradeValue,
@@ -29,12 +30,27 @@ typedef RouteFlagRecord = ({
 
 typedef AreaViewRecord = ({String areaId, DateTime viewedAt});
 
+typedef TripRecord = ({
+  String id,
+  String areaId,
+  String areaName,
+  DateTime tripDate,
+  String? note,
+  DateTime createdAt,
+  DateTime updatedAt,
+  DateTime? deletedAt,
+});
+
 /// Remote side of the sync. Implemented over Supabase; faked in tests.
 /// All calls operate on the signed-in user's rows only.
 abstract interface class SyncBackend {
   Future<List<AscentRecord>> fetchAscents();
 
   Future<void> upsertAscents(List<AscentRecord> records);
+
+  Future<List<TripRecord>> fetchTrips();
+
+  Future<void> upsertTrips(List<TripRecord> records);
 
   Future<List<RouteFlagRecord>> fetchRouteFlags();
 

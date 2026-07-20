@@ -13,8 +13,10 @@ import '../../../shared/widgets/empty_state_view.dart';
 import '../../../shared/widgets/grade_badge.dart';
 import '../domain/ascent.dart';
 import '../domain/diary_stats.dart';
+import '../domain/trip.dart';
 import 'diary_providers.dart';
 import 'log_ascent_sheet.dart';
+import 'log_trip_screen.dart';
 
 /// Chronological list of logged ascents with basic statistics and a
 /// style filter.
@@ -29,7 +31,21 @@ class DiaryScreen extends ConsumerWidget {
     final filter = ref.watch(diaryFilterProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.diaryTitle)),
+      appBar: AppBar(
+        title: Text(l10n.diaryTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.hiking),
+            tooltip: l10n.tripLogAction,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                fullscreenDialog: true,
+                builder: (_) => const LogTripScreen(),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: AsyncValueView(
         value: filtered,
         onRetry: () => ref.invalidate(diaryProvider),
@@ -74,10 +90,10 @@ class DiaryScreen extends ConsumerWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                for (final ascent in entries) ...[
-                  _AscentCard(ascent: ascent),
-                  const SizedBox(height: AppSpacing.sm),
-                ],
+                ..._timelineWidgets(
+                  entries,
+                  ref.watch(tripsProvider).value ?? const [],
+                ),
               ],
             ],
           );
@@ -307,5 +323,195 @@ class _AscentCard extends ConsumerWidget {
         onTap: () => context.go(AppRoutes.route(ascent.routeId)),
       ),
     );
+  }
+}
+
+/// Interleaves trip cards with standalone ascents, newest first. Ascents
+/// belonging to a trip render right under their trip card — visually
+/// grouped, but still the same ordinary entries.
+List<Widget> _timelineWidgets(List<Ascent> entries, List<Trip> trips) {
+  final byTrip = <String, List<Ascent>>{};
+  final standalone = <Ascent>[];
+  for (final ascent in entries) {
+    final tripId = ascent.tripId;
+    if (tripId != null) {
+      byTrip.putIfAbsent(tripId, () => []).add(ascent);
+    } else {
+      standalone.add(ascent);
+    }
+  }
+
+  final items =
+      <(DateTime date, DateTime createdAt, List<Widget> widgets)>[
+        for (final trip in trips)
+          if (byTrip[trip.id] case final tripAscents?)
+            (
+              trip.date,
+              trip.createdAt,
+              [
+                _TripCard(trip: trip, ascentCount: tripAscents.length),
+                const SizedBox(height: AppSpacing.sm),
+                for (final ascent in tripAscents) ...[
+                  _AscentCard(ascent: ascent),
+                  const SizedBox(height: AppSpacing.sm),
+                ],
+              ],
+            ),
+        for (final ascent in standalone)
+          (
+            ascent.date,
+            ascent.createdAt,
+            [
+              _AscentCard(ascent: ascent),
+              const SizedBox(height: AppSpacing.sm),
+            ],
+          ),
+      ]..sort((a, b) {
+        final byDate = b.$1.compareTo(a.$1);
+        return byDate != 0 ? byDate : b.$2.compareTo(a.$2);
+      });
+
+  return [for (final item in items) ...item.$3];
+}
+
+/// Header card of one trip: area, date, note, photos and a delete menu.
+class _TripCard extends ConsumerWidget {
+  const _TripCard({required this.trip, required this.ascentCount});
+
+  final Trip trip;
+  final int ascentCount;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final photos = ref.watch(tripPhotosProvider(trip.id)).value;
+    return Card(
+      color: theme.colorScheme.surfaceContainerHighest,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.hiking, color: theme.colorScheme.primary),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        trip.areaName,
+                        style: theme.textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        '${formatDay(context, trip.date)}'
+                        ' · ${l10n.diaryAscentsCount(ascentCount)}',
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                PopupMenuButton<void>(
+                  itemBuilder: (context) => [
+                    PopupMenuItem<void>(
+                      onTap: () async {
+                        final messenger = ScaffoldMessenger.of(context);
+                        final deletedText = l10n.tripDeleted;
+                        await ref
+                            .read(tripsProvider.notifier)
+                            .deleteTrip(trip.id);
+                        messenger.showSnackBar(
+                          SnackBar(content: Text(deletedText)),
+                        );
+                      },
+                      child: Text(l10n.tripDeleteAction),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            if (trip.note case final note?) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Text(note, style: theme.textTheme.bodyMedium),
+            ],
+            if (photos != null && photos.isNotEmpty) ...[
+              const SizedBox(height: AppSpacing.md),
+              SizedBox(
+                height: 72,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: photos.length,
+                  separatorBuilder: (_, _) =>
+                      const SizedBox(width: AppSpacing.sm),
+                  itemBuilder: (context, index) =>
+                      _TripPhotoThumb(storagePath: photos[index].storagePath),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// One downloaded photo thumbnail; tapping opens a zoomable viewer.
+class _TripPhotoThumb extends ConsumerWidget {
+  const _TripPhotoThumb({required this.storagePath});
+
+  final String storagePath;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final bytes = ref.watch(tripPhotoBytesProvider(storagePath));
+    return switch (bytes) {
+      AsyncData(:final value) => GestureDetector(
+        onTap: () => showDialog<void>(
+          context: context,
+          builder: (_) => Dialog(
+            insetPadding: const EdgeInsets.all(AppSpacing.md),
+            child: InteractiveViewer(child: Image.memory(value)),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppRadii.sm),
+          child: Image.memory(value, width: 72, height: 72, fit: BoxFit.cover),
+        ),
+      ),
+      AsyncError() => Container(
+        width: 72,
+        height: 72,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(AppRadii.sm),
+        ),
+        child: Icon(
+          Icons.broken_image_outlined,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+      _ => Container(
+        width: 72,
+        height: 72,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(AppRadii.sm),
+        ),
+        child: const Center(
+          child: SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      ),
+    };
   }
 }

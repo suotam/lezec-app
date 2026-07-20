@@ -22,6 +22,7 @@ class DriftSyncStore {
       for (final row in rows)
         (
           id: row.id,
+          tripId: row.tripId,
           routeId: row.routeId,
           routeName: row.routeName,
           gradeValue: row.gradeValue,
@@ -49,6 +50,7 @@ class DriftSyncStore {
           _db.ascents,
           AscentsCompanion.insert(
             id: record.id,
+            tripId: Value(record.tripId),
             routeId: record.routeId,
             routeName: record.routeName,
             gradeValue: record.gradeValue,
@@ -58,6 +60,49 @@ class DriftSyncStore {
             sectorName: record.sectorName,
             style: record.style,
             climbedOn: record.climbedOn,
+            note: Value(record.note),
+            createdAtMicros: record.createdAt.microsecondsSinceEpoch,
+            updatedAtMicros: Value(record.updatedAt.microsecondsSinceEpoch),
+            deletedAtMicros: Value(record.deletedAt?.microsecondsSinceEpoch),
+          ),
+          mode: InsertMode.insertOrReplace,
+        );
+      }
+    });
+  }
+
+  // --- trips ---------------------------------------------------------
+
+  Future<List<TripRecord>> readTrips() async {
+    final rows = await _db.select(_db.trips).get();
+    return [
+      for (final row in rows)
+        (
+          id: row.id,
+          areaId: row.areaId,
+          areaName: row.areaName,
+          tripDate: row.tripDate,
+          note: row.note,
+          createdAt: _fromMicros(row.createdAtMicros),
+          updatedAt: _fromMicros(row.updatedAtMicros),
+          deletedAt: row.deletedAtMicros == null
+              ? null
+              : _fromMicros(row.deletedAtMicros!),
+        ),
+    ];
+  }
+
+  Future<void> applyTrips(List<TripRecord> records) async {
+    if (records.isEmpty) return;
+    await _db.batch((batch) {
+      for (final record in records) {
+        batch.insert(
+          _db.trips,
+          TripsCompanion.insert(
+            id: record.id,
+            areaId: record.areaId,
+            areaName: record.areaName,
+            tripDate: record.tripDate,
             note: Value(record.note),
             createdAtMicros: record.createdAt.microsecondsSinceEpoch,
             updatedAtMicros: Value(record.updatedAt.microsecondsSinceEpoch),

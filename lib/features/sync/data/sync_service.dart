@@ -13,6 +13,17 @@ class SyncService {
   final SyncBackend _backend;
 
   Future<void> sync() async {
+    // Trips first so bulk-logged ascents never point at a trip the other
+    // device does not know yet.
+    final trips = mergeByKey(
+      local: await _store.readTrips(),
+      remote: await _backend.fetchTrips(),
+      keyOf: (row) => row.id,
+      updatedAtOf: (row) => row.updatedAt,
+    );
+    await _store.applyTrips(trips.toApplyLocally);
+    await _backend.upsertTrips(trips.toPush);
+
     final ascents = mergeByKey(
       local: await _store.readAscents(),
       remote: await _backend.fetchAscents(),

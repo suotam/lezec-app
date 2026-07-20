@@ -33,9 +33,13 @@ class Ascent {
     required this.date,
     required this.createdAt,
     this.note,
+    this.tripId,
   });
 
   final String id;
+
+  /// Set when the ascent was logged as part of a trip.
+  final String? tripId;
   final String routeId;
   final String routeName;
   final RouteGrade grade;
@@ -71,6 +75,7 @@ class Ascent {
       date: date ?? this.date,
       createdAt: createdAt,
       note: identical(note, _noteUnset) ? this.note : note as String?,
+      tripId: tripId,
     );
   }
 }
