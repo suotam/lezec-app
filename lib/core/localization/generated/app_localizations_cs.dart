@@ -704,6 +704,19 @@ class AppLocalizationsCs extends AppLocalizations {
   String get profileMapCacheCleared => 'Mapová cache byla vymazána.';
 
   @override
+  String get settingsTitle => 'Nastavení';
+
+  @override
+  String get settingsPreferredGradeLabel => 'Preferovaná stupnice';
+
+  @override
+  String get settingsPreferredGradeOriginal => 'Původní (bez převodu)';
+
+  @override
+  String get settingsPreferredGradeHint =>
+      'Přibližný převod se zobrazí vedle původní klasifikace.';
+
+  @override
   String get profileSourcesTitle => 'Zdroje dat';
 
   @override

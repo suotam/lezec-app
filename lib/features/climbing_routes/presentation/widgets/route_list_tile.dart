@@ -10,7 +10,9 @@ import '../../../../shared/extensions/domain_labels.dart';
 import '../../../../shared/widgets/grade_badge.dart';
 import '../../../diary/presentation/diary_providers.dart';
 import '../../../projects/presentation/user_route_state_providers.dart';
+import '../../../profile/presentation/settings_providers.dart';
 import '../../domain/climbing_route.dart';
+import '../../domain/grade_conversion.dart';
 
 /// One route in a sector/rock list. Shows the grade badge, name, meta line
 /// and the user's favorite/project marks.
@@ -28,7 +30,12 @@ class RouteListTile extends ConsumerWidget {
     final isProject = userState?.isProject(route.id) ?? false;
     final isClimbed = ref.watch(climbedRouteIdsProvider).contains(route.id);
 
+    final preferred = ref.watch(preferredGradingSystemProvider).value;
+    final converted = preferred == null
+        ? null
+        : convertGrade(route.grade, preferred);
     final meta = [
+      if (converted != null) '≈ $converted',
       route.type.label(l10n),
       if (route.lengthMeters case final length?) l10n.routeLengthMeters(length),
       if (route.warnings.isNotEmpty) l10n.severityWarning,

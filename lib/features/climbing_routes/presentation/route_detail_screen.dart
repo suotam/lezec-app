@@ -17,7 +17,10 @@ import '../../diary/presentation/diary_providers.dart';
 import '../../diary/presentation/log_ascent_sheet.dart';
 import '../../community/presentation/widgets/route_comments_section.dart';
 import '../../projects/presentation/user_route_state_providers.dart';
+import '../../profile/presentation/settings_providers.dart';
 import '../domain/route_context.dart';
+import '../domain/grade_conversion.dart';
+import '../domain/route_grade.dart';
 import 'climbing_routes_providers.dart';
 
 class RouteDetailScreen extends ConsumerWidget {
@@ -55,6 +58,16 @@ class _RouteDetailBody extends ConsumerWidget {
 
   final RouteContext routeContext;
 
+  /// `≈ 7- (UIAA)` when the user prefers another scale and the grade has
+  /// a table equivalent; null otherwise.
+  String? _convertedGrade(BuildContext context, WidgetRef ref, RouteGrade grade) {
+    final preferred = ref.watch(preferredGradingSystemProvider).value;
+    if (preferred == null) return null;
+    final converted = convertGrade(grade, preferred);
+    if (converted == null) return null;
+    return '≈ $converted (${preferred.label(context.l10n)})';
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
@@ -91,6 +104,15 @@ class _RouteDetailBody extends ConsumerWidget {
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
+                  if (_convertedGrade(context, ref, route.grade)
+                      case final converted?)
+                    Text(
+                      converted,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                 ],
               ),
             ),

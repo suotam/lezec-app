@@ -695,6 +695,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMapCacheCleared => 'Map cache cleared.';
 
   @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsPreferredGradeLabel => 'Preferred grade scale';
+
+  @override
+  String get settingsPreferredGradeOriginal => 'Original (no conversion)';
+
+  @override
+  String get settingsPreferredGradeHint =>
+      'An approximate conversion is shown next to the original grade.';
+
+  @override
   String get profileSourcesTitle => 'Data sources';
 
   @override

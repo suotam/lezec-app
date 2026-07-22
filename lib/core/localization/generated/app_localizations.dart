@@ -1310,6 +1310,30 @@ abstract class AppLocalizations {
   /// **'Mapová cache byla vymazána.'**
   String get profileMapCacheCleared;
 
+  /// No description provided for @settingsTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nastavení'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsPreferredGradeLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Preferovaná stupnice'**
+  String get settingsPreferredGradeLabel;
+
+  /// No description provided for @settingsPreferredGradeOriginal.
+  ///
+  /// In cs, this message translates to:
+  /// **'Původní (bez převodu)'**
+  String get settingsPreferredGradeOriginal;
+
+  /// No description provided for @settingsPreferredGradeHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Přibližný převod se zobrazí vedle původní klasifikace.'**
+  String get settingsPreferredGradeHint;
+
   /// No description provided for @profileSourcesTitle.
   ///
   /// In cs, this message translates to:

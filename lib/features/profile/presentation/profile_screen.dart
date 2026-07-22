@@ -6,16 +6,19 @@ import '../../../core/constants/app_dimensions.dart';
 import '../../../core/localization/l10n.dart';
 import '../../../core/utilities/map_tile_cache.dart';
 import '../../../shared/extensions/date_formatting.dart';
+import '../../../shared/extensions/domain_labels.dart';
 import '../../../shared/widgets/section_header.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../auth/presentation/auth_providers.dart';
 import '../../climbing_areas/data/catalog_update_service.dart';
 import '../../climbing_areas/data/drift_catalog_store.dart';
 import '../../climbing_areas/presentation/climbing_areas_providers.dart';
+import '../../climbing_routes/domain/route_grade.dart';
 import '../../issues/domain/issue_report.dart';
 import '../../issues/presentation/issues_providers.dart';
 import '../../sync/presentation/sync_providers.dart';
 import 'profile_providers.dart';
+import 'settings_providers.dart';
 
 final appVersionProvider = FutureProvider<String>((ref) async {
   final info = await PackageInfo.fromPlatform();
@@ -147,6 +150,8 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
           ),
+          SectionHeader(title: l10n.settingsTitle),
+          const _SettingsCard(),
           SectionHeader(title: l10n.profileSourcesTitle),
           Card(
             child: Padding(
@@ -752,6 +757,58 @@ class _IssueReportsCard extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// App settings: the preferred grade scale for approximate conversions.
+class _SettingsCard extends ConsumerWidget {
+  const _SettingsCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    final preferred = ref.watch(preferredGradingSystemProvider).value;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.settingsPreferredGradeLabel,
+              style: theme.textTheme.titleSmall,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            DropdownButton<GradingSystem?>(
+              value: preferred,
+              isExpanded: true,
+              onChanged: (system) => ref
+                  .read(preferredGradingSystemProvider.notifier)
+                  .set(system),
+              items: [
+                DropdownMenuItem(
+                  value: null,
+                  child: Text(l10n.settingsPreferredGradeOriginal),
+                ),
+                for (final system in GradingSystem.values)
+                  DropdownMenuItem(
+                    value: system,
+                    child: Text(system.label(l10n)),
+                  ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              l10n.settingsPreferredGradeHint,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
