@@ -557,6 +557,16 @@ class AppLocalizationsCs extends AppLocalizations {
   String get tripDeleted => 'Výjezd byl smazán včetně přelezů.';
 
   @override
+  String get weatherAction => 'Počasí';
+
+  @override
+  String get weatherTitle => 'Počasí';
+
+  @override
+  String get weatherLoadFailed =>
+      'Předpověď se nepodařilo načíst — jste online?';
+
+  @override
   String get topoSectionTitle => 'Topo a fotky sektoru';
 
   @override

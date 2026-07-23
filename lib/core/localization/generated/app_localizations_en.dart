@@ -549,6 +549,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tripDeleted => 'The trip and its ascents were deleted.';
 
   @override
+  String get weatherAction => 'Weather';
+
+  @override
+  String get weatherTitle => 'Weather';
+
+  @override
+  String get weatherLoadFailed =>
+      'The forecast could not be loaded — are you online?';
+
+  @override
   String get topoSectionTitle => 'Sector topo & photos';
 
   @override

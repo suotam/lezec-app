@@ -16,6 +16,7 @@ import '../../../shared/widgets/crux_map.dart';
 import '../../../shared/widgets/restriction_widgets.dart';
 import '../../../shared/widgets/section_header.dart';
 import '../../issues/presentation/widgets/report_issue_button.dart';
+import '../../weather/presentation/weather_sheet.dart';
 import '../domain/climbing_area.dart';
 import '../domain/climbing_restriction.dart';
 import '../domain/climbing_sector.dart';
@@ -130,6 +131,16 @@ class _AreaDetailBody extends StatelessWidget {
             icon: const Icon(Icons.navigation_outlined),
             label: Text(l10n.navigateAction),
           ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        OutlinedButton.icon(
+          onPressed: () => WeatherSheet.show(
+            context,
+            title: area.name,
+            location: area.location,
+          ),
+          icon: const Icon(Icons.cloud_outlined),
+          label: Text(l10n.weatherAction),
         ),
         const SizedBox(height: AppSpacing.sm),
         ReportIssueButton(areaId: area.id, areaName: area.name),

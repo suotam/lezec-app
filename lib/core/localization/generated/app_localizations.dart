@@ -1040,6 +1040,24 @@ abstract class AppLocalizations {
   /// **'Výjezd byl smazán včetně přelezů.'**
   String get tripDeleted;
 
+  /// No description provided for @weatherAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Počasí'**
+  String get weatherAction;
+
+  /// No description provided for @weatherTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Počasí'**
+  String get weatherTitle;
+
+  /// No description provided for @weatherLoadFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Předpověď se nepodařilo načíst — jste online?'**
+  String get weatherLoadFailed;
+
   /// No description provided for @topoSectionTitle.
   ///
   /// In cs, this message translates to:
