@@ -58,6 +58,15 @@ class FakeAuthRepository implements AuthRepository {
     _controller.add(_user);
   }
 
+  bool deleteAccountCalled = false;
+
+  @override
+  Future<void> deleteAccount() async {
+    deleteAccountCalled = true;
+    _user = null;
+    _controller.add(null);
+  }
+
   @override
   Future<void> signOut() async {
     _user = null;
@@ -191,5 +200,37 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('account deletion asks for confirmation and wipes state', (
+    tester,
+  ) async {
+    await pumpProfile(tester);
+    await tester.enterText(
+      find.widgetWithText(TextField, 'E-mail'),
+      'lezec@example.com',
+    );
+    await tester.enterText(find.widgetWithText(TextField, 'Heslo'), 'tajne');
+    await tester.tap(find.text('Přihlásit se'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Smazat účet'));
+    await tester.pumpAndSettle();
+    expect(find.text('Smazat účet?'), findsOneWidget);
+
+    // Cancelling does nothing.
+    await tester.tap(find.text('Zrušit'));
+    await tester.pumpAndSettle();
+    expect(auth.deleteAccountCalled, isFalse);
+
+    await tester.tap(find.text('Smazat účet'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Trvale smazat'));
+    await tester.pumpAndSettle();
+
+    expect(auth.deleteAccountCalled, isTrue);
+    expect(find.text('Účet byl smazán.'), findsOneWidget);
+    // Signed out again: the sign-in form is back.
+    expect(find.text('Přihlásit se'), findsOneWidget);
   });
 }

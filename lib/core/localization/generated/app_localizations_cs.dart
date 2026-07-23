@@ -480,6 +480,22 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
+  String get authDeleteAccount => 'Smazat účet';
+
+  @override
+  String get authDeleteConfirmTitle => 'Smazat účet?';
+
+  @override
+  String get authDeleteConfirmBody =>
+      'Účet i všechna synchronizovaná data (deník, oblíbené, komentáře, fotky) budou trvale smazána ze serveru i z tohoto zařízení. Tuto akci nelze vzít zpět.';
+
+  @override
+  String get authDeleteConfirmAction => 'Trvale smazat';
+
+  @override
+  String get authDeletedMessage => 'Účet byl smazán.';
+
+  @override
   String get tripLogTitle => 'Zápis výjezdu';
 
   @override

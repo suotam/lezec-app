@@ -475,6 +475,22 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get authDeleteAccount => 'Delete account';
+
+  @override
+  String get authDeleteConfirmTitle => 'Delete account?';
+
+  @override
+  String get authDeleteConfirmBody =>
+      'The account and all synced data (diary, favorites, comments, photos) will be permanently deleted from the server and this device. This cannot be undone.';
+
+  @override
+  String get authDeleteConfirmAction => 'Delete permanently';
+
+  @override
+  String get authDeletedMessage => 'The account was deleted.';
+
+  @override
   String get tripLogTitle => 'Trip log';
 
   @override

@@ -4,6 +4,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/localization/l10n.dart';
+import '../../../core/database/database_provider.dart';
+import '../../../core/database/user_data_wipe.dart';
 import '../../../core/utilities/map_tile_cache.dart';
 import '../../../shared/extensions/date_formatting.dart';
 import '../../../shared/extensions/domain_labels.dart';
@@ -14,8 +16,10 @@ import '../../climbing_areas/data/catalog_update_service.dart';
 import '../../climbing_areas/data/drift_catalog_store.dart';
 import '../../climbing_areas/presentation/climbing_areas_providers.dart';
 import '../../climbing_routes/domain/route_grade.dart';
+import '../../diary/presentation/diary_providers.dart';
 import '../../issues/domain/issue_report.dart';
 import '../../issues/presentation/issues_providers.dart';
+import '../../projects/presentation/user_route_state_providers.dart';
 import '../../sync/presentation/sync_providers.dart';
 import 'profile_providers.dart';
 import 'settings_providers.dart';
@@ -276,8 +280,67 @@ class _SignedInPanel extends ConsumerWidget {
             ),
           ],
         ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () => _confirmAndDeleteAccount(context, ref),
+            style: TextButton.styleFrom(
+              foregroundColor: theme.colorScheme.error,
+            ),
+            child: Text(l10n.authDeleteAccount),
+          ),
+        ),
       ],
     );
+  }
+
+  /// Confirmation → server-side deletion (cascade) → local wipe.
+  Future<void> _confirmAndDeleteAccount(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.authDeleteConfirmTitle),
+        content: Text(l10n.authDeleteConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.commonCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(dialogContext).colorScheme.error,
+            ),
+            child: Text(l10n.authDeleteConfirmAction),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !context.mounted) return;
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref.read(authRepositoryProvider).deleteAccount();
+      await wipeLocalUserData(ref.read(databaseProvider));
+      ref
+        ..invalidate(diaryProvider)
+        ..invalidate(tripsProvider)
+        ..invalidate(userRouteStateProvider)
+        ..invalidate(recentlyViewedAreasProvider)
+        ..invalidate(visibleIssueReportsProvider)
+        ..invalidate(ownProfileProvider)
+        ..invalidate(syncControllerProvider);
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.authDeletedMessage)),
+      );
+    } on AuthFailure catch (failure) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.authFailed(failure.message))),
+      );
+    }
   }
 }
 

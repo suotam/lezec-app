@@ -62,6 +62,18 @@ class SupabaseAuthRepository implements AuthRepository {
   @override
   Future<void> signOut() => _guard(() => _client.auth.signOut());
 
+  @override
+  Future<void> deleteAccount() => _guard(() async {
+    await _client.rpc<void>('delete_own_account');
+    // The auth user is gone; sign-out just clears the local session and
+    // may fail server-side — ignore that.
+    try {
+      await _client.auth.signOut();
+    } on AuthException {
+      // Session already invalid.
+    }
+  });
+
   Future<T> _guard<T>(Future<T> Function() action) async {
     try {
       return await action();
@@ -105,4 +117,8 @@ class UnavailableAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {}
+
+  @override
+  Future<void> deleteAccount() =>
+      throw const AuthFailure('Backend is not configured');
 }

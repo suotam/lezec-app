@@ -62,4 +62,8 @@ abstract interface class AuthRepository {
   });
 
   Future<void> signOut();
+
+  /// Permanently deletes the account and every synced row (server-side
+  /// cascade). The caller wipes local data afterwards.
+  Future<void> deleteAccount();
 }

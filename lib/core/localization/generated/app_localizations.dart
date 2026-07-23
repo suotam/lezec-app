@@ -926,6 +926,36 @@ abstract class AppLocalizations {
   /// **'Nepodařilo se: {message}'**
   String authFailed(String message);
 
+  /// No description provided for @authDeleteAccount.
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat účet'**
+  String get authDeleteAccount;
+
+  /// No description provided for @authDeleteConfirmTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat účet?'**
+  String get authDeleteConfirmTitle;
+
+  /// No description provided for @authDeleteConfirmBody.
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet i všechna synchronizovaná data (deník, oblíbené, komentáře, fotky) budou trvale smazána ze serveru i z tohoto zařízení. Tuto akci nelze vzít zpět.'**
+  String get authDeleteConfirmBody;
+
+  /// No description provided for @authDeleteConfirmAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Trvale smazat'**
+  String get authDeleteConfirmAction;
+
+  /// No description provided for @authDeletedMessage.
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet byl smazán.'**
+  String get authDeletedMessage;
+
   /// No description provided for @tripLogTitle.
   ///
   /// In cs, this message translates to:

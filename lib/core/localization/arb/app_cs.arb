@@ -201,6 +201,11 @@
       }
     }
   },
+  "authDeleteAccount": "Smazat účet",
+  "authDeleteConfirmTitle": "Smazat účet?",
+  "authDeleteConfirmBody": "Účet i všechna synchronizovaná data (deník, oblíbené, komentáře, fotky) budou trvale smazána ze serveru i z tohoto zařízení. Tuto akci nelze vzít zpět.",
+  "authDeleteConfirmAction": "Trvale smazat",
+  "authDeletedMessage": "Účet byl smazán.",
   "tripLogTitle": "Zápis výjezdu",
   "tripSaveAction": "Uložit",
   "tripLogAction": "Zapsat výjezd",
