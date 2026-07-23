@@ -557,6 +557,26 @@ class AppLocalizationsCs extends AppLocalizations {
   String get tripDeleted => 'Výjezd byl smazán včetně přelezů.';
 
   @override
+  String get topoSectionTitle => 'Topo a fotky sektoru';
+
+  @override
+  String get topoAddTooltip => 'Přidat fotku';
+
+  @override
+  String get topoUploadFailed =>
+      'Fotku se nepodařilo nahrát — zkuste to znovu.';
+
+  @override
+  String get topoDeleteConfirmTitle => 'Smazat tuto fotku?';
+
+  @override
+  String get topoDeleteAction => 'Smazat';
+
+  @override
+  String get topoEmptyManagerHint =>
+      'Jako správce oblasti sem můžete nahrát topo sektoru s cestami.';
+
+  @override
   String get commentsTitle => 'Komentáře';
 
   @override

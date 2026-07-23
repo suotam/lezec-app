@@ -1040,6 +1040,42 @@ abstract class AppLocalizations {
   /// **'Výjezd byl smazán včetně přelezů.'**
   String get tripDeleted;
 
+  /// No description provided for @topoSectionTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Topo a fotky sektoru'**
+  String get topoSectionTitle;
+
+  /// No description provided for @topoAddTooltip.
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidat fotku'**
+  String get topoAddTooltip;
+
+  /// No description provided for @topoUploadFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Fotku se nepodařilo nahrát — zkuste to znovu.'**
+  String get topoUploadFailed;
+
+  /// No description provided for @topoDeleteConfirmTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat tuto fotku?'**
+  String get topoDeleteConfirmTitle;
+
+  /// No description provided for @topoDeleteAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat'**
+  String get topoDeleteAction;
+
+  /// No description provided for @topoEmptyManagerHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Jako správce oblasti sem můžete nahrát topo sektoru s cestami.'**
+  String get topoEmptyManagerHint;
+
   /// No description provided for @commentsTitle.
   ///
   /// In cs, this message translates to:

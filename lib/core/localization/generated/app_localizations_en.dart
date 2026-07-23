@@ -549,6 +549,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tripDeleted => 'The trip and its ascents were deleted.';
 
   @override
+  String get topoSectionTitle => 'Sector topo & photos';
+
+  @override
+  String get topoAddTooltip => 'Add photo';
+
+  @override
+  String get topoUploadFailed =>
+      'The photo failed to upload — please try again.';
+
+  @override
+  String get topoDeleteConfirmTitle => 'Delete this photo?';
+
+  @override
+  String get topoDeleteAction => 'Delete';
+
+  @override
+  String get topoEmptyManagerHint =>
+      'As the area manager you can upload a sector topo with the routes here.';
+
+  @override
   String get commentsTitle => 'Comments';
 
   @override

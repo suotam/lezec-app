@@ -9,6 +9,7 @@ import '../../../shared/widgets/restriction_widgets.dart';
 import '../../../shared/widgets/section_header.dart';
 import '../../climbing_routes/domain/route_sorting.dart';
 import '../../climbing_routes/presentation/widgets/route_list_tile.dart';
+import '../../topo/presentation/widgets/sector_topo_section.dart';
 import '../domain/climbing_sector.dart';
 import 'climbing_areas_providers.dart';
 
@@ -50,6 +51,7 @@ class _SectorDetailScreenState extends ConsumerState<SectorDetailScreen> {
             );
           }
           return _SectorBody(
+            areaId: widget.areaId,
             sector: sector,
             sortOrder: _sortOrder,
             onSortChanged: (order) => setState(() => _sortOrder = order),
@@ -62,11 +64,13 @@ class _SectorDetailScreenState extends ConsumerState<SectorDetailScreen> {
 
 class _SectorBody extends StatelessWidget {
   const _SectorBody({
+    required this.areaId,
     required this.sector,
     required this.sortOrder,
     required this.onSortChanged,
   });
 
+  final String areaId;
   final ClimbingSector sector;
   final RouteSortOrder sortOrder;
   final ValueChanged<RouteSortOrder> onSortChanged;
@@ -106,6 +110,7 @@ class _SectorBody extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
           ],
         ],
+        SectorTopoSection(areaId: areaId, sectorId: sector.id),
         const SizedBox(height: AppSpacing.lg),
         SegmentedButton<RouteSortOrder>(
           segments: [

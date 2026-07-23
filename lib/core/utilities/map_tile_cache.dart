@@ -38,7 +38,87 @@ class MapTileCache {
       entry.deleteSync(recursive: true);
     }
   }
+
+  /// The cache file for [url] (map tile, topo photo, …).
+  File fileForUrl(String url) =>
+      File('${directory.path}/${fnv1a(url)}.bin');
+
+  /// Returns cached bytes for [url], fetching and storing them when the
+  /// file does not exist yet. A failed disk write still returns the
+  /// downloaded bytes.
+  Future<Uint8List> readOrFetch(
+    String url, {
+    Map<String, String> headers = const {},
+  }) async {
+    final file = fileForUrl(url);
+    if (await file.exists()) {
+      return file.readAsBytes();
+    }
+    final bytes = await _download(url, headers);
+    try {
+      await file.parent.create(recursive: true);
+      await file.writeAsBytes(bytes, flush: true);
+    } on FileSystemException {
+      // Cache directory unavailable; serve from memory.
+    }
+    return bytes;
+  }
+
+  /// Prefetch variant of [readOrFetch]: skips the download when the file
+  /// is already cached, returns false when the fetch failed.
+  Future<bool> ensureCached(
+    String url, {
+    Map<String, String> headers = const {},
+  }) async {
+    if (fileForUrl(url).existsSync()) return true;
+    try {
+      await readOrFetch(url, headers: headers);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future<Uint8List> _download(
+    String url,
+    Map<String, String> headers,
+  ) async {
+    final client = HttpClient();
+    try {
+      final request = await client.getUrl(Uri.parse(url));
+      headers.forEach(request.headers.set);
+      final response = await request.close();
+      if (response.statusCode != HttpStatus.ok) {
+        throw HttpException('HTTP ${response.statusCode} for $url');
+      }
+      final builder = BytesBuilder(copy: false);
+      await for (final chunk in response) {
+        builder.add(chunk);
+      }
+      return builder.takeBytes();
+    } finally {
+      client.close();
+    }
+  }
+
+  /// Stable 64-bit FNV-1a hash — file names must survive app restarts,
+  /// so [String.hashCode] (not guaranteed stable) is not an option.
+  static String fnv1a(String input) {
+    var hash = 0xcbf29ce484222325;
+    for (final unit in input.codeUnits) {
+      hash ^= unit;
+      hash = (hash * 0x100000001b3) & 0xFFFFFFFFFFFFFFFF;
+    }
+    return hash.toRadixString(16);
+  }
 }
+
+/// Bytes of a remote image, served through the disk cache so once-seen
+/// photos (sector topos) keep working offline. Tests override this to
+/// avoid the network.
+final cachedImageBytesProvider = FutureProvider.family<Uint8List, String>(
+  (ref, url) => ref.watch(mapTileCacheProvider).readOrFetch(url),
+);
 
 /// Tile provider that keeps every fetched tile on disk, so maps the user
 /// has already viewed keep rendering without a connection (passive
@@ -53,22 +133,7 @@ class DiskCachingTileProvider extends TileProvider {
   @override
   ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
     final url = getTileUrl(coordinates, options);
-    return _DiskCachedTileImage(
-      url: url,
-      file: File('${cache.directory.path}/${_fnv1a(url)}.tile'),
-      headers: headers,
-    );
-  }
-
-  /// Stable 64-bit FNV-1a hash — file names must survive app restarts,
-  /// so [String.hashCode] (not guaranteed stable) is not an option.
-  static String _fnv1a(String input) {
-    var hash = 0xcbf29ce484222325;
-    for (final unit in input.codeUnits) {
-      hash ^= unit;
-      hash = (hash * 0x100000001b3) & 0xFFFFFFFFFFFFFFFF;
-    }
-    return hash.toRadixString(16);
+    return _DiskCachedTileImage(url: url, cache: cache, headers: headers);
   }
 }
 
@@ -76,12 +141,12 @@ class DiskCachingTileProvider extends TileProvider {
 class _DiskCachedTileImage extends ImageProvider<_DiskCachedTileImage> {
   const _DiskCachedTileImage({
     required this.url,
-    required this.file,
+    required this.cache,
     required this.headers,
   });
 
   final String url;
-  final File file;
+  final MapTileCache cache;
   final Map<String, String> headers;
 
   @override
@@ -101,38 +166,8 @@ class _DiskCachedTileImage extends ImageProvider<_DiskCachedTileImage> {
   }
 
   Future<ui.Codec> _loadCodec(ImageDecoderCallback decode) async {
-    final bytes = await _loadBytes();
+    final bytes = await cache.readOrFetch(url, headers: headers);
     return decode(await ui.ImmutableBuffer.fromUint8List(bytes));
-  }
-
-  Future<Uint8List> _loadBytes() async {
-    if (await file.exists()) {
-      return file.readAsBytes();
-    }
-    final client = HttpClient();
-    try {
-      final request = await client.getUrl(Uri.parse(url));
-      headers.forEach(request.headers.set);
-      final response = await request.close();
-      if (response.statusCode != HttpStatus.ok) {
-        throw HttpException('HTTP ${response.statusCode} for $url');
-      }
-      final builder = BytesBuilder(copy: false);
-      await for (final chunk in response) {
-        builder.add(chunk);
-      }
-      final bytes = builder.takeBytes();
-      // Best effort: a failed write must not break rendering the tile.
-      try {
-        await file.parent.create(recursive: true);
-        await file.writeAsBytes(bytes, flush: true);
-      } on FileSystemException {
-        // Cache directory unavailable; serve the tile from memory.
-      }
-      return bytes;
-    } finally {
-      client.close();
-    }
   }
 
   @override

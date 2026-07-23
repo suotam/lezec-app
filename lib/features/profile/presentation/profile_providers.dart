@@ -19,6 +19,28 @@ final ownProfileProvider = FutureProvider<UserProfile?>((ref) async {
   return repository.getOwnProfile();
 });
 
+/// Areas the signed-in user manages (empty set for regular users; null
+/// when signed out or without a backend).
+final managedAreaIdsProvider = FutureProvider<Set<String>?>((ref) async {
+  final client = ref.watch(supabaseClientProvider);
+  final user = ref.watch(currentUserProvider).value;
+  if (client == null || user == null) return null;
+  final rows = await client
+      .from('area_managers')
+      .select('area_id')
+      .eq('user_id', user.id);
+  return {for (final row in rows) row['area_id'] as String};
+});
+
+/// Whether the signed-in user may manage content of [areaId]
+/// (admin or assigned area manager). Mirrors the server-side RLS rule.
+final canManageAreaProvider = Provider.family<bool, String>((ref, areaId) {
+  final profile = ref.watch(ownProfileProvider).value;
+  if (profile?.isAdmin ?? false) return true;
+  final managed = ref.watch(managedAreaIdsProvider).value;
+  return managed?.contains(areaId) ?? false;
+});
+
 /// The name to attach to public content (comments): the display name,
 /// with the email's local part as a fallback.
 final authorNameProvider = Provider<String?>((ref) {
