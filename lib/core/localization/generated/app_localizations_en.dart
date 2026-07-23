@@ -549,6 +549,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tripDeleted => 'The trip and its ascents were deleted.';
 
   @override
+  String get offlineDownloadAction => 'Download offline';
+
+  @override
+  String get offlineDownloadedLabel => 'Downloaded';
+
+  @override
+  String offlineDownloadProgress(int percent) {
+    return 'Downloading… $percent %';
+  }
+
+  @override
+  String get offlineDownloadDone =>
+      'Area downloaded — map and topos work without a signal.';
+
+  @override
+  String offlineDownloadFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files failed to download — try again.',
+      one: '1 file failed to download — try again.',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get weatherAction => 'Weather';
 
   @override

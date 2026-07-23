@@ -22,6 +22,7 @@ import '../domain/climbing_restriction.dart';
 import '../domain/climbing_sector.dart';
 import '../domain/geo_point.dart';
 import 'climbing_areas_providers.dart';
+import 'widgets/offline_download_button.dart';
 
 class AreaDetailScreen extends ConsumerStatefulWidget {
   const AreaDetailScreen({super.key, required this.areaId});
@@ -142,6 +143,8 @@ class _AreaDetailBody extends StatelessWidget {
           icon: const Icon(Icons.cloud_outlined),
           label: Text(l10n.weatherAction),
         ),
+        const SizedBox(height: AppSpacing.sm),
+        OfflineDownloadButton(area: area),
         const SizedBox(height: AppSpacing.sm),
         ReportIssueButton(areaId: area.id, areaName: area.name),
         if (area.restrictions.isNotEmpty) ...[

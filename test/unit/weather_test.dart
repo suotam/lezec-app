@@ -66,7 +66,9 @@ void main() {
       fetcher: (uri) async => Uint8List.fromList(utf8.encode('[]')),
     );
     expect(
-      () => repository.hourlyForecast(const GeoPoint(latitude: 50, longitude: 15)),
+      () => repository.hourlyForecast(
+        const GeoPoint(latitude: 50, longitude: 15),
+      ),
       throwsFormatException,
     );
   });

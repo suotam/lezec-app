@@ -36,10 +36,7 @@ class OpenMeteoRepository implements WeatherRepository {
     final temps = hourly['temperature_2m'];
     final precip = hourly['precipitation'];
     final wind = hourly['wind_speed_10m'];
-    if (times is! List ||
-        temps is! List ||
-        precip is! List ||
-        wind is! List) {
+    if (times is! List || temps is! List || precip is! List || wind is! List) {
       throw const FormatException('malformed hourly series');
     }
     return [

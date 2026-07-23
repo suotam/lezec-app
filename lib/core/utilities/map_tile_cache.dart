@@ -40,8 +40,7 @@ class MapTileCache {
   }
 
   /// The cache file for [url] (map tile, topo photo, …).
-  File fileForUrl(String url) =>
-      File('${directory.path}/${fnv1a(url)}.bin');
+  File fileForUrl(String url) => File('${directory.path}/${fnv1a(url)}.bin');
 
   /// Returns cached bytes for [url], fetching and storing them when the
   /// file does not exist yet. A failed disk write still returns the

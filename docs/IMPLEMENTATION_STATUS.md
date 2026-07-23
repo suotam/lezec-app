@@ -229,14 +229,31 @@ catalog)._
 - Photo picking behind an injectable provider (image_picker in the app,
   fakes in tests). 125 tests passing.
 
+**Manager topos, account deletion, grades, offline, weather (migration
+00004)**
+- Sector topo photos: area managers/admins upload from the sector
+  screen into the public `topos` bucket; everyone sees thumbnails with
+  a fullscreen pinch-zoom viewer; cached on disk so once-seen topos
+  work offline.
+- Self-service account deletion (`delete_own_account()` RPC + cascade
+  + local wipe) with an explicit confirmation — Play Store requirement
+  covered.
+- Grade conversion: comparison-table conversion between route systems
+  and between boulder systems, preferred scale set on the Profile tab,
+  approximate `≈` grades shown in the route detail and list tiles.
+- Offline area download: one button on the area detail prefetches map
+  tiles (zooms 12–16 around crag + parking) and sector topos into the
+  disk cache with progress; downloaded areas are remembered.
+- Weather: keyless Open-Meteo hourly forecast (temperature, wind,
+  precipitation for 24 h) in a bottom sheet on the area detail, with
+  the required attribution.
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs
-pretend it does): Google/Apple sign-in, account deletion, assigning
-managers from the app, public photo sharing/moderation, diary calendar
-view, social feed/followers, payments/QR donations, push
-notifications, weather, offline map packages, complex grade
-conversion.
+pretend it does): Google/Apple sign-in, assigning managers from the
+app, public photo sharing/moderation, diary calendar view, social
+feed/followers, payments/QR donations, push notifications.
 
 ## Known limitations
 

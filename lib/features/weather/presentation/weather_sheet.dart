@@ -114,7 +114,8 @@ class WeatherSheet extends ConsumerWidget {
   static List<HourForecast> _next24Hours(List<HourForecast> all) {
     final now = DateTime.now();
     final startIndex = all.indexWhere(
-      (hour) => !hour.time.isBefore(DateTime(now.year, now.month, now.day, now.hour)),
+      (hour) =>
+          !hour.time.isBefore(DateTime(now.year, now.month, now.day, now.hour)),
     );
     if (startIndex < 0) return all.take(24).toList();
     return all.skip(startIndex).take(24).toList();

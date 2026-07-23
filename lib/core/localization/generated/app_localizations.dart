@@ -1040,6 +1040,36 @@ abstract class AppLocalizations {
   /// **'Výjezd byl smazán včetně přelezů.'**
   String get tripDeleted;
 
+  /// No description provided for @offlineDownloadAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Stáhnout offline'**
+  String get offlineDownloadAction;
+
+  /// No description provided for @offlineDownloadedLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Staženo offline'**
+  String get offlineDownloadedLabel;
+
+  /// No description provided for @offlineDownloadProgress.
+  ///
+  /// In cs, this message translates to:
+  /// **'Stahuji… {percent} %'**
+  String offlineDownloadProgress(int percent);
+
+  /// No description provided for @offlineDownloadDone.
+  ///
+  /// In cs, this message translates to:
+  /// **'Oblast je stažená — mapa i topo fungují bez signálu.'**
+  String get offlineDownloadDone;
+
+  /// No description provided for @offlineDownloadFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'{count, plural, one{1 soubor se nepodařilo stáhnout — zkuste to znovu.} few{{count} soubory se nepodařilo stáhnout — zkuste to znovu.} other{{count} souborů se nepodařilo stáhnout — zkuste to znovu.}}'**
+  String offlineDownloadFailed(int count);
+
   /// No description provided for @weatherAction.
   ///
   /// In cs, this message translates to:

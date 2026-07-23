@@ -557,6 +557,33 @@ class AppLocalizationsCs extends AppLocalizations {
   String get tripDeleted => 'Výjezd byl smazán včetně přelezů.';
 
   @override
+  String get offlineDownloadAction => 'Stáhnout offline';
+
+  @override
+  String get offlineDownloadedLabel => 'Staženo offline';
+
+  @override
+  String offlineDownloadProgress(int percent) {
+    return 'Stahuji… $percent %';
+  }
+
+  @override
+  String get offlineDownloadDone =>
+      'Oblast je stažená — mapa i topo fungují bez signálu.';
+
+  @override
+  String offlineDownloadFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count souborů se nepodařilo stáhnout — zkuste to znovu.',
+      few: '$count soubory se nepodařilo stáhnout — zkuste to znovu.',
+      one: '1 soubor se nepodařilo stáhnout — zkuste to znovu.',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get weatherAction => 'Počasí';
 
   @override

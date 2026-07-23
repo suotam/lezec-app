@@ -55,10 +55,7 @@ void main() {
         isNull,
       );
       expect(
-        convertGrade(
-          grade(GradingSystem.french, '7a'),
-          GradingSystem.vScale,
-        ),
+        convertGrade(grade(GradingSystem.french, '7a'), GradingSystem.vScale),
         isNull,
       );
     });

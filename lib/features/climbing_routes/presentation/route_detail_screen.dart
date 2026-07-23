@@ -60,7 +60,11 @@ class _RouteDetailBody extends ConsumerWidget {
 
   /// `≈ 7- (UIAA)` when the user prefers another scale and the grade has
   /// a table equivalent; null otherwise.
-  String? _convertedGrade(BuildContext context, WidgetRef ref, RouteGrade grade) {
+  String? _convertedGrade(
+    BuildContext context,
+    WidgetRef ref,
+    RouteGrade grade,
+  ) {
     final preferred = ref.watch(preferredGradingSystemProvider).value;
     if (preferred == null) return null;
     final converted = convertGrade(grade, preferred);

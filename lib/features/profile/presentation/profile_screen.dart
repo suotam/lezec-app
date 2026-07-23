@@ -333,9 +333,7 @@ class _SignedInPanel extends ConsumerWidget {
         ..invalidate(visibleIssueReportsProvider)
         ..invalidate(ownProfileProvider)
         ..invalidate(syncControllerProvider);
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.authDeletedMessage)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.authDeletedMessage)));
     } on AuthFailure catch (failure) {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.authFailed(failure.message))),
@@ -847,9 +845,8 @@ class _SettingsCard extends ConsumerWidget {
             DropdownButton<GradingSystem?>(
               value: preferred,
               isExpanded: true,
-              onChanged: (system) => ref
-                  .read(preferredGradingSystemProvider.notifier)
-                  .set(system),
+              onChanged: (system) =>
+                  ref.read(preferredGradingSystemProvider.notifier).set(system),
               items: [
                 DropdownMenuItem(
                   value: null,
