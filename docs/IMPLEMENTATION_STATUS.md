@@ -248,6 +248,12 @@ catalog)._
   precipitation for 24 h) in a bottom sheet on the area detail, with
   the required attribution.
 
+**Community route ratings**
+- 1–5 star quality ratings on the route detail (migration 00005):
+  average + count read by everyone, one editable rating per signed-in
+  user (RLS-protected), aggregated via a `route_rating_summary` RPC.
+  This is the data foundation for "nicest routes" discovery.
+
 **Smart area search**
 - Guided "find a suitable area" screen (entry points on Discover and the
   Areas app bar): discipline toggle (routes/boulders), route sub-type

@@ -290,6 +290,17 @@
   "topoDeleteConfirmTitle": "Smazat tuto fotku?",
   "topoDeleteAction": "Smazat",
   "topoEmptyManagerHint": "Jako správce oblasti sem můžete nahrát topo sektoru s cestami.",
+  "ratingCommunityLabel": "Hodnocení komunity",
+  "ratingNone": "Zatím nehodnoceno",
+  "ratingCount": "{count, plural, one{1 hodnocení} few{{count} hodnocení} other{{count} hodnocení}}",
+  "@ratingCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "ratingYourLabel": "Vaše hodnocení",
+  "ratingSignInHint": "Pro hodnocení cesty se přihlaste v záložce Profil.",
+  "ratingSaveFailed": "Hodnocení se nepodařilo uložit — zkuste to znovu.",
   "commentsTitle": "Komentáře",
   "commentsEmpty": "Zatím žádné komentáře. Buďte první!",
   "commentsLoadFailed": "Komentáře se nepodařilo načíst — jste online?",

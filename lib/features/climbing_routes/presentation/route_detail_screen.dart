@@ -16,6 +16,7 @@ import '../../../shared/widgets/section_header.dart';
 import '../../diary/presentation/diary_providers.dart';
 import '../../diary/presentation/log_ascent_sheet.dart';
 import '../../community/presentation/widgets/route_comments_section.dart';
+import '../../community/presentation/widgets/route_rating_section.dart';
 import '../../projects/presentation/user_route_state_providers.dart';
 import '../../profile/presentation/settings_providers.dart';
 import '../domain/route_context.dart';
@@ -135,6 +136,7 @@ class _RouteDetailBody extends ConsumerWidget {
               ),
           ],
         ),
+        RouteRatingSection(routeId: route.id),
         const SizedBox(height: AppSpacing.lg),
         Row(
           children: [

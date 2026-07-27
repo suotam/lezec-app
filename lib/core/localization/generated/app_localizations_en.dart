@@ -662,6 +662,33 @@ class AppLocalizationsEn extends AppLocalizations {
       'As the area manager you can upload a sector topo with the routes here.';
 
   @override
+  String get ratingCommunityLabel => 'Community rating';
+
+  @override
+  String get ratingNone => 'Not rated yet';
+
+  @override
+  String ratingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ratings',
+      one: '1 rating',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ratingYourLabel => 'Your rating';
+
+  @override
+  String get ratingSignInHint => 'Sign in on the Profile tab to rate a route.';
+
+  @override
+  String get ratingSaveFailed =>
+      'The rating could not be saved — please try again.';
+
+  @override
   String get commentsTitle => 'Comments';
 
   @override

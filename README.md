@@ -17,6 +17,9 @@ areas, sectors, rocks and routes using bundled demo data.
 - Catalog-wide search: one query matches areas, sectors, rocks and
   individual routes (~104k routes searched via a SQL index, grouped
   results with direct navigation).
+- Community route ratings: signed-in users rate routes 1–5 stars; the
+  route detail shows the average and count (the groundwork for
+  quality-based discovery).
 - Smart "find an area" search: pick discipline (routes / boulders),
   a difficulty band range (grade-system-independent) and a distance
   origin (device location or a preset town), and get matching areas

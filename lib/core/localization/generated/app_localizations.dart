@@ -1226,6 +1226,42 @@ abstract class AppLocalizations {
   /// **'Jako správce oblasti sem můžete nahrát topo sektoru s cestami.'**
   String get topoEmptyManagerHint;
 
+  /// No description provided for @ratingCommunityLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Hodnocení komunity'**
+  String get ratingCommunityLabel;
+
+  /// No description provided for @ratingNone.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zatím nehodnoceno'**
+  String get ratingNone;
+
+  /// No description provided for @ratingCount.
+  ///
+  /// In cs, this message translates to:
+  /// **'{count, plural, one{1 hodnocení} few{{count} hodnocení} other{{count} hodnocení}}'**
+  String ratingCount(int count);
+
+  /// No description provided for @ratingYourLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Vaše hodnocení'**
+  String get ratingYourLabel;
+
+  /// No description provided for @ratingSignInHint.
+  ///
+  /// In cs, this message translates to:
+  /// **'Pro hodnocení cesty se přihlaste v záložce Profil.'**
+  String get ratingSignInHint;
+
+  /// No description provided for @ratingSaveFailed.
+  ///
+  /// In cs, this message translates to:
+  /// **'Hodnocení se nepodařilo uložit — zkuste to znovu.'**
+  String get ratingSaveFailed;
+
   /// No description provided for @commentsTitle.
   ///
   /// In cs, this message translates to:

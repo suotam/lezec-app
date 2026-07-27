@@ -671,6 +671,35 @@ class AppLocalizationsCs extends AppLocalizations {
       'Jako správce oblasti sem můžete nahrát topo sektoru s cestami.';
 
   @override
+  String get ratingCommunityLabel => 'Hodnocení komunity';
+
+  @override
+  String get ratingNone => 'Zatím nehodnoceno';
+
+  @override
+  String ratingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hodnocení',
+      few: '$count hodnocení',
+      one: '1 hodnocení',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ratingYourLabel => 'Vaše hodnocení';
+
+  @override
+  String get ratingSignInHint =>
+      'Pro hodnocení cesty se přihlaste v záložce Profil.';
+
+  @override
+  String get ratingSaveFailed =>
+      'Hodnocení se nepodařilo uložit — zkuste to znovu.';
+
+  @override
   String get commentsTitle => 'Komentáře';
 
   @override
