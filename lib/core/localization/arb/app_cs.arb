@@ -20,6 +20,7 @@
   "discoverBrowseAllAreas": "Procházet všechny oblasti",
   "discoverDataSourceTitle": "Zdroj dat",
   "discoverDataSourceBody": "Data pocházejí z Databáze skal ČHS (horosvaz.cz). Jde o offline kopii pořízenou při vývoji aplikace — aktuální stav, omezení a podmínky lezení si vždy ověřujte přímo v databázi ČHS.",
+  "discoverTopRatedTitle": "Nejlépe hodnocené cesty",
   "discoverRestrictionsTitle": "Aktuální omezení",
   "areasTitle": "Oblasti",
   "areasSearchHint": "Hledat oblasti, sektory, skály i cesty",

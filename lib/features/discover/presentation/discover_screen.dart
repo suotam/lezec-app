@@ -11,6 +11,7 @@ import '../../../shared/widgets/section_header.dart';
 import '../../climbing_areas/domain/climbing_area.dart';
 import '../../climbing_areas/presentation/climbing_areas_providers.dart';
 import '../../climbing_areas/presentation/widgets/area_card.dart';
+import '../../community/presentation/widgets/top_rated_section.dart';
 import '../../projects/presentation/user_route_state_providers.dart';
 
 /// Landing dashboard: brand header, search entry, featured and recently
@@ -82,6 +83,7 @@ class DiscoverScreen extends ConsumerWidget {
                 },
               ),
             ),
+            const TopRatedRoutesSection(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(

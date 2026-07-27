@@ -52,4 +52,20 @@ class SupabaseRouteRatingsRepository implements RouteRatingsRepository {
         .eq('route_id', routeId)
         .eq('user_id', userId);
   }
+
+  @override
+  Future<List<RatedRoute>> topRated({int minCount = 1, int limit = 20}) async {
+    final rows = await _client.rpc(
+      'top_rated_routes',
+      params: {'min_count': minCount, 'max_results': limit},
+    );
+    return [
+      for (final row in rows as List)
+        (
+          routeId: (row as Map<String, Object?>)['route_id'] as String,
+          average: (row['average'] as num).toDouble(),
+          count: (row['rating_count'] as num).toInt(),
+        ),
+    ];
+  }
 }

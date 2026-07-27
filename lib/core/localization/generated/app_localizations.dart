@@ -218,6 +218,12 @@ abstract class AppLocalizations {
   /// **'Data pocházejí z Databáze skal ČHS (horosvaz.cz). Jde o offline kopii pořízenou při vývoji aplikace — aktuální stav, omezení a podmínky lezení si vždy ověřujte přímo v databázi ČHS.'**
   String get discoverDataSourceBody;
 
+  /// No description provided for @discoverTopRatedTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nejlépe hodnocené cesty'**
+  String get discoverTopRatedTitle;
+
   /// No description provided for @discoverRestrictionsTitle.
   ///
   /// In cs, this message translates to:

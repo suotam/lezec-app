@@ -252,7 +252,10 @@ catalog)._
 - 1–5 star quality ratings on the route detail (migration 00005):
   average + count read by everyone, one editable rating per signed-in
   user (RLS-protected), aggregated via a `route_rating_summary` RPC.
-  This is the data foundation for "nicest routes" discovery.
+  A `top_rated_routes` RPC (migration 00006) powers a "top-rated
+  routes" rail on Discover: the backend returns ids + averages, names/
+  grades/areas are resolved from the offline catalog, and ids missing
+  from the current catalog version are skipped.
 
 **Smart area search**
 - Guided "find a suitable area" screen (entry points on Discover and the

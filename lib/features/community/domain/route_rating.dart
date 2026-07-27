@@ -19,6 +19,9 @@ class RouteRatingSummary {
   bool get hasRatings => count > 0;
 }
 
+/// A route id with its aggregate rating, for top-rated discovery.
+typedef RatedRoute = ({String routeId, double average, int count});
+
 /// Community star ratings for routes (quality, 1–5). Reading works
 /// without an account; rating requires one.
 abstract interface class RouteRatingsRepository {
@@ -27,4 +30,8 @@ abstract interface class RouteRatingsRepository {
   Future<void> setMyRating(String routeId, int stars);
 
   Future<void> clearMyRating(String routeId);
+
+  /// Best-rated routes across the catalog, highest average first, each
+  /// with at least [minCount] ratings.
+  Future<List<RatedRoute>> topRated({int minCount, int limit});
 }

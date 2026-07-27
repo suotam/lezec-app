@@ -36,6 +36,10 @@ class _FakeRatings implements RouteRatingsRepository {
   Future<void> clearMyRating(String routeId) async {
     mine.remove(routeId);
   }
+
+  @override
+  Future<List<RatedRoute>> topRated({int minCount = 1, int limit = 20}) async =>
+      const [];
 }
 
 class _FakeAuth implements AuthRepository {
