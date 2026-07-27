@@ -17,6 +17,11 @@ areas, sectors, rocks and routes using bundled demo data.
 - Catalog-wide search: one query matches areas, sectors, rocks and
   individual routes (~104k routes searched via a SQL index, grouped
   results with direct navigation).
+- Smart "find an area" search: pick discipline (routes / boulders),
+  a difficulty band range (grade-system-independent) and a distance
+  origin (device location or a preset town), and get matching areas
+  ranked by proximity. Runs fully offline over precomputed per-area
+  grade coverage.
 - Map of areas (OpenStreetMap): list/map toggle on the Areas tab,
   markers follow the active search and filters, tapping a marker shows
   the area card; area details include a static mini-map with parking

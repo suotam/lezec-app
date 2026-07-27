@@ -91,6 +91,11 @@ class _AreasScreenState extends ConsumerState<AreasScreen> {
         title: Text(l10n.areasTitle),
         actions: [
           IconButton(
+            icon: const Icon(Icons.auto_awesome_outlined),
+            tooltip: l10n.smartSearchAction,
+            onPressed: () => context.go(AppRoutes.smartSearch),
+          ),
+          IconButton(
             icon: Icon(
               _showMap ? Icons.view_list_outlined : Icons.map_outlined,
             ),

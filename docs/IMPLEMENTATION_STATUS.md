@@ -248,6 +248,22 @@ catalog)._
   precipitation for 24 h) in a bottom sheet on the area detail, with
   the required attribution.
 
+**Smart area search**
+- Guided "find a suitable area" screen (entry points on Discover and the
+  Areas app bar): discipline toggle (routes/boulders), route sub-type
+  chips, a difficulty **band** range and a distance origin (device
+  location or a preset Czech town), filtering the whole catalog live and
+  ranking by proximity.
+- Grades are compared on a system-independent scale: the conversion
+  table's row index is a "band", so a UIAA, French or Saxon route lands
+  on one axis. Per-area route/boulder band coverage is precomputed into
+  the summary documents at import time (DB schema v6 forces a one-time
+  reseed to backfill it); the search itself is a pure, unit-tested
+  function over summaries — no sector trees, offline, instant.
+- Deliberately not an LLM chatbot: the value is the structured matching
+  (offline, free), and "nicest routes" needs community ratings we don't
+  have yet. A natural-language layer can later emit the same query.
+
 ## Intentionally deferred
 
 Per the stage scope, none of the following exists (and no fake stubs

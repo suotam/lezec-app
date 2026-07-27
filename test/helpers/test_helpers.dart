@@ -206,6 +206,10 @@ ClimbingArea buildArea({
   RockType rockType = RockType.limestone,
   GeoPoint location = const GeoPoint(latitude: 50, longitude: 15),
   int? routeCount,
+  int? routeGradeMinBand,
+  int? routeGradeMaxBand,
+  int? boulderGradeMinBand,
+  int? boulderGradeMaxBand,
 }) {
   return ClimbingArea(
     id: id,
@@ -218,5 +222,9 @@ ClimbingArea buildArea({
     rockType: rockType,
     location: location,
     routeCount: routeCount,
+    routeGradeMinBand: routeGradeMinBand,
+    routeGradeMaxBand: routeGradeMaxBand,
+    boulderGradeMinBand: boulderGradeMinBand,
+    boulderGradeMaxBand: boulderGradeMaxBand,
   );
 }

@@ -28,6 +28,10 @@ class ClimbingArea {
     this.sectors = const [],
     this._sectorCount,
     this._routeCount,
+    this.routeGradeMinBand,
+    this.routeGradeMaxBand,
+    this.boulderGradeMinBand,
+    this.boulderGradeMaxBand,
   });
 
   final String id;
@@ -50,6 +54,26 @@ class ClimbingArea {
   /// so area lists don't parse whole sector trees.
   final int? _sectorCount;
   final int? _routeCount;
+
+  /// Difficulty-band coverage precomputed at import time (see
+  /// `grade_conversion.dart`), so smart search can filter the whole
+  /// catalog by grade without loading sector trees. Null when the area
+  /// has no parseable grades in that category.
+  final int? routeGradeMinBand;
+  final int? routeGradeMaxBand;
+  final int? boulderGradeMinBand;
+  final int? boulderGradeMaxBand;
+
+  /// Inclusive route/boulder band range, or null when unknown.
+  (int, int)? get routeGradeRange =>
+      routeGradeMinBand == null || routeGradeMaxBand == null
+      ? null
+      : (routeGradeMinBand!, routeGradeMaxBand!);
+
+  (int, int)? get boulderGradeRange =>
+      boulderGradeMinBand == null || boulderGradeMaxBand == null
+      ? null
+      : (boulderGradeMinBand!, boulderGradeMaxBand!);
 
   int get sectorCount => _sectorCount ?? sectors.length;
 

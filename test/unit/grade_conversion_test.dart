@@ -83,6 +83,30 @@ void main() {
       );
     });
 
+    test('route bands are ordered and cross-system comparable', () {
+      final french6a = routeGradeBand(grade(GradingSystem.french, '6a'));
+      final uiaa7 = routeGradeBand(grade(GradingSystem.uiaa, 'VII'));
+      final french8a = routeGradeBand(grade(GradingSystem.french, '8a'));
+      expect(french6a, isNotNull);
+      expect(uiaa7, greaterThan(french6a!));
+      expect(french8a, greaterThan(uiaa7!));
+    });
+
+    test('boulder grades have no route band and vice versa', () {
+      expect(routeGradeBand(grade(GradingSystem.fontainebleau, '7A')), isNull);
+      expect(boulderGradeBand(grade(GradingSystem.french, '7a')), isNull);
+      expect(
+        boulderGradeBand(grade(GradingSystem.fontainebleau, '6C')),
+        isNotNull,
+      );
+    });
+
+    test('band label lists line up with the tables', () {
+      expect(routeGradeBandLabels, isNotEmpty);
+      expect(routeGradeBandLabels.first, contains('('));
+      expect(boulderGradeBandLabels.length, greaterThan(10));
+    });
+
     test('conversion is roughly symmetric', () {
       final toUiaa = convertGrade(
         grade(GradingSystem.french, '7a'),

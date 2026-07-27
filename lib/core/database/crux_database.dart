@@ -166,7 +166,7 @@ class CruxDatabase extends _$CruxDatabase {
   CruxDatabase(super.e);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -200,6 +200,14 @@ class CruxDatabase extends _$CruxDatabase {
       if (from < 5) {
         await m.createTable(trips);
         await m.addColumn(ascents, ascents.tripId);
+      }
+      if (from < 6) {
+        // Area summaries now carry grade-band coverage for smart search;
+        // clearing the catalog meta forces a one-time reseed from the
+        // bundled asset, which regenerates the summaries (user data and
+        // the catalog documents themselves are untouched).
+        await m.deleteTable(catalogMeta.actualTableName);
+        await m.createTable(catalogMeta);
       }
     },
   );

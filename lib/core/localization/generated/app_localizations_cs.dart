@@ -144,6 +144,63 @@ class AppLocalizationsCs extends AppLocalizations {
       'Polohu se nepodařilo zjistit. Zkontrolujte oprávnění k poloze a zapnuté polohové služby.';
 
   @override
+  String get smartSearchAction => 'Najít vhodnou oblast';
+
+  @override
+  String get smartSearchTitle => 'Najít oblast';
+
+  @override
+  String get smartSearchIntro =>
+      'Zvolte disciplínu, obtížnost a odkud to máte mít blízko.';
+
+  @override
+  String get smartDisciplineRoutes => 'Cesty';
+
+  @override
+  String get smartDisciplineBoulders => 'Bouldery';
+
+  @override
+  String get smartGradeLabel => 'Obtížnost';
+
+  @override
+  String get smartGradeAny => 'libovolná';
+
+  @override
+  String smartGradeRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get smartOriginLabel => 'Odkud';
+
+  @override
+  String get smartOriginMyLocation => 'Moje poloha';
+
+  @override
+  String get smartOriginPickTown => 'Vybrat město';
+
+  @override
+  String get smartOriginNone => 'Bez omezení vzdálenosti';
+
+  @override
+  String get smartRadiusLabel => 'Do vzdálenosti (vzdušně)';
+
+  @override
+  String smartRadiusValue(int km) {
+    return '$km km';
+  }
+
+  @override
+  String get smartResultsTitle => 'Výsledky';
+
+  @override
+  String get smartEmptyTitle => 'Nic neodpovídá';
+
+  @override
+  String get smartEmptyBody =>
+      'Zkuste rozšířit rozsah obtížnosti nebo zvětšit vzdálenost.';
+
+  @override
   String sectorsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

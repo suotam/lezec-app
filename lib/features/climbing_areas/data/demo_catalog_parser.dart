@@ -157,6 +157,10 @@ ClimbingArea _parseArea(
     // which the catalog store derives at import time for fast lists.
     sectorCount: _optInt(map, 'sectorCount', context),
     routeCount: _optInt(map, 'routeCount', context),
+    routeGradeMinBand: _optInt(map, 'routeGradeMinBand', context),
+    routeGradeMaxBand: _optInt(map, 'routeGradeMaxBand', context),
+    boulderGradeMinBand: _optInt(map, 'boulderGradeMinBand', context),
+    boulderGradeMaxBand: _optInt(map, 'boulderGradeMaxBand', context),
   );
 }
 

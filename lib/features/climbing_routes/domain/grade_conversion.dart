@@ -85,39 +85,68 @@ const _boulderTable = [
   return null;
 }
 
+/// The comparison-table row [grade] sits in — a system-independent
+/// difficulty band on its category's scale (route table or boulder
+/// table). Null when the grade's system is unknown or the value cannot
+/// be placed. Two grades in the same category are comparable by band.
+int? _rowIndexFor(RouteGrade grade) {
+  final table = _tableFor(grade.system);
+  if (table == null) return null;
+  final (systems, rows) = table;
+  final column = systems.indexOf(grade.system);
+
+  final wanted = grade.value.trim().toLowerCase();
+  // Exact match first; otherwise the nearest row by the source system's
+  // sort ordinal (covers values between table anchors, e.g. `VII-` UIAA).
+  var rowIndex = rows.indexWhere((row) => row[column].toLowerCase() == wanted);
+  if (rowIndex >= 0) return rowIndex;
+
+  final ordinal = grade.sortOrdinal;
+  var bestDistance = double.infinity;
+  for (final (i, row) in rows.indexed) {
+    final rowOrdinal = RouteGrade(
+      system: grade.system,
+      value: row[column],
+    ).sortOrdinal;
+    final distance = (rowOrdinal - ordinal).abs();
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      rowIndex = i;
+    }
+  }
+  // An unparseable value keeps distance infinite for every row; treat a
+  // huge distance as "unknown grade" rather than guessing wildly.
+  if (rowIndex < 0 || bestDistance > 1.5) return null;
+  return rowIndex;
+}
+
+/// Route-scale difficulty band of [grade] (index into [routeGradeBandLabels]),
+/// or null when it is not a route-system grade the table knows.
+int? routeGradeBand(RouteGrade grade) =>
+    _routeSystems.contains(grade.system) ? _rowIndexFor(grade) : null;
+
+/// Boulder-scale difficulty band of [grade] (index into
+/// [boulderGradeBandLabels]), or null when it is not a boulder grade.
+int? boulderGradeBand(RouteGrade grade) =>
+    _boulderSystems.contains(grade.system) ? _rowIndexFor(grade) : null;
+
+/// Human labels per route band, French with UIAA in parentheses.
+final List<String> routeGradeBandLabels = [
+  for (final row in _routeTable) '${row[0]} (${row[1]})',
+];
+
+/// Human labels per boulder band, Fontainebleau with V-scale.
+final List<String> boulderGradeBandLabels = [
+  for (final row in _boulderTable) '${row[0]} (${row[1]})',
+];
+
 /// Converts [grade] into [target], or null when the systems are the same,
 /// incompatible (route vs boulder) or the value is unknown to the table.
 String? convertGrade(RouteGrade grade, GradingSystem target) {
   if (grade.system == target) return null;
   final table = _tableFor(grade.system);
   if (table == null || !table.$1.contains(target)) return null;
-  final (systems, rows) = table;
-  final sourceColumn = systems.indexOf(grade.system);
-  final targetColumn = systems.indexOf(target);
-
-  final wanted = grade.value.trim().toLowerCase();
-  // Exact match first; otherwise the nearest row by the source system's
-  // sort ordinal (covers values between table anchors, e.g. `VII-` UIAA).
-  var rowIndex = rows.indexWhere(
-    (row) => row[sourceColumn].toLowerCase() == wanted,
-  );
-  if (rowIndex < 0) {
-    final ordinal = grade.sortOrdinal;
-    var bestDistance = double.infinity;
-    for (final (i, row) in rows.indexed) {
-      final rowOrdinal = RouteGrade(
-        system: grade.system,
-        value: row[sourceColumn],
-      ).sortOrdinal;
-      final distance = (rowOrdinal - ordinal).abs();
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        rowIndex = i;
-      }
-    }
-    // An unparseable value keeps distance infinite for every row; treat a
-    // huge distance as "unknown grade" rather than guessing wildly.
-    if (rowIndex < 0 || bestDistance > 1.5) return null;
-  }
-  return rows[rowIndex][targetColumn];
+  final rowIndex = _rowIndexFor(grade);
+  if (rowIndex == null) return null;
+  return table.$2[rowIndex][table.$1.indexOf(target)];
 }

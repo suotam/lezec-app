@@ -42,6 +42,22 @@ class DiscoverScreen extends ConsumerWidget {
           children: [
             _BrandHeader(onSearchTap: () => context.go(AppRoutes.areas)),
             Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.lg,
+                AppSpacing.lg,
+                0,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonalIcon(
+                  onPressed: () => context.go(AppRoutes.smartSearch),
+                  icon: const Icon(Icons.auto_awesome),
+                  label: Text(l10n.smartSearchAction),
+                ),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -143,6 +143,63 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not determine your location. Check location permissions and services.';
 
   @override
+  String get smartSearchAction => 'Find a suitable area';
+
+  @override
+  String get smartSearchTitle => 'Find an area';
+
+  @override
+  String get smartSearchIntro =>
+      'Pick a discipline, grade and where it should be close to.';
+
+  @override
+  String get smartDisciplineRoutes => 'Routes';
+
+  @override
+  String get smartDisciplineBoulders => 'Boulders';
+
+  @override
+  String get smartGradeLabel => 'Grade';
+
+  @override
+  String get smartGradeAny => 'any';
+
+  @override
+  String smartGradeRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get smartOriginLabel => 'Origin';
+
+  @override
+  String get smartOriginMyLocation => 'My location';
+
+  @override
+  String get smartOriginPickTown => 'Pick a town';
+
+  @override
+  String get smartOriginNone => 'No distance limit';
+
+  @override
+  String get smartRadiusLabel => 'Within distance (as the crow flies)';
+
+  @override
+  String smartRadiusValue(int km) {
+    return '$km km';
+  }
+
+  @override
+  String get smartResultsTitle => 'Results';
+
+  @override
+  String get smartEmptyTitle => 'Nothing matches';
+
+  @override
+  String get smartEmptyBody =>
+      'Try widening the grade range or increasing the distance.';
+
+  @override
   String sectorsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

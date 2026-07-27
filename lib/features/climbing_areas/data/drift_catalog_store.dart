@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:drift/drift.dart' show TableInfo, Value, countAll;
 
 import '../../../core/database/crux_database.dart';
 import '../../../core/errors/demo_data_format_exception.dart';
 import '../../../core/utilities/text_normalization.dart';
+import '../../climbing_routes/domain/climbing_route.dart';
+import '../../climbing_routes/domain/grade_conversion.dart';
 import '../domain/catalog_search.dart';
 import '../domain/climbing_area.dart';
 import 'demo_catalog_data_source.dart';
@@ -190,7 +193,8 @@ class DriftCatalogStore {
         final summaryMap = Map<String, Object?>.from(areaMap)
           ..remove('sectors')
           ..['sectorCount'] = area.sectors.length
-          ..['routeCount'] = routes.length;
+          ..['routeCount'] = routes.length
+          ..addAll(_gradeBandsForRoutes(routes));
 
         areaRows.add(
           CatalogAreasCompanion.insert(
@@ -207,6 +211,36 @@ class DriftCatalogStore {
       await _writeMeta(_versionKey, '$version');
       await _writeMeta(_importedAtKey, DateTime.now().toIso8601String());
     });
+  }
+
+  /// Precomputed route/boulder difficulty-band coverage of [routes] for
+  /// the area summary, so smart search can filter by grade without the
+  /// sector tree. Absent keys mean "no parseable grades in that
+  /// category".
+  Map<String, Object?> _gradeBandsForRoutes(List<ClimbingRoute> routes) {
+    int? routeMin, routeMax, boulderMin, boulderMax;
+    for (final route in routes) {
+      final routeBand = routeGradeBand(route.grade);
+      if (routeBand != null) {
+        routeMin = routeMin == null ? routeBand : math.min(routeMin, routeBand);
+        routeMax = routeMax == null ? routeBand : math.max(routeMax, routeBand);
+      }
+      final boulderBand = boulderGradeBand(route.grade);
+      if (boulderBand != null) {
+        boulderMin = boulderMin == null
+            ? boulderBand
+            : math.min(boulderMin, boulderBand);
+        boulderMax = boulderMax == null
+            ? boulderBand
+            : math.max(boulderMax, boulderBand);
+      }
+    }
+    return {
+      'routeGradeMinBand': ?routeMin,
+      'routeGradeMaxBand': ?routeMax,
+      'boulderGradeMinBand': ?boulderMin,
+      'boulderGradeMaxBand': ?boulderMax,
+    };
   }
 
   /// One search-index row per sector, rock and route of [area]. Names are

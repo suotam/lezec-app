@@ -54,6 +54,34 @@
   "areasSortRouteCount": "Počet cest",
   "areasSortDistance": "Nejbližší",
   "locationUnavailable": "Polohu se nepodařilo zjistit. Zkontrolujte oprávnění k poloze a zapnuté polohové služby.",
+  "smartSearchAction": "Najít vhodnou oblast",
+  "smartSearchTitle": "Najít oblast",
+  "smartSearchIntro": "Zvolte disciplínu, obtížnost a odkud to máte mít blízko.",
+  "smartDisciplineRoutes": "Cesty",
+  "smartDisciplineBoulders": "Bouldery",
+  "smartGradeLabel": "Obtížnost",
+  "smartGradeAny": "libovolná",
+  "smartGradeRange": "{from} – {to}",
+  "@smartGradeRange": {
+    "placeholders": {
+      "from": { "type": "String" },
+      "to": { "type": "String" }
+    }
+  },
+  "smartOriginLabel": "Odkud",
+  "smartOriginMyLocation": "Moje poloha",
+  "smartOriginPickTown": "Vybrat město",
+  "smartOriginNone": "Bez omezení vzdálenosti",
+  "smartRadiusLabel": "Do vzdálenosti (vzdušně)",
+  "smartRadiusValue": "{km} km",
+  "@smartRadiusValue": {
+    "placeholders": {
+      "km": { "type": "int" }
+    }
+  },
+  "smartResultsTitle": "Výsledky",
+  "smartEmptyTitle": "Nic neodpovídá",
+  "smartEmptyBody": "Zkuste rozšířit rozsah obtížnosti nebo zvětšit vzdálenost.",
   "sectorsCount": "{count, plural, one{1 sektor} few{{count} sektory} other{{count} sektorů}}",
   "@sectorsCount": {
     "placeholders": {

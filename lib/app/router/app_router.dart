@@ -6,6 +6,7 @@ import '../../core/localization/l10n.dart';
 import '../../features/climbing_areas/presentation/area_detail_screen.dart';
 import '../../features/climbing_areas/presentation/areas_screen.dart';
 import '../../features/climbing_areas/presentation/sector_detail_screen.dart';
+import '../../features/climbing_areas/presentation/smart_search_screen.dart';
 import '../../features/climbing_routes/presentation/route_detail_screen.dart';
 import '../../features/diary/presentation/diary_screen.dart';
 import '../../features/discover/presentation/discover_screen.dart';
@@ -18,6 +19,7 @@ import 'app_shell.dart';
 abstract final class AppRoutes {
   static const discover = '/';
   static const areas = '/areas';
+  static const smartSearch = '/smart-search';
 
   static String area(String areaId) => '/areas/$areaId';
 
@@ -65,6 +67,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     ],
                   ),
                 ],
+              ),
+              GoRoute(
+                path: '/smart-search',
+                builder: (context, state) => const SmartSearchScreen(),
               ),
               GoRoute(
                 path: '/routes/:routeId',

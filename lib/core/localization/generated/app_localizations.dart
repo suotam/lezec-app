@@ -338,6 +338,108 @@ abstract class AppLocalizations {
   /// **'Polohu se nepodařilo zjistit. Zkontrolujte oprávnění k poloze a zapnuté polohové služby.'**
   String get locationUnavailable;
 
+  /// No description provided for @smartSearchAction.
+  ///
+  /// In cs, this message translates to:
+  /// **'Najít vhodnou oblast'**
+  String get smartSearchAction;
+
+  /// No description provided for @smartSearchTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Najít oblast'**
+  String get smartSearchTitle;
+
+  /// No description provided for @smartSearchIntro.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zvolte disciplínu, obtížnost a odkud to máte mít blízko.'**
+  String get smartSearchIntro;
+
+  /// No description provided for @smartDisciplineRoutes.
+  ///
+  /// In cs, this message translates to:
+  /// **'Cesty'**
+  String get smartDisciplineRoutes;
+
+  /// No description provided for @smartDisciplineBoulders.
+  ///
+  /// In cs, this message translates to:
+  /// **'Bouldery'**
+  String get smartDisciplineBoulders;
+
+  /// No description provided for @smartGradeLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Obtížnost'**
+  String get smartGradeLabel;
+
+  /// No description provided for @smartGradeAny.
+  ///
+  /// In cs, this message translates to:
+  /// **'libovolná'**
+  String get smartGradeAny;
+
+  /// No description provided for @smartGradeRange.
+  ///
+  /// In cs, this message translates to:
+  /// **'{from} – {to}'**
+  String smartGradeRange(String from, String to);
+
+  /// No description provided for @smartOriginLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Odkud'**
+  String get smartOriginLabel;
+
+  /// No description provided for @smartOriginMyLocation.
+  ///
+  /// In cs, this message translates to:
+  /// **'Moje poloha'**
+  String get smartOriginMyLocation;
+
+  /// No description provided for @smartOriginPickTown.
+  ///
+  /// In cs, this message translates to:
+  /// **'Vybrat město'**
+  String get smartOriginPickTown;
+
+  /// No description provided for @smartOriginNone.
+  ///
+  /// In cs, this message translates to:
+  /// **'Bez omezení vzdálenosti'**
+  String get smartOriginNone;
+
+  /// No description provided for @smartRadiusLabel.
+  ///
+  /// In cs, this message translates to:
+  /// **'Do vzdálenosti (vzdušně)'**
+  String get smartRadiusLabel;
+
+  /// No description provided for @smartRadiusValue.
+  ///
+  /// In cs, this message translates to:
+  /// **'{km} km'**
+  String smartRadiusValue(int km);
+
+  /// No description provided for @smartResultsTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Výsledky'**
+  String get smartResultsTitle;
+
+  /// No description provided for @smartEmptyTitle.
+  ///
+  /// In cs, this message translates to:
+  /// **'Nic neodpovídá'**
+  String get smartEmptyTitle;
+
+  /// No description provided for @smartEmptyBody.
+  ///
+  /// In cs, this message translates to:
+  /// **'Zkuste rozšířit rozsah obtížnosti nebo zvětšit vzdálenost.'**
+  String get smartEmptyBody;
+
   /// No description provided for @sectorsCount.
   ///
   /// In cs, this message translates to:
